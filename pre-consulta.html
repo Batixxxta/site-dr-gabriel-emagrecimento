@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulário de Pré-Consulta — Dr. Gabriel Baptista</title>
+<meta name="description" content="Formulário de pré-consulta do Dr. Gabriel Baptista — preencha antes do seu atendimento pra deixar tudo mais rápido e organizado.">
+<style>
+  :root{
+    --iris:#16165c;
+    --iris-shadow:#232269;
+    --iris-glow:#403cd5;
+    --iris-pulse:#5350cc;
+    --iris-border:#4846c6;
+    --lilac:#b1a6f6;
+    --cyan:#00b1ff;
+    --mint:#00ffaa;
+    --white:#ffffff;
+    --pearl:#f4f4f6;
+    --ash:#d8d8e3;
+    --fog:#9494a9;
+    --danger:#ff6b6b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--pearl);
+    color:var(--iris);
+    font-family:Manrope,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 1.2rem 4rem;}
+  a{color:inherit;}
+  img{max-width:100%;}
+
+  header.top{background:var(--iris);color:#fff;padding:2.2rem 0 2.6rem;margin-bottom:2rem;}
+  header.top .wrap{padding-bottom:0;}
+  .voltar{display:inline-block;font-size:0.82rem;color:var(--lilac);text-decoration:none;margin-bottom:1.1rem;}
+  header.top h1{font-size:clamp(1.6rem,4.5vw,2.3rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.7rem;}
+  header.top p{color:var(--ash);font-size:0.98rem;line-height:1.5;max-width:56ch;}
+  .privacidade-nota{margin-top:1rem;font-size:0.82rem;color:var(--mint);}
+
+  .card{background:#fff;border:1px solid var(--ash);border-radius:20px;padding:1.6rem 1.5rem;margin-bottom:1.1rem;}
+  .card h2{font-size:1.15rem;font-weight:700;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.5rem;}
+  .card .sub{font-size:0.85rem;color:#7a7891;margin-bottom:1.1rem;line-height:1.4;}
+
+  label.campo{display:block;font-size:0.85rem;font-weight:600;color:#4b4a63;margin-bottom:0.35rem;margin-top:0.9rem;}
+  label.campo:first-of-type{margin-top:0;}
+  input[type=text],input[type=tel],input[type=date],textarea{
+    width:100%;border:1.5px solid var(--ash);border-radius:12px;padding:0.7rem 0.85rem;
+    font-family:inherit;font-size:0.94rem;color:var(--iris);background:#fbfbfd;
+  }
+  input:focus,textarea:focus{outline:none;border-color:var(--iris-pulse);background:#fff;}
+  textarea{min-height:100px;resize:vertical;line-height:1.4;}
+
+  .opts{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:0.4rem;}
+  .opt{position:relative;display:inline-flex;align-items:center;gap:0.45rem;background:#fff;border:1.5px solid var(--ash);border-radius:9999px;padding:0.55rem 1rem;cursor:pointer;font-size:0.86rem;font-weight:600;color:var(--iris);transition:border-color .15s,background .15s,color .15s;}
+  .opt input{position:absolute;opacity:0;width:0;height:0;}
+  .opt.sel{border-color:var(--iris-pulse);background:var(--iris-pulse);color:#fff;}
+  .opt.grid2{flex:1 1 45%;justify-content:center;}
+
+  .checklist{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:0.4rem;}
+  @media(max-width:520px){.checklist{grid-template-columns:1fr;}}
+  .chk{display:flex;align-items:center;gap:0.55rem;font-size:0.88rem;background:#fbfbfd;border:1px solid var(--ash);border-radius:10px;padding:0.55rem 0.7rem;cursor:pointer;}
+  .chk input{accent-color:var(--iris-pulse);width:16px;height:16px;flex-shrink:0;}
+
+  .detalhe{margin-top:0.8rem;padding-top:0.8rem;border-top:1px dashed var(--ash);}
+
+  .exame-item{display:flex;flex-wrap:wrap;align-items:center;gap:0.6rem;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid #eee;font-size:0.88rem;}
+  .exame-item:last-child{border-bottom:none;}
+  .exame-item .nome{font-weight:600;flex:1 1 180px;}
+  .exame-item .opts{margin-top:0;}
+  .exame-item input[type=date]{width:150px;}
+
+  .file-drop{border:2px dashed var(--iris-pulse);border-radius:16px;padding:1.6rem 1rem;text-align:center;background:#fbfbfd;cursor:pointer;}
+  .file-drop p{font-size:0.88rem;color:#7a7891;margin-top:0.4rem;}
+  .file-drop strong{color:var(--iris-pulse);}
+  #documentos{display:none;}
+  #fileList{list-style:none;margin-top:0.9rem;font-size:0.82rem;color:#4b4a63;}
+  #fileList li{padding:0.3rem 0;border-bottom:1px solid #eee;}
+
+  .duvida-input{margin-top:0.6rem;}
+
+  .confirma{display:flex;align-items:flex-start;gap:0.7rem;background:#fbfbfd;border:1.5px solid var(--ash);border-radius:14px;padding:1rem;font-size:0.85rem;line-height:1.5;color:#4b4a63;}
+  .confirma input{accent-color:var(--iris-pulse);width:18px;height:18px;flex-shrink:0;margin-top:0.15rem;}
+
+  #msgErro{background:#fff0f0;border:1.5px solid var(--danger);color:#c81e3a;border-radius:12px;padding:0.9rem 1rem;font-size:0.88rem;margin-bottom:1.1rem;}
+
+  .btn-enviar{display:block;width:100%;background:var(--iris-pulse);color:#fff;font-weight:700;font-size:1rem;border:none;border-radius:9999px;padding:1rem;cursor:pointer;box-shadow:0 10px 26px rgba(83,80,204,0.35);}
+  .btn-enviar:disabled{opacity:0.6;cursor:default;}
+
+  #telaSucesso{text-align:center;padding:3rem 1rem;}
+  #telaSucesso .icone{font-size:3rem;margin-bottom:1rem;}
+  #telaSucesso h2{font-size:1.5rem;margin-bottom:0.7rem;}
+  #telaSucesso p{color:#55536b;max-width:48ch;margin:0 auto;line-height:1.5;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="voltar" href="index.html">← voltar pro site</a>
+    <h1>🩺 Formulário de Pré-Consulta</h1>
+    <p>Pra tornar sua consulta mais organizada, objetiva e individualizada, peço que preencha este formulário antes do atendimento. Leva uns 5 minutinhos.</p>
+    <p class="privacidade-nota">🔒 Suas informações são usadas exclusivamente pra direcionar sua avaliação médica.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<form id="formPreConsulta">
+
+  <div class="card">
+    <h2>👤 1. Dados básicos</h2>
+    <label class="campo">Nome completo *</label>
+    <input type="text" name="nome" required>
+
+    <label class="campo">Idade</label>
+    <input type="text" name="idade" inputmode="numeric">
+
+    <label class="campo">Data de nascimento</label>
+    <input type="date" name="nascimento">
+
+    <label class="campo">Telefone (com DDD) *</label>
+    <input type="tel" name="telefone" required placeholder="(21) 90000-0000">
+
+    <label class="campo">Cidade / bairro</label>
+    <input type="text" name="cidadeBairro">
+
+    <label class="campo">Tipo de consulta *</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="tipoConsulta" value="Online" required><span>💻 Online</span></label>
+      <label class="opt"><input type="radio" name="tipoConsulta" value="Presencial domiciliar" required><span>🏠 Presencial domiciliar</span></label>
+    </div>
+
+    <label class="campo">Contato de emergência (nome e telefone)</label>
+    <input type="text" name="contatoEmergencia" placeholder="Ex.: Maria, esposa — (21) 90000-0000">
+  </div>
+
+  <div class="card">
+    <h2>🎯 2. Motivo principal da consulta</h2>
+    <div class="sub">
+      Descreva com suas palavras. Se puder, conte: quais sintomas, há quanto tempo começaram, se estão melhorando/piorando, intensidade da dor (0 a 10), o que melhora ou piora, se já tratou/usou medicação, e qual sua principal preocupação.
+    </div>
+    <textarea name="motivo" required placeholder="Escreva aqui..."></textarea>
+  </div>
+
+  <div class="card">
+    <h2>🗂️ Acompanhamento médico atual</h2>
+    <label class="campo">Você já é acompanhado por outro médico para esse mesmo problema?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="outroMedico" value="Não"><span>Não</span></label>
+      <label class="opt"><input type="radio" name="outroMedico" value="Sim"><span>Sim</span></label>
+    </div>
+    <div class="detalhe" id="outroMedicoDetalhe" hidden>
+      <label class="campo">Qual médico/especialidade e desde quando?</label>
+      <textarea name="outroMedicoDetalhe" style="min-height:70px"></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>💊 3. Medicações em uso</h2>
+    <label class="campo">Você utiliza algum medicamento diariamente?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="medicacoes" value="Não"><span>Não</span></label>
+      <label class="opt"><input type="radio" name="medicacoes" value="Sim"><span>Sim</span></label>
+    </div>
+    <div class="detalhe" id="medicacoesDetalhe" hidden>
+      <label class="campo">Nome, dose e horário de cada medicamento</label>
+      <textarea name="medicacoesDetalhe" style="min-height:70px"></textarea>
+    </div>
+
+    <label class="campo" style="margin-top:1.2rem">Toma algum suplemento, vitamina ou fitoterápico?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="suplementos" value="Não"><span>Não</span></label>
+      <label class="opt"><input type="radio" name="suplementos" value="Sim"><span>Sim</span></label>
+    </div>
+    <div class="detalhe" id="suplementosDetalhe" hidden>
+      <label class="campo">Qual(is) e com que frequência?</label>
+      <textarea name="suplementosDetalhe" style="min-height:70px"></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>⚠️ 4. Alergias</h2>
+    <label class="campo">Você tem alergia a algum medicamento, alimento ou substância?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="alergias" value="Não"><span>Não</span></label>
+      <label class="opt"><input type="radio" name="alergias" value="Sim"><span>Sim</span></label>
+    </div>
+    <div class="detalhe" id="alergiasDetalhe" hidden>
+      <label class="campo">Qual alergia e o que aconteceu?</label>
+      <textarea name="alergiasDetalhe" style="min-height:70px"></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📚 5. Histórico de saúde</h2>
+    <div class="sub">Marque tudo que já teve ou tem hoje.</div>
+    <div class="checklist">
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Pressão alta"><span>Pressão alta</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Diabetes"><span>Diabetes</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Colesterol alto"><span>Colesterol alto</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Doença do coração"><span>Doença do coração</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Arritmia"><span>Arritmia</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Asma, bronquite ou DPOC"><span>Asma, bronquite ou DPOC</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Doença renal"><span>Doença renal</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Doença no fígado"><span>Doença no fígado</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Doença da tireoide"><span>Doença da tireoide</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Gastrite ou refluxo"><span>Gastrite ou refluxo</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="AVC/derrame"><span>AVC/derrame</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Trombose ou embolia"><span>Trombose ou embolia</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Câncer"><span>Câncer</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Osteoporose"><span>Osteoporose</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Depressão ou ansiedade"><span>Depressão ou ansiedade</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Nenhuma condição conhecida"><span>Nenhuma condição conhecida</span></label>
+    </div>
+    <label class="campo">Se marcou Câncer ou "Outra", especifique</label>
+    <input type="text" name="historicoSaudeEspecifique" placeholder="Ex.: Câncer de mama em 2019 / Outra condição...">
+
+    <label class="campo" style="margin-top:1.2rem">Já realizou alguma cirurgia ou internação importante?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="cirurgia" value="Não"><span>Não</span></label>
+      <label class="opt"><input type="radio" name="cirurgia" value="Sim"><span>Sim</span></label>
+    </div>
+    <div class="detalhe" id="cirurgiaDetalhe" hidden>
+      <label class="campo">Qual cirurgia/internação e quando?</label>
+      <textarea name="cirurgiaDetalhe" style="min-height:70px"></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>👨‍👩‍👧 6. Histórico familiar</h2>
+    <div class="sub">Na sua família próxima, alguém tem ou teve:</div>
+    <div class="checklist">
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Infarto ou problema cardíaco"><span>Infarto/problema cardíaco</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="AVC/derrame"><span>AVC/derrame</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Diabetes"><span>Diabetes</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Pressão alta"><span>Pressão alta</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Câncer"><span>Câncer</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Demência/Alzheimer"><span>Demência/Alzheimer</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Doença genética ou hereditária"><span>Doença genética/hereditária</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Não sei informar"><span>Não sei informar</span></label>
+    </div>
+    <label class="campo">Se souber, qual condição e o grau de parentesco</label>
+    <textarea name="historicoFamiliarDetalhe" style="min-height:70px" placeholder="Ex.: Diabetes — mãe e avô materno"></textarea>
+  </div>
+
+  <div class="card">
+    <h2>🌱 7. Hábitos de vida</h2>
+    <label class="campo">Você fuma?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="fuma" value="Não"><span>Não</span></label>
+      <label class="opt"><input type="radio" name="fuma" value="Sim"><span>Sim</span></label>
+      <label class="opt"><input type="radio" name="fuma" value="Já fumei, mas parei"><span>Já fumei, parei</span></label>
+    </div>
+
+    <label class="campo" style="margin-top:1.2rem">Consome bebida alcoólica?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="alcool" value="Não"><span>Não</span></label>
+      <label class="opt"><input type="radio" name="alcool" value="Ocasionalmente"><span>Ocasionalmente</span></label>
+      <label class="opt"><input type="radio" name="alcool" value="Frequentemente"><span>Frequentemente</span></label>
+    </div>
+
+    <label class="campo" style="margin-top:1.2rem">Pratica atividade física?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="atividadeFisica" value="Não"><span>Não</span></label>
+      <label class="opt"><input type="radio" name="atividadeFisica" value="Sim"><span>Sim</span></label>
+    </div>
+    <label class="campo">Se sim, qual e com que frequência?</label>
+    <input type="text" name="atividadeFisicaDetalhe">
+
+    <label class="campo" style="margin-top:1.2rem">Como está seu sono?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="sono" value="Bom"><span>Bom</span></label>
+      <label class="opt"><input type="radio" name="sono" value="Regular"><span>Regular</span></label>
+      <label class="opt"><input type="radio" name="sono" value="Ruim"><span>Ruim</span></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎗️ 8. Exames de rastreio e prevenção</h2>
+    <div class="sub">Se já realizou, marque Sim e informe a data aproximada (se souber).</div>
+
+    <div class="exame-item">
+      <span class="nome">Mamografia</span>
+      <div class="opts"><label class="opt"><input type="radio" name="ex_mamografia" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_mamografia" value="Sim"><span>Sim</span></label></div>
+      <input type="date" name="ex_mamografia_data">
+    </div>
+    <div class="exame-item">
+      <span class="nome">Preventivo do colo do útero</span>
+      <div class="opts"><label class="opt"><input type="radio" name="ex_preventivo" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_preventivo" value="Sim"><span>Sim</span></label></div>
+      <input type="date" name="ex_preventivo_data">
+    </div>
+    <div class="exame-item">
+      <span class="nome">Colonoscopia / sangue oculto</span>
+      <div class="opts"><label class="opt"><input type="radio" name="ex_colono" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_colono" value="Sim"><span>Sim</span></label></div>
+      <input type="date" name="ex_colono_data">
+    </div>
+    <div class="exame-item">
+      <span class="nome">Densitometria óssea</span>
+      <div class="opts"><label class="opt"><input type="radio" name="ex_densitometria" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_densitometria" value="Sim"><span>Sim</span></label></div>
+      <input type="date" name="ex_densitometria_data">
+    </div>
+    <div class="exame-item">
+      <span class="nome">Avaliação oftalmológica</span>
+      <div class="opts"><label class="opt"><input type="radio" name="ex_oftalmo" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_oftalmo" value="Sim"><span>Sim</span></label></div>
+      <input type="date" name="ex_oftalmo_data">
+    </div>
+    <div class="exame-item">
+      <span class="nome">Avaliação odontológica</span>
+      <div class="opts"><label class="opt"><input type="radio" name="ex_odonto" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_odonto" value="Sim"><span>Sim</span></label></div>
+      <input type="date" name="ex_odonto_data">
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🧪 9. Exames complementares e documentos</h2>
+    <div class="sub">Se tiver exames laboratoriais, de imagem, laudos ou relatórios recentes, anexe abaixo (foto ou PDF, até 15MB cada).</div>
+    <label class="file-drop" for="documentos">
+      <div>📎 <strong>Toque para escolher os arquivos</strong></div>
+      <p>Aceita imagem (JPG, PNG, HEIC) ou PDF</p>
+    </label>
+    <input type="file" id="documentos" name="documentos" multiple accept="image/*,.pdf,application/pdf">
+    <ul id="fileList"></ul>
+  </div>
+
+  <div class="card">
+    <h2>❓ 10. Principais dúvidas para a consulta</h2>
+    <div class="sub">Até 3 dúvidas ou assuntos que você gostaria de abordar.</div>
+    <input class="duvida-input" type="text" name="duvida1" placeholder="1.">
+    <input class="duvida-input" type="text" name="duvida2" placeholder="2." style="margin-top:0.6rem">
+    <input class="duvida-input" type="text" name="duvida3" placeholder="3." style="margin-top:0.6rem">
+  </div>
+
+  <div class="card">
+    <h2>✅ 11. Confirmação</h2>
+    <label class="confirma">
+      <input type="checkbox" name="confirmo" required>
+      <span>Declaro que as informações acima são verdadeiras, dentro do meu conhecimento, e autorizo — em conformidade com a Lei Geral de Proteção de Dados (LGPD, Lei 13.709/2018) — o uso destes dados exclusivamente para organização, direcionamento e registro da minha consulta médica com o Dr. Gabriel Baptista.</span>
+    </label>
+  </div>
+
+  <div id="msgErro" hidden></div>
+
+  <button type="submit" class="btn-enviar" id="btnEnviar">Enviar formulário</button>
+
+</form>
+
+<div id="telaSucesso" hidden>
+  <div class="icone">✅</div>
+  <h2>Formulário enviado!</h2>
+  <p>Obrigado por preencher com calma. O Dr. Gabriel já vai receber suas respostas antes da consulta. Até já! 💙</p>
+</div>
+
+</div>
+
+<script>
+  const ENDPOINT = 'https://overbite-stick-sneezing.ngrok-free.dev/pre-consulta';
+
+  // visual dos "pills" (radio/checkbox estilizados)
+  document.querySelectorAll('.opt input').forEach(inp=>{
+    inp.addEventListener('change', ()=>{
+      if(inp.type==='radio'){
+        document.querySelectorAll(`input[name="${inp.name}"]`).forEach(sib=>{
+          sib.closest('.opt').classList.toggle('sel', sib.checked);
+        });
+      } else {
+        inp.closest('.opt').classList.toggle('sel', inp.checked);
+      }
+    });
+  });
+
+  // campos "se sim, detalhe"
+  function condicional(radioName, valorQueRevela, alvoId){
+    document.querySelectorAll(`input[name="${radioName}"]`).forEach(r=>{
+      r.addEventListener('change', ()=>{
+        document.getElementById(alvoId).hidden = !(r.value===valorQueRevela && r.checked);
+      });
+    });
+  }
+  condicional('medicacoes','Sim','medicacoesDetalhe');
+  condicional('suplementos','Sim','suplementosDetalhe');
+  condicional('alergias','Sim','alergiasDetalhe');
+  condicional('cirurgia','Sim','cirurgiaDetalhe');
+  condicional('outroMedico','Sim','outroMedicoDetalhe');
+
+  // lista de arquivos escolhidos
+  const fileInput = document.getElementById('documentos');
+  const fileList = document.getElementById('fileList');
+  fileInput.addEventListener('change', ()=>{
+    fileList.innerHTML = '';
+    [...fileInput.files].forEach(f=>{
+      const li = document.createElement('li');
+      const tamanhoMB = (f.size/1024/1024).toFixed(1);
+      li.textContent = `${f.name} (${tamanhoMB} MB)`;
+      if(f.size > 15*1024*1024){
+        li.style.color = '#c81e3a';
+        li.textContent += ' — muito grande, máx 15MB';
+      }
+      fileList.appendChild(li);
+    });
+  });
+
+  // envio
+  const form = document.getElementById('formPreConsulta');
+  const msgErro = document.getElementById('msgErro');
+  const btn = document.getElementById('btnEnviar');
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    msgErro.hidden = true;
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    try{
+      const fd = new FormData(form);
+      const resp = await fetch(ENDPOINT, {
+        method:'POST',
+        body: fd,
+        headers: { 'ngrok-skip-browser-warning': '1' }
+      });
+      if(!resp.ok) throw new Error('status ' + resp.status);
+      const data = await resp.json();
+      if(!data.ok) throw new Error(data.erro || 'erro desconhecido');
+      form.hidden = true;
+      document.getElementById('telaSucesso').hidden = false;
+      window.scrollTo({top:0, behavior:'smooth'});
+    }catch(err){
+      msgErro.hidden = false;
+      msgErro.textContent = 'Não deu pra enviar agora (' + err.message + '). Tenta de novo em instantes, ou manda direto pelo WhatsApp do consultório.';
+      btn.disabled = false;
+      btn.textContent = 'Enviar formulário';
+      window.scrollTo({top: msgErro.offsetTop - 20, behavior:'smooth'});
+    }
+  });
+</script>
+
+</body>
+</html>
