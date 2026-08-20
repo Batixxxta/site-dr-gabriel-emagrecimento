@@ -66,11 +66,15 @@
 
   .detalhe{margin-top:0.8rem;padding-top:0.8rem;border-top:1px dashed var(--ash);}
 
-  .exame-item{display:flex;flex-wrap:wrap;align-items:center;gap:0.6rem;justify-content:space-between;padding:0.6rem 0;border-bottom:1px solid #eee;font-size:0.88rem;}
+  .exame-item{display:flex;align-items:flex-start;gap:1rem;padding:0.9rem 0;border-bottom:1px solid #eee;font-size:0.88rem;}
   .exame-item:last-child{border-bottom:none;}
-  .exame-item .nome{font-weight:600;flex:1 1 180px;}
+  .exame-esquerda{flex:1 1 55%;min-width:0;}
+  .exame-direita{flex:1 1 40%;min-width:0;}
+  .exame-item .nome{display:block;font-weight:600;margin-bottom:0.5rem;}
   .exame-item .opts{margin-top:0;}
-  .exame-item input[type=date]{width:150px;}
+  .exame-direita label{display:block;font-size:0.76rem;font-weight:600;color:#7a7891;margin-bottom:0.35rem;}
+  .exame-direita input[type=date]{width:100%;}
+  @media(max-width:400px){.exame-item{gap:0.5rem;}}
 
   .file-drop{border:2px dashed var(--iris-pulse);border-radius:16px;padding:1.6rem 1rem;text-align:center;background:#fbfbfd;cursor:pointer;}
   .file-drop p{font-size:0.88rem;color:#7a7891;margin-top:0.4rem;}
@@ -283,34 +287,64 @@
     <div class="sub">Se já realizou, marque Sim e informe a data aproximada (se souber).</div>
 
     <div class="exame-item">
-      <span class="nome">Mamografia</span>
-      <div class="opts"><label class="opt"><input type="radio" name="ex_mamografia" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_mamografia" value="Sim"><span>Sim</span></label></div>
-      <input type="date" name="ex_mamografia_data">
+      <div class="exame-esquerda">
+        <span class="nome">Mamografia</span>
+        <div class="opts"><label class="opt"><input type="radio" name="ex_mamografia" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_mamografia" value="Sim"><span>Sim</span></label></div>
+      </div>
+      <div class="exame-direita">
+        <label>Data aproximada do último exame</label>
+        <input type="date" name="ex_mamografia_data">
+      </div>
     </div>
     <div class="exame-item">
-      <span class="nome">Preventivo do colo do útero</span>
-      <div class="opts"><label class="opt"><input type="radio" name="ex_preventivo" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_preventivo" value="Sim"><span>Sim</span></label></div>
-      <input type="date" name="ex_preventivo_data">
+      <div class="exame-esquerda">
+        <span class="nome">Preventivo do colo do útero</span>
+        <div class="opts"><label class="opt"><input type="radio" name="ex_preventivo" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_preventivo" value="Sim"><span>Sim</span></label></div>
+      </div>
+      <div class="exame-direita">
+        <label>Data aproximada do último exame</label>
+        <input type="date" name="ex_preventivo_data">
+      </div>
     </div>
     <div class="exame-item">
-      <span class="nome">Colonoscopia / sangue oculto</span>
-      <div class="opts"><label class="opt"><input type="radio" name="ex_colono" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_colono" value="Sim"><span>Sim</span></label></div>
-      <input type="date" name="ex_colono_data">
+      <div class="exame-esquerda">
+        <span class="nome">Colonoscopia / sangue oculto</span>
+        <div class="opts"><label class="opt"><input type="radio" name="ex_colono" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_colono" value="Sim"><span>Sim</span></label></div>
+      </div>
+      <div class="exame-direita">
+        <label>Data aproximada do último exame</label>
+        <input type="date" name="ex_colono_data">
+      </div>
     </div>
     <div class="exame-item">
-      <span class="nome">Densitometria óssea</span>
-      <div class="opts"><label class="opt"><input type="radio" name="ex_densitometria" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_densitometria" value="Sim"><span>Sim</span></label></div>
-      <input type="date" name="ex_densitometria_data">
+      <div class="exame-esquerda">
+        <span class="nome">Densitometria óssea</span>
+        <div class="opts"><label class="opt"><input type="radio" name="ex_densitometria" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_densitometria" value="Sim"><span>Sim</span></label></div>
+      </div>
+      <div class="exame-direita">
+        <label>Data aproximada do último exame</label>
+        <input type="date" name="ex_densitometria_data">
+      </div>
     </div>
     <div class="exame-item">
-      <span class="nome">Avaliação oftalmológica</span>
-      <div class="opts"><label class="opt"><input type="radio" name="ex_oftalmo" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_oftalmo" value="Sim"><span>Sim</span></label></div>
-      <input type="date" name="ex_oftalmo_data">
+      <div class="exame-esquerda">
+        <span class="nome">Avaliação oftalmológica</span>
+        <div class="opts"><label class="opt"><input type="radio" name="ex_oftalmo" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_oftalmo" value="Sim"><span>Sim</span></label></div>
+      </div>
+      <div class="exame-direita">
+        <label>Data aproximada do último exame</label>
+        <input type="date" name="ex_oftalmo_data">
+      </div>
     </div>
     <div class="exame-item">
-      <span class="nome">Avaliação odontológica</span>
-      <div class="opts"><label class="opt"><input type="radio" name="ex_odonto" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_odonto" value="Sim"><span>Sim</span></label></div>
-      <input type="date" name="ex_odonto_data">
+      <div class="exame-esquerda">
+        <span class="nome">Avaliação odontológica</span>
+        <div class="opts"><label class="opt"><input type="radio" name="ex_odonto" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_odonto" value="Sim"><span>Sim</span></label></div>
+      </div>
+      <div class="exame-direita">
+        <label>Data aproximada do último exame</label>
+        <input type="date" name="ex_odonto_data">
+      </div>
     </div>
   </div>
 
