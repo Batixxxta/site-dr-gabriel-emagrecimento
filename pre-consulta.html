@@ -97,6 +97,39 @@
   #telaSucesso .icone{font-size:3rem;margin-bottom:1rem;}
   #telaSucesso h2{font-size:1.5rem;margin-bottom:0.7rem;}
   #telaSucesso p{color:#55536b;max-width:48ch;margin:0 auto;line-height:1.5;}
+
+  .price-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:0.4rem;}
+  .price-card{background:#fbfbfd;border:2px solid var(--ash);border-radius:20px;padding:1.4rem 1.2rem;text-align:center;transition:border-color 0.2s ease, box-shadow 0.2s ease;}
+  .price-label{display:block;font-size:0.8rem;font-weight:600;color:#55536b;margin-bottom:0.5rem;}
+  .price-value{display:block;font-size:1.7rem;font-weight:700;color:var(--iris);margin-bottom:0.6rem;transition:opacity 0.35s ease, transform 0.35s ease;}
+  .price-value.strike-out{opacity:0.35;transform:scale(0.94);text-decoration:line-through;text-decoration-color:#c81e3a;text-decoration-thickness:3px;transition:opacity 0.9s ease, transform 0.9s ease, text-decoration-color 0.9s ease;}
+  .price-value.reveal-in{animation:priceReveal 0.5s ease;}
+  @keyframes priceReveal{from{opacity:0;transform:scale(0.7) translateY(8px);}to{opacity:1;transform:scale(1) translateY(0);}}
+  .price-card p{font-size:0.82rem;color:#7a7891;line-height:1.4;margin-bottom:1rem;}
+  .first-time-toggle{width:100%;margin-bottom:0.6rem;padding:0.5rem 0;border-radius:9999px;border:1.5px dashed var(--iris-pulse);background:transparent;color:var(--iris-pulse);font-weight:600;font-size:0.76rem;font-family:inherit;cursor:pointer;}
+  .first-time-toggle:disabled{opacity:0.6;cursor:default;}
+  .price-select{width:100%;padding:0.6rem 0;border-radius:9999px;border:1.5px solid var(--iris-pulse);background:transparent;color:var(--iris-pulse);font-weight:600;font-size:0.85rem;font-family:inherit;cursor:pointer;}
+  .price-card.selected{border-color:var(--iris-pulse);box-shadow:0 0 0 3px rgba(83,80,204,0.18);}
+  .price-card.selected .price-select{background:var(--iris-pulse);color:#fff;}
+  .price-detail{display:none;text-align:left;background:#fff;border:1px solid var(--ash);border-radius:14px;padding:1rem 1rem 1.1rem;margin-top:0.9rem;font-size:0.84rem;color:#4b4a63;}
+  .price-card.selected .price-detail{display:block;animation:priceReveal 0.4s ease;}
+  .price-detail strong{color:var(--iris);}
+  .price-detail em{font-style:normal;color:#00a89c;font-weight:600;font-size:0.78rem;}
+  .pd-title{font-weight:700;font-size:0.78rem;color:var(--iris);margin:0.7rem 0 0.5rem;}
+  .pd-title:first-child{margin-top:0;}
+  .pd-opts{display:flex;flex-direction:column;gap:0.4rem;}
+  .pd-parcelas{display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;}
+  @media(max-width:420px){.pd-parcelas{grid-template-columns:repeat(2,1fr);}}
+  .pd-opt{position:relative;display:flex;align-items:center;gap:0.4rem;background:#fff;border:1.5px solid var(--ash);border-radius:10px;padding:0.5rem 0.6rem;cursor:pointer;font-size:0.78rem;line-height:1.25;transition:border-color .15s, background .15s;}
+  .pd-opt input{position:absolute;opacity:0;width:0;height:0;}
+  .pd-opt:has(input:checked){border-color:var(--iris-pulse);background:#eeedfc;}
+  .pd-pix{border-color:#00a89c;}
+  .pd-pix:has(input:checked){border-color:#00a89c;background:#e3f7f5;}
+  .pix-icon{color:#00a89c;width:20px;height:20px;flex-shrink:0;}
+  .pd-parc.sem-juros{border-color:#c7c5f0;}
+  .pd-bandeiras{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;}
+  .pd-bandeiras svg{width:26px;height:26px;color:#7a7891;}
+  @media(max-width:600px){.price-grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
@@ -138,15 +171,6 @@
 
     <label class="campo">Contato de emergência (nome e telefone)</label>
     <input type="text" name="contatoEmergencia" placeholder="Ex.: Maria, esposa — (21) 90000-0000">
-  </div>
-
-  <div class="card">
-    <h2>💳 Forma de pagamento</h2>
-    <div class="sub">Como você prefere pagar sua consulta?</div>
-    <div class="opts">
-      <label class="opt"><input type="radio" name="formaPagamento" value="Pix (6% de desconto)"><span>Pix — 6% de desconto</span></label>
-      <label class="opt"><input type="radio" name="formaPagamento" value="Cartão de crédito parcelado"><span>Cartão parcelado</span></label>
-    </div>
   </div>
 
   <div class="card">
@@ -384,6 +408,143 @@
     </label>
   </div>
 
+  <div class="card">
+    <h2>💰 12. Confirme o pacote escolhido</h2>
+    <div class="sub">Selecione o plano e a forma de pagamento — assim você já sai daqui com tudo decidido.</div>
+    <div class="price-grid">
+      <div class="price-card">
+        <span class="price-label">Consulta avulsa</span>
+        <span class="price-value js-first-value" data-first="R$ 439">R$ 500</span>
+        <p class="js-first-desc" data-first="Primeira consulta para novos clientes.">Ideal pra uma primeira avaliação, sem compromisso de continuidade.</p>
+        <button type="button" class="first-time-toggle js-first-btn">É sua primeira consulta? Clique aqui para uma condição especial</button>
+        <button type="button" class="price-select">Selecionar</button>
+        <div class="price-detail">
+          <div class="pd-title">Escolha como prefere pagar:</div>
+          <div class="pd-opts">
+            <label class="pd-opt pd-pix"><input type="radio" name="pagamento-avulsa" value="Pix"><svg class="pix-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5.283 18.36a3.505 3.505 0 0 0 2.493-1.032l3.6-3.6a.684.684 0 0 1 .946 0l3.613 3.613a3.504 3.504 0 0 0 2.493 1.032h.71l-4.56 4.56a3.647 3.647 0 0 1-5.156 0L4.85 18.36ZM18.428 5.627a3.505 3.505 0 0 0-2.493 1.032l-3.613 3.614a.67.67 0 0 1-.946 0l-3.6-3.6A3.505 3.505 0 0 0 5.283 5.64h-.434l4.573-4.572a3.646 3.646 0 0 1 5.156 0l4.559 4.559ZM1.068 9.422 3.79 6.699h1.492a2.483 2.483 0 0 1 1.744.722l3.6 3.6a1.73 1.73 0 0 0 2.443 0l3.614-3.613a2.482 2.482 0 0 1 1.744-.723h1.767l2.737 2.737a3.646 3.646 0 0 1 0 5.156l-2.736 2.736h-1.768a2.482 2.482 0 0 1-1.744-.722l-3.613-3.613a1.77 1.77 0 0 0-2.444 0l-3.6 3.6a2.483 2.483 0 0 1-1.744.722H3.791l-2.723-2.723a3.646 3.646 0 0 1 0-5.156"/></svg><span>Pix — <strong class="js-pix" data-normal="R$ 470,00" data-first="R$ 412,66">R$ 470,00</strong> <em>6% de desconto</em></span></label>
+          </div>
+          <div class="pd-title">Ou no cartão:</div>
+          <div class="pd-bandeiras" aria-label="Aceitamos Visa e Mastercard">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.112 8.262L5.97 15.758H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 01.894.764l.817 4.338 2.018-5.102zm8.033 5.049c.008-1.979-2.736-2.088-2.717-2.972.006-.269.262-.555.822-.628a3.66 3.66 0 011.913.336l.34-1.59a5.207 5.207 0 00-1.814-.333c-1.917 0-3.266 1.02-3.278 2.479-.012 1.079.963 1.68 1.698 2.04.756.367 1.01.603 1.006.931-.005.504-.602.725-1.16.734-.975.015-1.54-.263-1.992-.473l-.351 1.642c.453.208 1.289.39 2.156.398 2.037 0 3.37-1.006 3.377-2.564m5.061 2.447H24l-1.565-7.496h-1.656a.883.883 0 00-.826.55l-2.909 6.946h2.036l.405-1.12h2.488zm-2.163-2.656l1.02-2.815.588 2.815zm-8.16-4.84l-1.603 7.496H8.34l1.605-7.496z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.343 18.031c.058.049.12.098.181.146-1.177.783-2.59 1.238-4.107 1.238C3.32 19.416 0 16.096 0 12c0-4.095 3.32-7.416 7.416-7.416 1.518 0 2.931.456 4.105 1.238-.06.051-.12.098-.165.15C9.6 7.489 8.595 9.688 8.595 12c0 2.311 1.001 4.51 2.748 6.031zm5.241-13.447c-1.52 0-2.931.456-4.105 1.238.06.051.12.098.165.15C14.4 7.489 15.405 9.688 15.405 12c0 2.31-1.001 4.507-2.748 6.031-.058.049-.12.098-.181.146 1.177.783 2.588 1.238 4.107 1.238C20.68 19.416 24 16.096 24 12c0-4.094-3.32-7.416-7.416-7.416zM12 6.174c-.096.075-.189.15-.28.231C10.156 7.764 9.169 9.765 9.169 12c0 2.236.987 4.236 2.551 5.595.09.08.185.158.28.232.096-.074.189-.152.28-.232 1.563-1.359 2.551-3.359 2.551-5.595 0-2.235-.987-4.236-2.551-5.595-.09-.08-.184-.156-.28-.231z"/></svg>
+          </div>
+          <div class="pd-parcelas">
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-avulsa" value="1x sem juros"><span>1x de <strong class="js-parc" data-normal="R$ 500,00" data-first="R$ 439,00">R$ 500,00</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-avulsa" value="2x sem juros"><span>2x de <strong class="js-parc" data-normal="R$ 250,00" data-first="R$ 219,50">R$ 250,00</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-avulsa" value="3x com juros"><span>3x de <strong class="js-parc" data-normal="R$ 168,32" data-first="R$ 147,78">R$ 168,32</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-avulsa" value="4x com juros"><span>4x de <strong class="js-parc" data-normal="R$ 127,47" data-first="R$ 111,92">R$ 127,47</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-avulsa" value="5x com juros"><span>5x de <strong class="js-parc" data-normal="R$ 102,97" data-first="R$ 90,41">R$ 102,97</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-avulsa" value="6x com juros"><span>6x de <strong class="js-parc" data-normal="R$ 86,64" data-first="R$ 76,07">R$ 86,64</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-avulsa" value="7x com juros"><span>7x de <strong class="js-parc" data-normal="R$ 76,74" data-first="R$ 67,38">R$ 76,74</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-avulsa" value="8x com juros"><span>8x de <strong class="js-parc" data-normal="R$ 67,79" data-first="R$ 59,52">R$ 67,79</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-avulsa" value="9x com juros"><span>9x de <strong class="js-parc" data-normal="R$ 60,84" data-first="R$ 53,42">R$ 60,84</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-avulsa" value="10x com juros"><span>10x de <strong class="js-parc" data-normal="R$ 55,28" data-first="R$ 48,54">R$ 55,28</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-avulsa" value="11x com juros"><span>11x de <strong class="js-parc" data-normal="R$ 50,74" data-first="R$ 44,55">R$ 50,74</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-avulsa" value="12x com juros"><span>12x de <strong class="js-parc" data-normal="R$ 46,95" data-first="R$ 41,22">R$ 46,95</strong></span></label>
+          </div>
+        </div>
+      </div>
+      <div class="price-card">
+        <span class="price-label">Acompanhamento — 2 consultas</span>
+        <span class="price-value js-first-value" data-first="R$ 790">R$ 950</span>
+        <p class="js-first-desc" data-first="Primeira consulta para novos clientes.">Primeira consulta + retorno, pra revisar o plano com mais consistência.</p>
+        <button type="button" class="first-time-toggle js-first-btn">É sua primeira consulta? Clique aqui para uma condição especial</button>
+        <button type="button" class="price-select">Selecionar</button>
+        <div class="price-detail">
+          <div class="pd-title">Escolha como prefere pagar:</div>
+          <div class="pd-opts">
+            <label class="pd-opt pd-pix"><input type="radio" name="pagamento-duas" value="Pix"><svg class="pix-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5.283 18.36a3.505 3.505 0 0 0 2.493-1.032l3.6-3.6a.684.684 0 0 1 .946 0l3.613 3.613a3.504 3.504 0 0 0 2.493 1.032h.71l-4.56 4.56a3.647 3.647 0 0 1-5.156 0L4.85 18.36ZM18.428 5.627a3.505 3.505 0 0 0-2.493 1.032l-3.613 3.614a.67.67 0 0 1-.946 0l-3.6-3.6A3.505 3.505 0 0 0 5.283 5.64h-.434l4.573-4.572a3.646 3.646 0 0 1 5.156 0l4.559 4.559ZM1.068 9.422 3.79 6.699h1.492a2.483 2.483 0 0 1 1.744.722l3.6 3.6a1.73 1.73 0 0 0 2.443 0l3.614-3.613a2.482 2.482 0 0 1 1.744-.723h1.767l2.737 2.737a3.646 3.646 0 0 1 0 5.156l-2.736 2.736h-1.768a2.482 2.482 0 0 1-1.744-.722l-3.613-3.613a1.77 1.77 0 0 0-2.444 0l-3.6 3.6a2.483 2.483 0 0 1-1.744.722H3.791l-2.723-2.723a3.646 3.646 0 0 1 0-5.156"/></svg><span>Pix — <strong class="js-pix" data-normal="R$ 893,00" data-first="R$ 742,60">R$ 893,00</strong> <em>6% de desconto</em></span></label>
+          </div>
+          <div class="pd-title">Ou no cartão:</div>
+          <div class="pd-bandeiras" aria-label="Aceitamos Visa e Mastercard">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.112 8.262L5.97 15.758H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 01.894.764l.817 4.338 2.018-5.102zm8.033 5.049c.008-1.979-2.736-2.088-2.717-2.972.006-.269.262-.555.822-.628a3.66 3.66 0 011.913.336l.34-1.59a5.207 5.207 0 00-1.814-.333c-1.917 0-3.266 1.02-3.278 2.479-.012 1.079.963 1.68 1.698 2.04.756.367 1.01.603 1.006.931-.005.504-.602.725-1.16.734-.975.015-1.54-.263-1.992-.473l-.351 1.642c.453.208 1.289.39 2.156.398 2.037 0 3.37-1.006 3.377-2.564m5.061 2.447H24l-1.565-7.496h-1.656a.883.883 0 00-.826.55l-2.909 6.946h2.036l.405-1.12h2.488zm-2.163-2.656l1.02-2.815.588 2.815zm-8.16-4.84l-1.603 7.496H8.34l1.605-7.496z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.343 18.031c.058.049.12.098.181.146-1.177.783-2.59 1.238-4.107 1.238C3.32 19.416 0 16.096 0 12c0-4.095 3.32-7.416 7.416-7.416 1.518 0 2.931.456 4.105 1.238-.06.051-.12.098-.165.15C9.6 7.489 8.595 9.688 8.595 12c0 2.311 1.001 4.51 2.748 6.031zm5.241-13.447c-1.52 0-2.931.456-4.105 1.238.06.051.12.098.165.15C14.4 7.489 15.405 9.688 15.405 12c0 2.31-1.001 4.507-2.748 6.031-.058.049-.12.098-.181.146 1.177.783 2.588 1.238 4.107 1.238C20.68 19.416 24 16.096 24 12c0-4.094-3.32-7.416-7.416-7.416zM12 6.174c-.096.075-.189.15-.28.231C10.156 7.764 9.169 9.765 9.169 12c0 2.236.987 4.236 2.551 5.595.09.08.185.158.28.232.096-.074.189-.152.28-.232 1.563-1.359 2.551-3.359 2.551-5.595 0-2.235-.987-4.236-2.551-5.595-.09-.08-.184-.156-.28-.231z"/></svg>
+          </div>
+          <div class="pd-parcelas">
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-duas" value="1x sem juros"><span>1x de <strong class="js-parc" data-normal="R$ 950,00" data-first="R$ 790,00">R$ 950,00</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-duas" value="2x sem juros"><span>2x de <strong class="js-parc" data-normal="R$ 475,00" data-first="R$ 395,00">R$ 475,00</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-duas" value="3x sem juros"><span>3x de <strong class="js-parc" data-normal="R$ 316,67" data-first="R$ 263,33">R$ 316,67</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-duas" value="4x com juros"><span>4x de <strong class="js-parc" data-normal="R$ 239,82" data-first="R$ 199,43">R$ 239,82</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-duas" value="5x com juros"><span>5x de <strong class="js-parc" data-normal="R$ 193,73" data-first="R$ 161,10">R$ 193,73</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-duas" value="6x com juros"><span>6x de <strong class="js-parc" data-normal="R$ 163,00" data-first="R$ 135,55">R$ 163,00</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-duas" value="7x com juros"><span>7x de <strong class="js-parc" data-normal="R$ 144,38" data-first="R$ 120,06">R$ 144,38</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-duas" value="8x com juros"><span>8x de <strong class="js-parc" data-normal="R$ 127,54" data-first="R$ 106,06">R$ 127,54</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-duas" value="9x com juros"><span>9x de <strong class="js-parc" data-normal="R$ 114,47" data-first="R$ 95,19">R$ 114,47</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-duas" value="10x com juros"><span>10x de <strong class="js-parc" data-normal="R$ 104,00" data-first="R$ 86,49">R$ 104,00</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-duas" value="11x com juros"><span>11x de <strong class="js-parc" data-normal="R$ 95,46" data-first="R$ 79,38">R$ 95,46</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-duas" value="12x com juros"><span>12x de <strong class="js-parc" data-normal="R$ 88,33" data-first="R$ 73,46">R$ 88,33</strong></span></label>
+          </div>
+        </div>
+      </div>
+      <div class="price-card">
+        <span class="price-label">Acompanhamento — 3 consultas</span>
+        <span class="price-value js-first-value" data-first="R$ 1129">R$ 1350</span>
+        <p class="js-first-desc" data-first="Primeira consulta para novos clientes.">Primeira consulta + 2 retornos, pra um acompanhamento mais contínuo.</p>
+        <button type="button" class="first-time-toggle js-first-btn">É sua primeira consulta? Clique aqui para uma condição especial</button>
+        <button type="button" class="price-select">Selecionar</button>
+        <div class="price-detail">
+          <div class="pd-title">Escolha como prefere pagar:</div>
+          <div class="pd-opts">
+            <label class="pd-opt pd-pix"><input type="radio" name="pagamento-tres" value="Pix"><svg class="pix-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5.283 18.36a3.505 3.505 0 0 0 2.493-1.032l3.6-3.6a.684.684 0 0 1 .946 0l3.613 3.613a3.504 3.504 0 0 0 2.493 1.032h.71l-4.56 4.56a3.647 3.647 0 0 1-5.156 0L4.85 18.36ZM18.428 5.627a3.505 3.505 0 0 0-2.493 1.032l-3.613 3.614a.67.67 0 0 1-.946 0l-3.6-3.6A3.505 3.505 0 0 0 5.283 5.64h-.434l4.573-4.572a3.646 3.646 0 0 1 5.156 0l4.559 4.559ZM1.068 9.422 3.79 6.699h1.492a2.483 2.483 0 0 1 1.744.722l3.6 3.6a1.73 1.73 0 0 0 2.443 0l3.614-3.613a2.482 2.482 0 0 1 1.744-.723h1.767l2.737 2.737a3.646 3.646 0 0 1 0 5.156l-2.736 2.736h-1.768a2.482 2.482 0 0 1-1.744-.722l-3.613-3.613a1.77 1.77 0 0 0-2.444 0l-3.6 3.6a2.483 2.483 0 0 1-1.744.722H3.791l-2.723-2.723a3.646 3.646 0 0 1 0-5.156"/></svg><span>Pix — <strong class="js-pix" data-normal="R$ 1.269,00" data-first="R$ 1.061,26">R$ 1.269,00</strong> <em>6% de desconto</em></span></label>
+          </div>
+          <div class="pd-title">Ou no cartão:</div>
+          <div class="pd-bandeiras" aria-label="Aceitamos Visa e Mastercard">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.112 8.262L5.97 15.758H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 01.894.764l.817 4.338 2.018-5.102zm8.033 5.049c.008-1.979-2.736-2.088-2.717-2.972.006-.269.262-.555.822-.628a3.66 3.66 0 011.913.336l.34-1.59a5.207 5.207 0 00-1.814-.333c-1.917 0-3.266 1.02-3.278 2.479-.012 1.079.963 1.68 1.698 2.04.756.367 1.01.603 1.006.931-.005.504-.602.725-1.16.734-.975.015-1.54-.263-1.992-.473l-.351 1.642c.453.208 1.289.39 2.156.398 2.037 0 3.37-1.006 3.377-2.564m5.061 2.447H24l-1.565-7.496h-1.656a.883.883 0 00-.826.55l-2.909 6.946h2.036l.405-1.12h2.488zm-2.163-2.656l1.02-2.815.588 2.815zm-8.16-4.84l-1.603 7.496H8.34l1.605-7.496z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.343 18.031c.058.049.12.098.181.146-1.177.783-2.59 1.238-4.107 1.238C3.32 19.416 0 16.096 0 12c0-4.095 3.32-7.416 7.416-7.416 1.518 0 2.931.456 4.105 1.238-.06.051-.12.098-.165.15C9.6 7.489 8.595 9.688 8.595 12c0 2.311 1.001 4.51 2.748 6.031zm5.241-13.447c-1.52 0-2.931.456-4.105 1.238.06.051.12.098.165.15C14.4 7.489 15.405 9.688 15.405 12c0 2.31-1.001 4.507-2.748 6.031-.058.049-.12.098-.181.146 1.177.783 2.588 1.238 4.107 1.238C20.68 19.416 24 16.096 24 12c0-4.094-3.32-7.416-7.416-7.416zM12 6.174c-.096.075-.189.15-.28.231C10.156 7.764 9.169 9.765 9.169 12c0 2.236.987 4.236 2.551 5.595.09.08.185.158.28.232.096-.074.189-.152.28-.232 1.563-1.359 2.551-3.359 2.551-5.595 0-2.235-.987-4.236-2.551-5.595-.09-.08-.184-.156-.28-.231z"/></svg>
+          </div>
+          <div class="pd-parcelas">
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-tres" value="1x sem juros"><span>1x de <strong class="js-parc" data-normal="R$ 1.350,00" data-first="R$ 1.129,00">R$ 1.350,00</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-tres" value="2x sem juros"><span>2x de <strong class="js-parc" data-normal="R$ 675,00" data-first="R$ 564,50">R$ 675,00</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-tres" value="3x sem juros"><span>3x de <strong class="js-parc" data-normal="R$ 450,00" data-first="R$ 376,33">R$ 450,00</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-tres" value="4x sem juros"><span>4x de <strong class="js-parc" data-normal="R$ 337,50" data-first="R$ 282,25">R$ 337,50</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-tres" value="5x com juros"><span>5x de <strong class="js-parc" data-normal="R$ 272,64" data-first="R$ 228,00">R$ 272,64</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-tres" value="6x com juros"><span>6x de <strong class="js-parc" data-normal="R$ 229,39" data-first="R$ 191,83">R$ 229,39</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-tres" value="7x com juros"><span>7x de <strong class="js-parc" data-normal="R$ 203,18" data-first="R$ 169,92">R$ 203,18</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-tres" value="8x com juros"><span>8x de <strong class="js-parc" data-normal="R$ 179,49" data-first="R$ 150,11">R$ 179,49</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-tres" value="9x com juros"><span>9x de <strong class="js-parc" data-normal="R$ 161,09" data-first="R$ 134,72">R$ 161,09</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-tres" value="10x com juros"><span>10x de <strong class="js-parc" data-normal="R$ 146,36" data-first="R$ 122,40">R$ 146,36</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-tres" value="11x com juros"><span>11x de <strong class="js-parc" data-normal="R$ 134,34" data-first="R$ 112,35">R$ 134,34</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-tres" value="12x com juros"><span>12x de <strong class="js-parc" data-normal="R$ 124,31" data-first="R$ 103,96">R$ 124,31</strong></span></label>
+          </div>
+        </div>
+      </div>
+      <div class="price-card">
+        <span class="price-label">Acompanhamento completo — 4 + 2</span>
+        <span class="price-value js-first-value" data-first="R$ 1799">R$ 2000</span>
+        <p class="js-first-desc" data-first="Primeira consulta para novos clientes.">4 consultas médicas + 2 consultas com nutricionista parceira, com planejamento dietético individualizado.</p>
+        <button type="button" class="first-time-toggle js-first-btn">É sua primeira consulta? Clique aqui para uma condição especial</button>
+        <button type="button" class="price-select">Selecionar</button>
+        <div class="price-detail">
+          <div class="pd-title">Escolha como prefere pagar:</div>
+          <div class="pd-opts">
+            <label class="pd-opt pd-pix"><input type="radio" name="pagamento-completo" value="Pix"><svg class="pix-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5.283 18.36a3.505 3.505 0 0 0 2.493-1.032l3.6-3.6a.684.684 0 0 1 .946 0l3.613 3.613a3.504 3.504 0 0 0 2.493 1.032h.71l-4.56 4.56a3.647 3.647 0 0 1-5.156 0L4.85 18.36ZM18.428 5.627a3.505 3.505 0 0 0-2.493 1.032l-3.613 3.614a.67.67 0 0 1-.946 0l-3.6-3.6A3.505 3.505 0 0 0 5.283 5.64h-.434l4.573-4.572a3.646 3.646 0 0 1 5.156 0l4.559 4.559ZM1.068 9.422 3.79 6.699h1.492a2.483 2.483 0 0 1 1.744.722l3.6 3.6a1.73 1.73 0 0 0 2.443 0l3.614-3.613a2.482 2.482 0 0 1 1.744-.723h1.767l2.737 2.737a3.646 3.646 0 0 1 0 5.156l-2.736 2.736h-1.768a2.482 2.482 0 0 1-1.744-.722l-3.613-3.613a1.77 1.77 0 0 0-2.444 0l-3.6 3.6a2.483 2.483 0 0 1-1.744.722H3.791l-2.723-2.723a3.646 3.646 0 0 1 0-5.156"/></svg><span>Pix — <strong class="js-pix" data-normal="R$ 1.880,00" data-first="R$ 1.691,06">R$ 1.880,00</strong> <em>6% de desconto</em></span></label>
+          </div>
+          <div class="pd-title">Ou no cartão:</div>
+          <div class="pd-bandeiras" aria-label="Aceitamos Visa e Mastercard">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9.112 8.262L5.97 15.758H3.92L2.374 9.775c-.094-.368-.175-.503-.461-.658C1.447 8.864.677 8.627 0 8.479l.046-.217h3.3a.904.904 0 01.894.764l.817 4.338 2.018-5.102zm8.033 5.049c.008-1.979-2.736-2.088-2.717-2.972.006-.269.262-.555.822-.628a3.66 3.66 0 011.913.336l.34-1.59a5.207 5.207 0 00-1.814-.333c-1.917 0-3.266 1.02-3.278 2.479-.012 1.079.963 1.68 1.698 2.04.756.367 1.01.603 1.006.931-.005.504-.602.725-1.16.734-.975.015-1.54-.263-1.992-.473l-.351 1.642c.453.208 1.289.39 2.156.398 2.037 0 3.37-1.006 3.377-2.564m5.061 2.447H24l-1.565-7.496h-1.656a.883.883 0 00-.826.55l-2.909 6.946h2.036l.405-1.12h2.488zm-2.163-2.656l1.02-2.815.588 2.815zm-8.16-4.84l-1.603 7.496H8.34l1.605-7.496z"/></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M11.343 18.031c.058.049.12.098.181.146-1.177.783-2.59 1.238-4.107 1.238C3.32 19.416 0 16.096 0 12c0-4.095 3.32-7.416 7.416-7.416 1.518 0 2.931.456 4.105 1.238-.06.051-.12.098-.165.15C9.6 7.489 8.595 9.688 8.595 12c0 2.311 1.001 4.51 2.748 6.031zm5.241-13.447c-1.52 0-2.931.456-4.105 1.238.06.051.12.098.165.15C14.4 7.489 15.405 9.688 15.405 12c0 2.31-1.001 4.507-2.748 6.031-.058.049-.12.098-.181.146 1.177.783 2.588 1.238 4.107 1.238C20.68 19.416 24 16.096 24 12c0-4.094-3.32-7.416-7.416-7.416zM12 6.174c-.096.075-.189.15-.28.231C10.156 7.764 9.169 9.765 9.169 12c0 2.236.987 4.236 2.551 5.595.09.08.185.158.28.232.096-.074.189-.152.28-.232 1.563-1.359 2.551-3.359 2.551-5.595 0-2.235-.987-4.236-2.551-5.595-.09-.08-.184-.156-.28-.231z"/></svg>
+          </div>
+          <div class="pd-parcelas">
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-completo" value="1x sem juros"><span>1x de <strong class="js-parc" data-normal="R$ 2.000,00" data-first="R$ 1.799,00">R$ 2.000,00</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-completo" value="2x sem juros"><span>2x de <strong class="js-parc" data-normal="R$ 1.000,00" data-first="R$ 899,50">R$ 1.000,00</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-completo" value="3x sem juros"><span>3x de <strong class="js-parc" data-normal="R$ 666,67" data-first="R$ 599,67">R$ 666,67</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-completo" value="4x sem juros"><span>4x de <strong class="js-parc" data-normal="R$ 500,00" data-first="R$ 449,75">R$ 500,00</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc sem-juros"><input type="radio" name="pagamento-completo" value="5x sem juros"><span>5x de <strong class="js-parc" data-normal="R$ 400,00" data-first="R$ 359,80">R$ 400,00</strong> <em>sem juros</em></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-completo" value="6x com juros"><span>6x de <strong class="js-parc" data-normal="R$ 336,55" data-first="R$ 302,72">R$ 336,55</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-completo" value="7x com juros"><span>7x de <strong class="js-parc" data-normal="R$ 298,10" data-first="R$ 268,14">R$ 298,10</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-completo" value="8x com juros"><span>8x de <strong class="js-parc" data-normal="R$ 263,34" data-first="R$ 236,88">R$ 263,34</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-completo" value="9x com juros"><span>9x de <strong class="js-parc" data-normal="R$ 236,35" data-first="R$ 212,59">R$ 236,35</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-completo" value="10x com juros"><span>10x de <strong class="js-parc" data-normal="R$ 214,74" data-first="R$ 193,16">R$ 214,74</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-completo" value="11x com juros"><span>11x de <strong class="js-parc" data-normal="R$ 197,10" data-first="R$ 177,29">R$ 197,10</strong></span></label>
+            <label class="pd-opt pd-parc"><input type="radio" name="pagamento-completo" value="12x com juros"><span>12x de <strong class="js-parc" data-normal="R$ 182,39" data-first="R$ 164,06">R$ 182,39</strong></span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" name="pacoteEscolhido" id="pacoteEscolhidoField">
+    <input type="hidden" name="formaPagamento" id="formaPagamentoField">
+  </div>
+
   <div id="msgErro" hidden></div>
 
   <button type="submit" class="btn-enviar" id="btnEnviar">Enviar formulário</button>
@@ -445,6 +606,73 @@
     });
   });
 
+  // preco de primeira consulta -- mesma logica do site principal
+  (function(){
+    var btnLabel = 'É sua primeira consulta? Clique aqui para uma condição especial';
+    var btnLabelActive = 'Preço de novo paciente aplicado — clique pra voltar ✓';
+    document.querySelectorAll('.js-first-btn').forEach(function(btn){
+      var card = btn.closest('.price-card');
+      if (!card) return;
+      var val = card.querySelector('.js-first-value');
+      var desc = card.querySelector('.js-first-desc');
+      if (!val) return;
+      var normalVal = val.textContent;
+      var normalDesc = desc ? desc.textContent : null;
+      var firstVal = val.getAttribute('data-first');
+      var firstDesc = desc ? desc.getAttribute('data-first') : null;
+      var pix = card.querySelector('.js-pix');
+      var parcelas = card.querySelectorAll('.js-parc');
+      var active = false;
+      btn.addEventListener('click', function(){
+        active = !active;
+        var newVal = active ? firstVal : normalVal;
+        var newDesc = active ? firstDesc : normalDesc;
+        val.classList.add('strike-out');
+        setTimeout(function(){
+          if (newVal) val.textContent = newVal;
+          if (desc && newDesc) desc.textContent = newDesc;
+          val.classList.remove('strike-out');
+          val.classList.add('reveal-in');
+          setTimeout(function(){ val.classList.remove('reveal-in'); }, 550);
+        }, 900);
+        btn.textContent = active ? btnLabelActive : btnLabel;
+        if (pix) pix.textContent = active ? pix.getAttribute('data-first') : pix.getAttribute('data-normal');
+        parcelas.forEach(function(p){
+          p.textContent = active ? p.getAttribute('data-first') : p.getAttribute('data-normal');
+        });
+      });
+    });
+  })();
+
+  // selecionar pacote -- abre o detalhe de pagamento e guarda a escolha
+  // pro formulario mandar junto (diferente do site principal, aqui a
+  // escolha É salva de verdade)
+  const pacoteField = document.getElementById('pacoteEscolhidoField');
+  const pagamentoField = document.getElementById('formaPagamentoField');
+  (function(){
+    var btns = document.querySelectorAll('.price-select');
+    btns.forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var card = btn.closest('.price-card');
+        var alreadySelected = card.classList.contains('selected');
+        document.querySelectorAll('.price-card').forEach(function(c){
+          c.classList.remove('selected');
+          var b = c.querySelector('.price-select');
+          if (b) b.textContent = 'Selecionar';
+        });
+        if (!alreadySelected){
+          card.classList.add('selected');
+          btn.textContent = 'Selecionado ✓';
+          var label = card.querySelector('.price-label').textContent;
+          var valor = card.querySelector('.js-first-value').textContent;
+          pacoteField.value = label + ' — ' + valor;
+        } else {
+          pacoteField.value = '';
+        }
+      });
+    });
+  })();
+
   // envio
   const form = document.getElementById('formPreConsulta');
   const msgErro = document.getElementById('msgErro');
@@ -453,6 +681,20 @@
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
     msgErro.hidden = true;
+
+    // pega a forma de pagamento marcada dentro do card selecionado e
+    // grava no campo final que vai no envio
+    const cardSelecionado = document.querySelector('.price-card.selected');
+    const radioMarcado = cardSelecionado && cardSelecionado.querySelector('.price-detail input[type=radio]:checked');
+    pagamentoField.value = radioMarcado ? radioMarcado.value : '';
+
+    if (!pacoteField.value || !pagamentoField.value){
+      msgErro.hidden = false;
+      msgErro.textContent = 'Antes de enviar, selecione o pacote (item 12) e a forma de pagamento.';
+      window.scrollTo({top: msgErro.offsetTop - 20, behavior:'smooth'});
+      return;
+    }
+
     btn.disabled = true;
     btn.textContent = 'Enviando...';
     try{
