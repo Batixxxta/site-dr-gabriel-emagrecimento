@@ -130,6 +130,15 @@
   .pd-bandeiras{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem;}
   .pd-bandeiras svg{width:26px;height:26px;color:#7a7891;}
   @media(max-width:600px){.price-grid{grid-template-columns:1fr;}}
+
+  .imc-box{margin-top:1rem;background:#fbfbfd;border:1.5px solid var(--ash);border-radius:14px;padding:1rem;}
+  .imc-linha{font-size:1rem;font-weight:600;color:var(--iris);}
+  .imc-linha strong{font-size:1.25rem;}
+  .imc-ideal{margin-top:0.4rem;font-size:0.84rem;color:#4b4a63;}
+  .escala-peso{margin-top:0.6rem;}
+  .escala-peso input[type=range]{width:100%;accent-color:var(--iris-pulse);height:2px;}
+  .escala-labels{display:flex;justify-content:space-between;align-items:center;font-size:0.76rem;color:#7a7891;margin-top:0.4rem;}
+  .escala-valor{background:var(--iris-pulse);color:#fff;font-weight:700;font-size:0.85rem;border-radius:9999px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -171,6 +180,32 @@
 
     <label class="campo">Contato de emergência (nome e telefone)</label>
     <input type="text" name="contatoEmergencia" placeholder="Ex.: Maria, esposa — (21) 90000-0000">
+  </div>
+
+  <div class="card">
+    <h2>⚖️ Peso e altura</h2>
+    <label class="campo">Peso atual (kg)</label>
+    <input type="number" name="peso" id="campoPeso" step="0.1" min="20" max="400" inputmode="decimal">
+
+    <label class="campo">Altura (cm)</label>
+    <input type="number" name="altura" id="campoAltura" min="100" max="250" inputmode="numeric">
+
+    <input type="hidden" name="imcCalculado" id="imcCalculadoField">
+
+    <div class="imc-box" id="imcBox" hidden>
+      <div class="imc-linha">Seu IMC: <strong id="imcValor">--</strong> <span id="imcClassificacao"></span></div>
+      <div class="imc-ideal" id="imcIdeal"></div>
+    </div>
+
+    <label class="campo" style="margin-top:1.3rem">Numa escala de 0 a 10, o quanto você está satisfeito(a) com seu peso corporal hoje?</label>
+    <div class="escala-peso">
+      <input type="range" min="0" max="10" value="5" name="satisfacaoPeso" id="satisfacaoPeso">
+      <div class="escala-labels">
+        <span>😞 Nada satisfeito(a)</span>
+        <span class="escala-valor" id="escalaValor">5</span>
+        <span>😄 Totalmente satisfeito(a)</span>
+      </div>
+    </div>
   </div>
 
   <div class="card">
@@ -605,6 +640,51 @@
       fileList.appendChild(li);
     });
   });
+
+  // calculo automatico de IMC + faixa ideal
+  (function(){
+    var campoPeso = document.getElementById('campoPeso');
+    var campoAltura = document.getElementById('campoAltura');
+    var box = document.getElementById('imcBox');
+    var valorEl = document.getElementById('imcValor');
+    var classEl = document.getElementById('imcClassificacao');
+    var idealEl = document.getElementById('imcIdeal');
+    var hiddenField = document.getElementById('imcCalculadoField');
+
+    function classificar(imc){
+      if (imc < 18.5) return 'Abaixo do peso';
+      if (imc < 25) return 'Peso normal';
+      if (imc < 30) return 'Sobrepeso';
+      if (imc < 35) return 'Obesidade grau I';
+      if (imc < 40) return 'Obesidade grau II';
+      return 'Obesidade grau III';
+    }
+
+    function calcular(){
+      var peso = parseFloat(campoPeso.value);
+      var alturaCm = parseFloat(campoAltura.value);
+      if (!peso || !alturaCm){ box.hidden = true; hiddenField.value = ''; return; }
+      var alturaM = alturaCm / 100;
+      var imc = peso / (alturaM * alturaM);
+      var classificacao = classificar(imc);
+      var pesoMin = (18.5 * alturaM * alturaM).toFixed(1);
+      var pesoMax = (24.9 * alturaM * alturaM).toFixed(1);
+      valorEl.textContent = imc.toFixed(1);
+      classEl.textContent = '(' + classificacao + ')';
+      idealEl.textContent = 'Faixa de peso considerada ideal pra sua altura: ' + pesoMin + ' a ' + pesoMax + ' kg.';
+      hiddenField.value = imc.toFixed(1) + ' - ' + classificacao;
+      box.hidden = false;
+    }
+    campoPeso.addEventListener('input', calcular);
+    campoAltura.addEventListener('input', calcular);
+  })();
+
+  // escala visual de satisfacao com o peso
+  (function(){
+    var range = document.getElementById('satisfacaoPeso');
+    var display = document.getElementById('escalaValor');
+    range.addEventListener('input', function(){ display.textContent = range.value; });
+  })();
 
   // preco de primeira consulta -- mesma logica do site principal
   (function(){
