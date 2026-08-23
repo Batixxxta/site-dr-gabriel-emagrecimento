@@ -180,6 +180,14 @@
 
     <label class="campo">Contato de emergência (nome e telefone)</label>
     <input type="text" name="contatoEmergencia" placeholder="Ex.: Maria, esposa — (21) 90000-0000">
+
+    <div class="sub" style="margin-top:1.1rem">Envie uma foto sua (opcional) — selfie ou foto de rosto simples. Usamos só pra identificar você no seu perfil. Até 5MB, JPG ou PNG.</div>
+    <label class="file-drop" for="fotoPaciente">
+      <div>🤳 <strong>Toque para escolher sua foto</strong></div>
+      <p>Opcional — JPG ou PNG, até 5MB</p>
+    </label>
+    <input type="file" id="fotoPaciente" name="fotoPaciente" accept="image/jpeg,image/png,image/jpg">
+    <ul id="fotoList"></ul>
   </div>
 
   <div class="card">
@@ -639,6 +647,23 @@
       }
       fileList.appendChild(li);
     });
+  });
+
+  // foto do paciente (opcional)
+  const fotoInput = document.getElementById('fotoPaciente');
+  const fotoList = document.getElementById('fotoList');
+  fotoInput.addEventListener('change', ()=>{
+    fotoList.innerHTML = '';
+    const f = fotoInput.files[0];
+    if(!f) return;
+    const li = document.createElement('li');
+    const tamanhoMB = (f.size/1024/1024).toFixed(1);
+    li.textContent = `${f.name} (${tamanhoMB} MB)`;
+    if(f.size > 5*1024*1024){
+      li.style.color = '#c81e3a';
+      li.textContent += ' — muito grande, máx 5MB';
+    }
+    fotoList.appendChild(li);
   });
 
   // calculo automatico de IMC + faixa ideal
