@@ -1280,9 +1280,16 @@
       comboDiscBtn.addEventListener('click', function(){
         discRevealed = !discRevealed;
         var comboCard = document.querySelector('.combo-result');
+        var priceEl = document.getElementById('comboPriceValue');
         if (comboCard) comboCard.classList.toggle('disc-revealed', discRevealed);
         comboDiscBtn.textContent = discRevealed ? 'Desconto aplicado ✓' : 'Primeira vez por aqui? Clique para um desconto especial';
-        render(false);
+        priceEl.classList.add('strike-out');
+        setTimeout(function(){
+          render(false);
+          priceEl.classList.remove('strike-out');
+          priceEl.classList.add('reveal-in');
+          setTimeout(function(){ priceEl.classList.remove('reveal-in'); }, 550);
+        }, 900);
       });
     }
 
