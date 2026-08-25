@@ -823,7 +823,7 @@
         </div>
         <div class="price-card combo-result">
           <span class="price-label" id="comboDesc">1 consulta médica + 1 consulta nutricional</span>
-          <span class="price-value"><s class="combo-normal" id="comboNormal" style="display:none">R$ 0,00</s> <span id="comboFirst">R$ 0,00</span></span>
+          <span class="price-value" id="comboPriceValue">R$ 0,00</span>
           <p>Sempre inclui pelo menos 1 consulta médica — a nutricional é o complemento do seu plano.</p>
           <div class="per-session-box" id="comboPerSession"></div>
           <button type="button" class="first-time-toggle" id="comboDiscBtn">Primeira vez por aqui? Clique para um desconto especial</button>
@@ -1211,8 +1211,9 @@
 
     var nMed = 1, nNutri = 1;
     var MAX = 4;
+    var discRevealed = false;
 
-    function render(){
+    function render(resetState){
       var cardTotal = medCard[nMed]*nMed + nutriCard[nNutri]*nNutri;
       var normalTotal = medNormal[nMed]*nMed + nutriNormal[nNutri]*nNutri;
       var pixTotal = cardTotal * 0.94;
@@ -1221,19 +1222,26 @@
       document.getElementById('comboMedVal').textContent = nMed;
       document.getElementById('comboNutriVal').textContent = nNutri;
       document.getElementById('comboDesc').textContent = nMed + (nMed===1?' consulta médica':' consultas médicas') + ' + ' + nNutri + (nNutri===1?' consulta nutricional':' consultas nutricionais');
-      document.getElementById('comboNormal').textContent = fmt(normalTotal);
-      document.getElementById('comboFirst').textContent = fmt(cardTotal);
       document.getElementById('comboPix').textContent = fmt(pixTotal);
       document.getElementById('comboPerSession').innerHTML = 'Consulta médica sai <strong>' + fmt(medCard[nMed]) + '</strong> cada · Consulta nutricional sai <strong>' + fmt(nutriCard[nNutri]) + '</strong> cada';
 
-      // muda a quantidade? some com a selecao/desconto ate clicar de novo
       var comboCard = document.querySelector('.combo-result');
-      if (comboCard){
-        comboCard.classList.remove('selected', 'disc-revealed');
-        var comboBtn = comboCard.querySelector('.price-select');
-        if (comboBtn) comboBtn.textContent = 'Selecionar';
-        var discBtn = document.getElementById('comboDiscBtn');
-        if (discBtn) discBtn.textContent = 'Primeira vez por aqui? Clique para um desconto especial';
+      if (resetState !== false){
+        discRevealed = false;
+        if (comboCard){
+          comboCard.classList.remove('selected', 'disc-revealed');
+          var comboBtn = comboCard.querySelector('.price-select');
+          if (comboBtn) comboBtn.textContent = 'Selecionar';
+          var discBtn = document.getElementById('comboDiscBtn');
+          if (discBtn) discBtn.textContent = 'Primeira vez por aqui? Clique para um desconto especial';
+        }
+      }
+
+      var priceEl = document.getElementById('comboPriceValue');
+      if (discRevealed){
+        priceEl.innerHTML = '<s class="combo-normal">' + fmt(normalTotal) + '</s> ' + fmt(cardTotal);
+      } else {
+        priceEl.textContent = fmt(normalTotal);
       }
 
       var html = '';
@@ -1270,9 +1278,11 @@
     var comboDiscBtn = document.getElementById('comboDiscBtn');
     if (comboDiscBtn){
       comboDiscBtn.addEventListener('click', function(){
+        discRevealed = !discRevealed;
         var comboCard = document.querySelector('.combo-result');
-        var revealed = comboCard.classList.toggle('disc-revealed');
-        comboDiscBtn.textContent = revealed ? 'Desconto aplicado ✓' : 'Primeira vez por aqui? Clique para um desconto especial';
+        if (comboCard) comboCard.classList.toggle('disc-revealed', discRevealed);
+        comboDiscBtn.textContent = discRevealed ? 'Desconto aplicado ✓' : 'Primeira vez por aqui? Clique para um desconto especial';
+        render(false);
       });
     }
 
