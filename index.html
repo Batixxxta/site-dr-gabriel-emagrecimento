@@ -203,6 +203,10 @@
   .combo-result{max-width:480px;margin:0 auto;}
   .combo-desc{display:block;font-size:0.85rem;color:#7a7891;margin-bottom:0.4rem;}
   .combo-normal{color:#9a98ad;font-size:1rem;font-weight:600;margin-right:0.5rem;}
+  .per-session-box{display:none;margin:0.6rem 0 0.2rem;background:#fff4e6;border:1.5px solid #ffb454;border-radius:12px;padding:0.55rem 0.8rem;font-size:0.8rem;color:#8a5200;font-weight:600;text-align:center;}
+  .price-card.disc-revealed .per-session-box{display:block;}
+  .price-card.selected .per-session-box{display:block;}
+  .price-card.selected .combo-normal{display:inline !important;}
 
   .chart-card{background:var(--iris-shadow);border:1px solid var(--iris-border);border-radius:32px;padding:2rem 1.6rem;}
   .chart-card svg{width:100%;height:auto;display:block;}
@@ -657,7 +661,7 @@
     <div class="section-head reveal">
       <span class="eyebrow">Agende agora</span>
       <h2>Escolha o melhor plano para você.</h2>
-      <p class="body-copy">Primeiro, escolha entre acompanhamento médico ou médico + nutricional, e monte seu pacote. Depois, agende seu horário no Google Agenda abaixo. Não se preocupe, o pagamento será realizado diretamente com o consultório, entraremos em contato após o agendamento do horário.</p>
+      <p class="body-copy">Primeiro, escolha entre acompanhamento médico ou médico + nutricional, e monte seu pacote. Quanto mais consultas você escolher, maior o desconto — o cuidado contínuo sai bem mais em conta pra você. Depois, agende seu horário no Google Agenda abaixo. Não se preocupe, o pagamento será realizado diretamente com o consultório, entraremos em contato após o agendamento do horário.</p>
     </div>
     <div class="plan-tabs reveal" role="tablist">
       <button type="button" class="plan-tab active" data-plan="medico">Acompanhamento médico</button>
@@ -667,8 +671,9 @@
     <div class="price-grid reveal">
       <div class="price-card">
         <span class="price-label">Consulta avulsa</span>
-        <span class="price-value"><s class="combo-normal">R$ 647,36</s> R$ 550,26</span>
+        <span class="price-value js-disc-value" data-normal="R$ 647,36" data-desc="R$ 550,26">R$ 647,36</span>
         <p>Ideal pra uma primeira avaliação, sem compromisso de continuidade.</p>
+        <button type="button" class="first-time-toggle js-disc-btn">Quero ver meu desconto</button>
         <button type="button" class="price-select">Selecionar</button>
         <div class="price-detail">
           <div class="pd-title">Escolha como prefere pagar:</div>
@@ -698,8 +703,10 @@
       </div>
       <div class="price-card">
         <span class="price-label">Acompanhamento — 2 consultas</span>
-        <span class="price-value"><s class="combo-normal">R$ 1.198,82</s> R$ 1.019,00</span>
+        <span class="price-value js-disc-value" data-normal="R$ 1.198,82" data-desc="R$ 1.019,00">R$ 1.198,82</span>
         <p>Primeira consulta + retorno, pra revisar o plano com mais consistência.</p>
+        <div class="per-session-box">Cada consulta sai por <strong>R$ 509,50</strong></div>
+        <button type="button" class="first-time-toggle js-disc-btn">Quero ver meu desconto</button>
         <button type="button" class="price-select">Selecionar</button>
         <div class="price-detail">
           <div class="pd-title">Escolha como prefere pagar:</div>
@@ -729,8 +736,10 @@
       </div>
       <div class="price-card">
         <span class="price-label">Acompanhamento — 3 consultas</span>
-        <span class="price-value"><s class="combo-normal">R$ 1.654,35</s> R$ 1.406,20</span>
+        <span class="price-value js-disc-value" data-normal="R$ 1.654,35" data-desc="R$ 1.406,20">R$ 1.654,35</span>
         <p>Primeira consulta + 2 retornos, pra um acompanhamento mais contínuo.</p>
+        <div class="per-session-box">Cada consulta sai por <strong>R$ 468,73</strong></div>
+        <button type="button" class="first-time-toggle js-disc-btn">Quero ver meu desconto</button>
         <button type="button" class="price-select">Selecionar</button>
         <div class="price-detail">
           <div class="pd-title">Escolha como prefere pagar:</div>
@@ -760,8 +769,10 @@
       </div>
       <div class="price-card">
         <span class="price-label">Acompanhamento — 4 consultas</span>
-        <span class="price-value"><s class="combo-normal">R$ 2.014,00</s> R$ 1.711,91</span>
-        <p>Acompanhamento contínuo, com reavaliação em cada retorno.</p>
+        <span class="price-value js-disc-value" data-normal="R$ 2.014,00" data-desc="R$ 1.711,91">R$ 2.014,00</span>
+        <p>Acompanhamento prolongado, com reavaliação em cada retorno.</p>
+        <div class="per-session-box">Cada consulta sai por <strong>R$ 427,98</strong></div>
+        <button type="button" class="first-time-toggle js-disc-btn">Quero ver meu desconto</button>
         <button type="button" class="price-select">Selecionar</button>
         <div class="price-detail">
           <div class="pd-title">Escolha como prefere pagar:</div>
@@ -813,10 +824,11 @@
         </div>
         <div class="price-card combo-result">
           <span class="price-label" id="comboDesc">1 consulta médica + 1 consulta nutricional</span>
-          <span class="price-value"><s class="combo-normal" id="comboNormal">R$ 0,00</s> <span id="comboFirst">R$ 0,00</span></span>
+          <span class="price-value"><s class="combo-normal" id="comboNormal" style="display:none">R$ 0,00</s> <span id="comboFirst">R$ 0,00</span></span>
           <p>Sempre inclui pelo menos 1 consulta médica — a nutricional é o complemento do seu plano.</p>
+          <div class="per-session-box" id="comboPerSession"></div>
           <button type="button" class="price-select">Selecionar</button>
-          <div class="price-detail" style="display:block">
+          <div class="price-detail">
             <div class="pd-title">Escolha como prefere pagar:</div>
             <div class="pd-opts">
               <label class="pd-opt pd-pix"><input type="radio" name="pagamento-combo"><svg class="pix-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5.283 18.36a3.505 3.505 0 0 0 2.493-1.032l3.6-3.6a.684.684 0 0 1 .946 0l3.613 3.613a3.504 3.504 0 0 0 2.493 1.032h.71l-4.56 4.56a3.647 3.647 0 0 1-5.156 0L4.85 18.36ZM18.428 5.627a3.505 3.505 0 0 0-2.493 1.032l-3.613 3.614a.67.67 0 0 1-.946 0l-3.6-3.6A3.505 3.505 0 0 0 5.283 5.64h-.434l4.573-4.572a3.646 3.646 0 0 1 5.156 0l4.559 4.559ZM1.068 9.422 3.79 6.699h1.492a2.483 2.483 0 0 1 1.744.722l3.6 3.6a1.73 1.73 0 0 0 2.443 0l3.614-3.613a2.482 2.482 0 0 1 1.744-.723h1.767l2.737 2.737a3.646 3.646 0 0 1 0 5.156l-2.736 2.736h-1.768a2.482 2.482 0 0 1-1.744-.722l-3.613-3.613a1.77 1.77 0 0 0-2.444 0l-3.6 3.6a2.483 2.483 0 0 1-1.744.722H3.791l-2.723-2.723a3.646 3.646 0 0 1 0-5.156"/></svg><span>Pix — <strong id="comboPix">R$ 0,00</strong> <em>6% de desconto</em></span></label>
@@ -1125,6 +1137,32 @@
     });
   })();
 
+  // botao "quero ver meu desconto" -- mostra o preco riscado + o com desconto
+  // juntos (efeito ancora), e revela a caixinha laranja de valor por consulta
+  (function(){
+    document.querySelectorAll('.js-disc-btn').forEach(function(btn){
+      var card = btn.closest('.price-card');
+      if (!card) return;
+      var val = card.querySelector('.js-disc-value');
+      if (!val) return;
+      var normal = val.getAttribute('data-normal');
+      var desc = val.getAttribute('data-desc');
+      var revealed = false;
+      btn.addEventListener('click', function(){
+        revealed = !revealed;
+        val.classList.add('strike-out');
+        setTimeout(function(){
+          val.innerHTML = revealed ? ('<s class="combo-normal">' + normal + '</s> ' + desc) : normal;
+          val.classList.remove('strike-out');
+          val.classList.add('reveal-in');
+          setTimeout(function(){ val.classList.remove('reveal-in'); }, 550);
+        }, 900);
+        card.classList.toggle('disc-revealed', revealed);
+        btn.textContent = revealed ? 'Desconto aplicado ✓' : 'Quero ver meu desconto';
+      });
+    });
+  })();
+
   // abas de plano -- medico vs combo medico+nutricional
   (function(){
     var tabs = document.querySelectorAll('.plan-tab');
@@ -1186,6 +1224,15 @@
       document.getElementById('comboNormal').textContent = fmt(normalTotal);
       document.getElementById('comboFirst').textContent = fmt(cardTotal);
       document.getElementById('comboPix').textContent = fmt(pixTotal);
+      document.getElementById('comboPerSession').innerHTML = 'Consulta médica sai <strong>' + fmt(medCard[nMed]) + '</strong> cada · Consulta nutricional sai <strong>' + fmt(nutriCard[nNutri]) + '</strong> cada';
+
+      // muda a quantidade? some com a selecao/desconto ate clicar em Selecionar de novo
+      var comboCard = document.querySelector('.combo-result');
+      if (comboCard && comboCard.classList.contains('selected')){
+        comboCard.classList.remove('selected');
+        var comboBtn = comboCard.querySelector('.price-select');
+        if (comboBtn) comboBtn.textContent = 'Selecionar';
+      }
 
       var html = '';
       for (var n=1; n<=12; n++){
