@@ -40,9 +40,11 @@
   header.top p{color:var(--ash);font-size:0.98rem;line-height:1.5;max-width:56ch;}
   .privacidade-nota{margin-top:1rem;font-size:0.82rem;color:var(--mint);}
 
-  .card{background:#fff;border:1px solid var(--ash);border-radius:20px;padding:1.6rem 1.5rem;margin-bottom:1.1rem;}
-  .card-nutri{background:#f1faf1;border-color:#bfe3c0;}
+  .card{background:rgba(255,255,255,0.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--ash);border-radius:20px;padding:1.6rem 1.5rem;margin-bottom:1.1rem;}
+  .card-nutri{background:rgba(241,250,241,0.35);border-color:#bfe3c0;}
   .card-nutri .chk,.card-nutri input,.card-nutri textarea{background:#fff;}
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
+  body > *:not(#particles){position:relative;z-index:1;}
   .card h2{font-size:1.15rem;font-weight:700;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.5rem;}
   .card .sub{font-size:0.85rem;color:#7a7891;margin-bottom:1.1rem;line-height:1.4;}
 
@@ -162,6 +164,7 @@
 </style>
 </head>
 <body>
+<canvas id="particles"></canvas>
 
 <header class="top">
   <div class="wrap">
@@ -754,6 +757,167 @@
 </div>
 
 <script>
+  // ampulheta de particulas -- mesma logica do site principal: forma
+  // sozinha ao carregar (particulas espalhadas convergindo), fica fixa
+  // girando, e a areia cai/acumula conforme rola
+  (function(){
+    var canvas = document.getElementById('particles');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var speedMul = reduced ? 0.25 : 1;
+    var W, H, cx, cy, sphereR, glass = [], dust = [], streamP = [], pile = [], reservoir = [];
+    var colors = ['#00b1ff', '#b1a6f6', '#00ffaa', '#5350cc', '#59b4ff', '#ffffff'];
+    var sandColors = ['#ffa726', '#ffb74d', '#ff9800', '#ffcc80'];
+    var rot = 0, clock = 0, formFrame = 0, sandFormFrame = 0;
+    var formDuration = 90;
+    var sandFormDuration = 60;
+
+    function resize(){
+      W = canvas.width = window.innerWidth || document.documentElement.clientWidth || 360;
+      H = canvas.height = window.innerHeight || document.documentElement.clientHeight || 640;
+      if (W > 900){ cx = W*0.72; cy = H*0.4; sphereR = Math.min(W*0.24, H*0.3); }
+      else { cx = W*0.5; cy = H*0.24; sphereR = Math.min(W*0.42, H*0.2); }
+    }
+    function init(){
+      resize();
+      glass = [];
+      var n = 480;
+      for (var i=0;i<n;i++){
+        var v = (Math.random()*2-1);
+        glass.push({
+          v: v, theta: Math.random()*Math.PI*2, jitter: 0.9 + Math.random()*0.2,
+          size: 1.6 + Math.random()*2.2, c: colors[i % colors.length],
+          startX: Math.random()*W, startY: Math.random()*H
+        });
+      }
+      streamP = [];
+      var sN = 20;
+      for (var s=0;s<sN;s++){
+        streamP.push({ phase: s/sN, wobble: Math.random()*Math.PI*2, size: 1.1 + Math.random()*1.4, c: sandColors[s % sandColors.length] });
+      }
+      reservoir = [];
+      var rN = 320;
+      for (var rI=0; rI<rN; rI++){
+        var rv = Math.random();
+        var maxRAtV = rv*0.92;
+        var rad = maxRAtV * Math.sqrt(Math.random());
+        var ang = Math.random()*Math.PI*2;
+        reservoir.push({ v: rv, radFrac: rad, ang: ang, size: 1.6 + Math.random()*1.8, c: sandColors[rI % sandColors.length], startX: Math.random()*W, startY: Math.random()*H });
+      }
+      pile = [];
+      var pN = 700;
+      for (var k=0;k<pN;k++){
+        var h = Math.random();
+        var widthAtH = (1-h*0.9);
+        var radP = widthAtH * Math.sqrt(Math.random());
+        var signP = Math.random()<0.5 ? -1 : 1;
+        pile.push({ h: h, xOff: signP*radP, size: 2.2 + Math.random()*1.8, c: sandColors[k % sandColors.length], jitter: (Math.random()-0.5)*8 });
+      }
+      dust = [];
+      var dn = Math.min(50, Math.floor((W*H)/28000));
+      for (var j=0;j<dn;j++){
+        dust.push({ x: Math.random()*W, y: Math.random()*H, vx:(Math.random()-0.5)*0.4, vy:(Math.random()-0.5)*0.4, r: 1.6+Math.random()*2.6, c: colors[j%colors.length], a: 0.25+Math.random()*0.35 });
+      }
+    }
+    function tri(x,y,r){
+      ctx.beginPath();
+      ctx.moveTo(x, y-r);
+      ctx.lineTo(x+r*0.87, y+r*0.5);
+      ctx.lineTo(x-r*0.87, y+r*0.5);
+      ctx.closePath();
+    }
+    function ease(t){ return t*t*(3-2*t); }
+    function draw(){
+      try{
+      ctx.clearRect(0,0,W,H);
+      rot += 0.0035*speedMul;
+      clock += speedMul;
+      if (formFrame < formDuration) formFrame += speedMul;
+      var formT = ease(Math.min(1, formFrame/formDuration));
+      if (formFrame >= formDuration && sandFormFrame < sandFormDuration) sandFormFrame += speedMul;
+      var sandFormT = ease(Math.min(1, sandFormFrame/sandFormDuration));
+      var maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      var scrollFrac = Math.min(1, window.scrollY / maxScroll);
+
+      for (var i=0;i<glass.length;i++){
+        var p = glass[i];
+        var ct = p.theta + rot;
+        var depth = Math.cos(ct);
+        var r = sphereR * Math.abs(p.v) * p.jitter;
+        var targetX = cx + r*Math.cos(ct);
+        var targetY = cy + p.v*sphereR*0.9;
+        var sx = p.startX*(1-formT) + targetX*formT;
+        var sy = p.startY*(1-formT) + targetY*formT;
+        var alpha = (0.45 + depth*0.3) * (0.15+formT*0.85);
+        var size = p.size * (0.6 + (depth+1)/2*0.6);
+        ctx.globalAlpha = Math.max(0.05, alpha);
+        ctx.fillStyle = p.c;
+        tri(sx, sy, size*2.6);
+        ctx.fill();
+      }
+
+      if (sandFormT > 0){
+        var waistY = cy + sphereR*0.05;
+        var counterRot = -rot*1.15;
+        for (var rI=0; rI<reservoir.length; rI++){
+          var rp = reservoir[rI];
+          if (scrollFrac > (1-rp.v)) continue;
+          var rAbsRad = rp.radFrac*sphereR;
+          var targetRX = cx + rAbsRad*Math.cos(rp.ang + counterRot);
+          var targetRY = waistY - rp.v*sphereR*0.85;
+          var rx2 = rp.startX*(1-sandFormT) + targetRX*sandFormT;
+          var ry2 = rp.startY*(1-sandFormT) + targetRY*sandFormT;
+          ctx.globalAlpha = 0.65*sandFormT;
+          ctx.fillStyle = rp.c;
+          tri(rx2, ry2, rp.size*2.3);
+          ctx.fill();
+        }
+        var pileTopY = H - 30 - scrollFrac*(H*0.14);
+        for (var s=0;s<streamP.length;s++){
+          var sp = streamP[s];
+          var loopT = ((clock*0.0028) + sp.phase) % 1;
+          var fy = waistY + loopT*(pileTopY - waistY);
+          var fx = cx + Math.sin(clock*0.05 + sp.wobble)*1.4;
+          ctx.globalAlpha = 0.75*sandFormT;
+          ctx.fillStyle = sp.c;
+          tri(fx, fy, sp.size*2.2);
+          ctx.fill();
+        }
+        for (var k=0;k<pile.length;k++){
+          var g = pile[k];
+          if (g.h > scrollFrac) continue;
+          var gx = cx + g.xOff*(W*0.24) + g.jitter;
+          var gy = (H-12) - g.h*(H*0.14);
+          ctx.globalAlpha = 0.78 + (1-g.h)*0.18;
+          ctx.fillStyle = g.c;
+          tri(gx, gy, g.size*2.6);
+          ctx.fill();
+        }
+      }
+
+      for (var k2=0;k2<dust.length;k2++){
+        var d = dust[k2];
+        d.x += d.vx; d.y += d.vy;
+        if (d.x<-10) d.x=W+10; if (d.x>W+10) d.x=-10;
+        if (d.y<-10) d.y=H+10; if (d.y>H+10) d.y=-10;
+        ctx.globalAlpha = d.a;
+        ctx.fillStyle = d.c;
+        tri(d.x, d.y, d.r*2.6);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      } catch(e){ /* engole erro de um frame, tenta de novo no proximo */ }
+      requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', function(){ resize(); });
+    setTimeout(resize, 300);
+    setTimeout(resize, 1200);
+    init();
+    draw();
+  })();
+
   const ENDPOINT = 'https://overbite-stick-sneezing.ngrok-free.dev/pre-consulta';
 
   // visual dos "pills" (radio/checkbox estilizados)
