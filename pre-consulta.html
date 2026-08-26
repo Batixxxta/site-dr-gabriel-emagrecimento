@@ -255,13 +255,13 @@
 
   <div class="card">
     <h2>⚠️ 4. Alergias</h2>
-    <label class="campo">Você tem alergia a algum medicamento, alimento ou substância?</label>
+    <label class="campo">Você tem alergia ou intolerância a algum medicamento, alimento ou substância?</label>
     <div class="opts">
       <label class="opt"><input type="radio" name="alergias" value="Não"><span>Não</span></label>
       <label class="opt"><input type="radio" name="alergias" value="Sim"><span>Sim</span></label>
     </div>
     <div class="detalhe" id="alergiasDetalhe" hidden>
-      <label class="campo">Qual alergia e o que aconteceu?</label>
+      <label class="campo">Qual alergia/intolerância e o que aconteceu?</label>
       <textarea name="alergiasDetalhe" style="min-height:70px"></textarea>
     </div>
   </div>
@@ -348,6 +348,65 @@
       <label class="opt"><input type="radio" name="sono" value="Bom"><span>Bom</span></label>
       <label class="opt"><input type="radio" name="sono" value="Regular"><span>Regular</span></label>
       <label class="opt"><input type="radio" name="sono" value="Ruim"><span>Ruim</span></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🥗 Acompanhamento nutricional</h2>
+    <div class="sub">Marque tudo que você sente com frequência.</div>
+    <div class="checklist">
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Fadiga / cansaço constante"><span>😴 Fadiga / cansaço</span></label>
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Inchaço no corpo"><span>🎈 Inchaço no corpo</span></label>
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Intestino preso"><span>🚽 Intestino preso</span></label>
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Diarreia frequente"><span>💩 Diarreia frequente</span></label>
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Refluxo / azia"><span>🔥 Refluxo / azia</span></label>
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Gases / distensão abdominal"><span>💨 Gases / estufamento</span></label>
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Unhas fracas ou quebradiças"><span>💅 Unhas fracas</span></label>
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Queda de cabelo / cabelo fraco"><span>💇 Cabelo fraco</span></label>
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Ansiedade ou estresse"><span>😰 Ansiedade / estresse</span></label>
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Vontade frequente de doce"><span>🍬 Vontade de doce</span></label>
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Dificuldade de concentração/memória"><span>🧠 Falta de concentração</span></label>
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Menstruação irregular"><span>🩸 Menstruação irregular</span></label>
+      <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Nenhum desses"><span>😊 Nenhum desses</span></label>
+    </div>
+
+    <label class="campo" style="margin-top:1.2rem">Onde costuma fazer suas refeições?</label>
+    <div class="checklist">
+      <label class="chk"><input type="checkbox" name="localRefeicoes" value="Casa"><span>🏠 Casa</span></label>
+      <label class="chk"><input type="checkbox" name="localRefeicoes" value="Trabalho"><span>💼 Trabalho</span></label>
+      <label class="chk"><input type="checkbox" name="localRefeicoes" value="Restaurante / fora"><span>🍽️ Restaurante / fora</span></label>
+      <label class="chk"><input type="checkbox" name="localRefeicoes" value="Varia bastante"><span>🔀 Varia bastante</span></label>
+    </div>
+    <label class="campo" style="margin-top:1.2rem">Sua alimentação muda muito no fim de semana?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="alimentacaoFimDeSemana" value="Não"><span>Não</span></label>
+      <label class="opt"><input type="radio" name="alimentacaoFimDeSemana" value="Um pouco"><span>Um pouco</span></label>
+      <label class="opt"><input type="radio" name="alimentacaoFimDeSemana" value="Sim, muito"><span>Sim, muito</span></label>
+    </div>
+
+    <label class="campo" style="margin-top:1.2rem">Qual seu horário de maior apetite?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="horarioApetite" value="Manhã"><span>🌅 Manhã</span></label>
+      <label class="opt"><input type="radio" name="horarioApetite" value="Tarde"><span>☀️ Tarde</span></label>
+      <label class="opt"><input type="radio" name="horarioApetite" value="Fim de tarde/noite"><span>🌆 Fim de tarde/noite</span></label>
+      <label class="opt"><input type="radio" name="horarioApetite" value="Madrugada"><span>🌙 Madrugada</span></label>
+    </div>
+
+    <label class="campo" style="margin-top:1.2rem">Nos últimos 6 meses, você está:</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="tendenciaPeso" value="Emagrecendo"><span>📉 Emagrecendo</span></label>
+      <label class="opt"><input type="radio" name="tendenciaPeso" value="Engordando"><span>📈 Engordando</span></label>
+      <label class="opt"><input type="radio" name="tendenciaPeso" value="Mantendo"><span>➡️ Mantendo</span></label>
+    </div>
+
+    <label class="campo" style="margin-top:1.2rem">Já seguiu alguma dieta antes?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="jaSeguiuDieta" value="Não"><span>Não</span></label>
+      <label class="opt"><input type="radio" name="jaSeguiuDieta" value="Sim"><span>Sim</span></label>
+    </div>
+    <div class="detalhe" id="jaSeguiuDietaDetalhe" hidden>
+      <label class="campo">O que funcionou bem (ou não funcionou)?</label>
+      <textarea name="jaSeguiuDietaDetalhe" style="min-height:70px"></textarea>
     </div>
   </div>
 
@@ -722,6 +781,7 @@
   condicional('cirurgia','Sim','cirurgiaDetalhe');
   condicional('outroMedico','Sim','outroMedicoDetalhe');
   condicional('glp1JaUsou','Sim','glp1JaUsouDetalhe');
+  condicional('jaSeguiuDieta','Sim','jaSeguiuDietaDetalhe');
 
   // "Outro" método contraceptivo (checkbox, não dá pra usar o condicional() genérico)
   const glp1Outro = document.getElementById('glp1ContraceptivoOutro');
