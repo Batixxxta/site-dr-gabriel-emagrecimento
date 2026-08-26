@@ -41,6 +41,8 @@
   .privacidade-nota{margin-top:1rem;font-size:0.82rem;color:var(--mint);}
 
   .card{background:#fff;border:1px solid var(--ash);border-radius:20px;padding:1.6rem 1.5rem;margin-bottom:1.1rem;}
+  .card-nutri{background:#f1faf1;border-color:#bfe3c0;}
+  .card-nutri .chk,.card-nutri input,.card-nutri textarea{background:#fff;}
   .card h2{font-size:1.15rem;font-weight:700;margin-bottom:0.3rem;display:flex;align-items:center;gap:0.5rem;}
   .card .sub{font-size:0.85rem;color:#7a7891;margin-bottom:1.1rem;line-height:1.4;}
 
@@ -221,8 +223,8 @@
     <h2>🗂️ Acompanhamento médico atual</h2>
     <label class="campo">Você já é acompanhado por outro médico para esse mesmo problema?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="outroMedico" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="outroMedico" value="Sim"><span>Sim</span></label>
+      <label class="opt"><input type="radio" name="outroMedico" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="outroMedico" value="Sim"><span>✅ Sim</span></label>
     </div>
     <div class="detalhe" id="outroMedicoDetalhe" hidden>
       <label class="campo">Qual médico/especialidade e desde quando?</label>
@@ -234,8 +236,8 @@
     <h2>💊 3. Medicações em uso</h2>
     <label class="campo">Você utiliza algum medicamento diariamente?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="medicacoes" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="medicacoes" value="Sim"><span>Sim</span></label>
+      <label class="opt"><input type="radio" name="medicacoes" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="medicacoes" value="Sim"><span>✅ Sim</span></label>
     </div>
     <div class="detalhe" id="medicacoesDetalhe" hidden>
       <label class="campo">Nome, dose e horário de cada medicamento</label>
@@ -244,8 +246,8 @@
 
     <label class="campo" style="margin-top:1.2rem">Toma algum suplemento, vitamina ou fitoterápico?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="suplementos" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="suplementos" value="Sim"><span>Sim</span></label>
+      <label class="opt"><input type="radio" name="suplementos" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="suplementos" value="Sim"><span>✅ Sim</span></label>
     </div>
     <div class="detalhe" id="suplementosDetalhe" hidden>
       <label class="campo">Qual(is) e com que frequência?</label>
@@ -257,8 +259,8 @@
     <h2>⚠️ 4. Alergias</h2>
     <label class="campo">Você tem alergia ou intolerância a algum medicamento, alimento ou substância?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="alergias" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="alergias" value="Sim"><span>Sim</span></label>
+      <label class="opt"><input type="radio" name="alergias" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="alergias" value="Sim"><span>✅ Sim</span></label>
     </div>
     <div class="detalhe" id="alergiasDetalhe" hidden>
       <label class="campo">Qual alergia/intolerância e o que aconteceu?</label>
@@ -270,31 +272,31 @@
     <h2>📚 5. Histórico de saúde</h2>
     <div class="sub">Marque tudo que já teve ou tem hoje.</div>
     <div class="checklist">
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Pressão alta"><span>Pressão alta</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Diabetes"><span>Diabetes</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Colesterol alto"><span>Colesterol alto</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Doença do coração"><span>Doença do coração</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Arritmia"><span>Arritmia</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Asma, bronquite ou DPOC"><span>Asma, bronquite ou DPOC</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Doença renal"><span>Doença renal</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Doença no fígado"><span>Doença no fígado</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Doença da tireoide"><span>Doença da tireoide</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Gastrite ou refluxo"><span>Gastrite ou refluxo</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="AVC/derrame"><span>AVC/derrame</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Trombose ou embolia"><span>Trombose ou embolia</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Câncer"><span>Câncer</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Osteoporose"><span>Osteoporose</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Depressão ou ansiedade"><span>Depressão ou ansiedade</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Outros"><span>Outros</span></label>
-      <label class="chk"><input type="checkbox" name="historicoSaude" value="Nenhuma condição conhecida"><span>Nenhuma condição conhecida</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Pressão alta"><span>🩸 Pressão alta</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Diabetes"><span>💉 Diabetes</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Colesterol alto"><span>🧈 Colesterol alto</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Doença do coração"><span>🫀 Doença do coração</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Arritmia"><span>💓 Arritmia</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Asma, bronquite ou DPOC"><span>🫁 Asma, bronquite ou DPOC</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Doença renal"><span>🫘 Doença renal</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Doença no fígado"><span>💛 Doença no fígado</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Doença da tireoide"><span>🦋 Doença da tireoide</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Gastrite ou refluxo"><span>🔥 Gastrite ou refluxo</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="AVC/derrame"><span>🧠 AVC/derrame</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Trombose ou embolia"><span>🦵 Trombose ou embolia</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Câncer"><span>🎗️ Câncer</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Osteoporose"><span>🦴 Osteoporose</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Depressão ou ansiedade"><span>😔 Depressão ou ansiedade</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Outros"><span>➕ Outros</span></label>
+      <label class="chk"><input type="checkbox" name="historicoSaude" value="Nenhuma condição conhecida"><span>✅ Nenhuma condição conhecida</span></label>
     </div>
     <label class="campo">Se marcou Câncer ou "Outros", especifique</label>
     <input type="text" name="historicoSaudeEspecifique" placeholder="Ex.: Câncer de mama em 2019 / outra condição...">
 
     <label class="campo" style="margin-top:1.2rem">Já realizou alguma cirurgia ou internação importante?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="cirurgia" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="cirurgia" value="Sim"><span>Sim</span></label>
+      <label class="opt"><input type="radio" name="cirurgia" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="cirurgia" value="Sim"><span>✅ Sim</span></label>
     </div>
     <div class="detalhe" id="cirurgiaDetalhe" hidden>
       <label class="campo">Qual cirurgia/internação e quando?</label>
@@ -306,14 +308,14 @@
     <h2>👨‍👩‍👧 6. Histórico familiar</h2>
     <div class="sub">Na sua família próxima, alguém tem ou teve:</div>
     <div class="checklist">
-      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Infarto ou problema cardíaco"><span>Infarto/problema cardíaco</span></label>
-      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="AVC/derrame"><span>AVC/derrame</span></label>
-      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Diabetes"><span>Diabetes</span></label>
-      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Pressão alta"><span>Pressão alta</span></label>
-      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Câncer"><span>Câncer</span></label>
-      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Demência/Alzheimer"><span>Demência/Alzheimer</span></label>
-      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Doença genética ou hereditária"><span>Doença genética/hereditária</span></label>
-      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Não sei informar"><span>Não sei informar</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Infarto ou problema cardíaco"><span>🫀 Infarto/problema cardíaco</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="AVC/derrame"><span>🧠 AVC/derrame</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Diabetes"><span>💉 Diabetes</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Pressão alta"><span>🩸 Pressão alta</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Câncer"><span>🎗️ Câncer</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Demência/Alzheimer"><span>🧩 Demência/Alzheimer</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Doença genética ou hereditária"><span>🧬 Doença genética/hereditária</span></label>
+      <label class="chk"><input type="checkbox" name="historicoFamiliar" value="Não sei informar"><span>🤷 Não sei informar</span></label>
     </div>
     <label class="campo">Se souber, qual condição e o grau de parentesco</label>
     <textarea name="historicoFamiliarDetalhe" style="min-height:70px" placeholder="Ex.: Diabetes — mãe e avô materno"></textarea>
@@ -323,37 +325,37 @@
     <h2>🌱 7. Hábitos de vida</h2>
     <label class="campo">Você fuma?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="fuma" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="fuma" value="Sim"><span>Sim</span></label>
-      <label class="opt"><input type="radio" name="fuma" value="Já fumei, mas parei"><span>Já fumei, parei</span></label>
+      <label class="opt"><input type="radio" name="fuma" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="fuma" value="Sim"><span>🚬 Sim</span></label>
+      <label class="opt"><input type="radio" name="fuma" value="Já fumei, mas parei"><span>🚭 Já fumei, parei</span></label>
     </div>
 
     <label class="campo" style="margin-top:1.2rem">Consome bebida alcoólica?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="alcool" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="alcool" value="Ocasionalmente"><span>Ocasionalmente</span></label>
-      <label class="opt"><input type="radio" name="alcool" value="Frequentemente"><span>Frequentemente</span></label>
+      <label class="opt"><input type="radio" name="alcool" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="alcool" value="Ocasionalmente"><span>🍷 Ocasionalmente</span></label>
+      <label class="opt"><input type="radio" name="alcool" value="Frequentemente"><span>🍺 Frequentemente</span></label>
     </div>
 
     <label class="campo" style="margin-top:1.2rem">Pratica atividade física?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="atividadeFisica" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="atividadeFisica" value="Sim"><span>Sim</span></label>
+      <label class="opt"><input type="radio" name="atividadeFisica" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="atividadeFisica" value="Sim"><span>🏃 Sim</span></label>
     </div>
     <label class="campo">Se sim, qual e com que frequência?</label>
     <input type="text" name="atividadeFisicaDetalhe">
 
     <label class="campo" style="margin-top:1.2rem">Como está seu sono?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="sono" value="Bom"><span>Bom</span></label>
-      <label class="opt"><input type="radio" name="sono" value="Regular"><span>Regular</span></label>
-      <label class="opt"><input type="radio" name="sono" value="Ruim"><span>Ruim</span></label>
+      <label class="opt"><input type="radio" name="sono" value="Bom"><span>😴 Bom</span></label>
+      <label class="opt"><input type="radio" name="sono" value="Regular"><span>😐 Regular</span></label>
+      <label class="opt"><input type="radio" name="sono" value="Ruim"><span>😵‍💫 Ruim</span></label>
     </div>
   </div>
 
-  <div class="card">
-    <h2>🥗 Acompanhamento nutricional</h2>
-    <div class="sub">Marque tudo que você sente com frequência.</div>
+  <div class="card card-nutri">
+    <h2>🥗 8. Como está sua nutrição</h2>
+    <div class="sub">Sintomas relacionados a déficit nutricional e hábitos alimentares — marque tudo que você sente com frequência.</div>
     <div class="checklist">
       <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Fadiga / cansaço constante"><span>😴 Fadiga / cansaço</span></label>
       <label class="chk"><input type="checkbox" name="sintomasNutricao" value="Inchaço no corpo"><span>🎈 Inchaço no corpo</span></label>
@@ -379,9 +381,9 @@
     </div>
     <label class="campo" style="margin-top:1.2rem">Sua alimentação muda muito no fim de semana?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="alimentacaoFimDeSemana" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="alimentacaoFimDeSemana" value="Um pouco"><span>Um pouco</span></label>
-      <label class="opt"><input type="radio" name="alimentacaoFimDeSemana" value="Sim, muito"><span>Sim, muito</span></label>
+      <label class="opt"><input type="radio" name="alimentacaoFimDeSemana" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="alimentacaoFimDeSemana" value="Um pouco"><span>🤏 Um pouco</span></label>
+      <label class="opt"><input type="radio" name="alimentacaoFimDeSemana" value="Sim, muito"><span>🎉 Sim, muito</span></label>
     </div>
 
     <label class="campo" style="margin-top:1.2rem">Qual seu horário de maior apetite?</label>
@@ -401,8 +403,8 @@
 
     <label class="campo" style="margin-top:1.2rem">Já seguiu alguma dieta antes?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="jaSeguiuDieta" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="jaSeguiuDieta" value="Sim"><span>Sim</span></label>
+      <label class="opt"><input type="radio" name="jaSeguiuDieta" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="jaSeguiuDieta" value="Sim"><span>✅ Sim</span></label>
     </div>
     <div class="detalhe" id="jaSeguiuDietaDetalhe" hidden>
       <label class="campo">O que funcionou bem (ou não funcionou)?</label>
@@ -411,13 +413,13 @@
   </div>
 
   <div class="card">
-    <h2>🎗️ 8. Exames de rastreio e prevenção</h2>
+    <h2>🎗️ 9. Exames de rastreio e prevenção</h2>
     <div class="sub">Se já realizou, marque Sim e informe a data aproximada (se souber).</div>
 
     <div class="exame-item">
       <div class="exame-esquerda">
-        <span class="nome">Mamografia</span>
-        <div class="opts"><label class="opt"><input type="radio" name="ex_mamografia" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_mamografia" value="Sim"><span>Sim</span></label></div>
+        <span class="nome">🎗️ Mamografia</span>
+        <div class="opts"><label class="opt"><input type="radio" name="ex_mamografia" value="Não"><span>❌ Não</span></label><label class="opt"><input type="radio" name="ex_mamografia" value="Sim"><span>✅ Sim</span></label></div>
       </div>
       <div class="exame-direita">
         <label>Data aproximada do último exame</label>
@@ -426,8 +428,8 @@
     </div>
     <div class="exame-item">
       <div class="exame-esquerda">
-        <span class="nome">Preventivo do colo do útero</span>
-        <div class="opts"><label class="opt"><input type="radio" name="ex_preventivo" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_preventivo" value="Sim"><span>Sim</span></label></div>
+        <span class="nome">🌸 Preventivo do colo do útero</span>
+        <div class="opts"><label class="opt"><input type="radio" name="ex_preventivo" value="Não"><span>❌ Não</span></label><label class="opt"><input type="radio" name="ex_preventivo" value="Sim"><span>✅ Sim</span></label></div>
       </div>
       <div class="exame-direita">
         <label>Data aproximada do último exame</label>
@@ -436,8 +438,8 @@
     </div>
     <div class="exame-item">
       <div class="exame-esquerda">
-        <span class="nome">Colonoscopia / sangue oculto</span>
-        <div class="opts"><label class="opt"><input type="radio" name="ex_colono" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_colono" value="Sim"><span>Sim</span></label></div>
+        <span class="nome">🩺 Colonoscopia / sangue oculto</span>
+        <div class="opts"><label class="opt"><input type="radio" name="ex_colono" value="Não"><span>❌ Não</span></label><label class="opt"><input type="radio" name="ex_colono" value="Sim"><span>✅ Sim</span></label></div>
       </div>
       <div class="exame-direita">
         <label>Data aproximada do último exame</label>
@@ -446,8 +448,8 @@
     </div>
     <div class="exame-item">
       <div class="exame-esquerda">
-        <span class="nome">Densitometria óssea</span>
-        <div class="opts"><label class="opt"><input type="radio" name="ex_densitometria" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_densitometria" value="Sim"><span>Sim</span></label></div>
+        <span class="nome">🦴 Densitometria óssea</span>
+        <div class="opts"><label class="opt"><input type="radio" name="ex_densitometria" value="Não"><span>❌ Não</span></label><label class="opt"><input type="radio" name="ex_densitometria" value="Sim"><span>✅ Sim</span></label></div>
       </div>
       <div class="exame-direita">
         <label>Data aproximada do último exame</label>
@@ -456,8 +458,8 @@
     </div>
     <div class="exame-item">
       <div class="exame-esquerda">
-        <span class="nome">Avaliação oftalmológica</span>
-        <div class="opts"><label class="opt"><input type="radio" name="ex_oftalmo" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_oftalmo" value="Sim"><span>Sim</span></label></div>
+        <span class="nome">👁️ Avaliação oftalmológica</span>
+        <div class="opts"><label class="opt"><input type="radio" name="ex_oftalmo" value="Não"><span>❌ Não</span></label><label class="opt"><input type="radio" name="ex_oftalmo" value="Sim"><span>✅ Sim</span></label></div>
       </div>
       <div class="exame-direita">
         <label>Data aproximada do último exame</label>
@@ -466,8 +468,8 @@
     </div>
     <div class="exame-item">
       <div class="exame-esquerda">
-        <span class="nome">Avaliação odontológica</span>
-        <div class="opts"><label class="opt"><input type="radio" name="ex_odonto" value="Não"><span>Não</span></label><label class="opt"><input type="radio" name="ex_odonto" value="Sim"><span>Sim</span></label></div>
+        <span class="nome">🦷 Avaliação odontológica</span>
+        <div class="opts"><label class="opt"><input type="radio" name="ex_odonto" value="Não"><span>❌ Não</span></label><label class="opt"><input type="radio" name="ex_odonto" value="Sim"><span>✅ Sim</span></label></div>
       </div>
       <div class="exame-direita">
         <label>Data aproximada do último exame</label>
@@ -508,8 +510,8 @@
 
     <label class="campo">Já usou alguma medicação pra emagrecer (caneta ou comprimido) antes?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="glp1JaUsou" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="glp1JaUsou" value="Sim"><span>Sim</span></label>
+      <label class="opt"><input type="radio" name="glp1JaUsou" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="glp1JaUsou" value="Sim"><span>✅ Sim</span></label>
     </div>
     <div class="detalhe" id="glp1JaUsouDetalhe" hidden>
       <label class="campo">Qual(is), por quanto tempo, e como foi a experiência (efeitos, resultado)?</label>
@@ -518,31 +520,31 @@
 
     <label class="campo" style="margin-top:1.2rem">Alguém da sua família (pais, irmãos) já teve câncer de tireoide do tipo medular, ou uma condição chamada NEM2 (Neoplasia Endócrina Múltipla tipo 2)?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="glp1CmtNem2" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="glp1CmtNem2" value="Sim"><span>Sim</span></label>
-      <label class="opt"><input type="radio" name="glp1CmtNem2" value="Não sei"><span>Não sei</span></label>
+      <label class="opt"><input type="radio" name="glp1CmtNem2" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="glp1CmtNem2" value="Sim"><span>✅ Sim</span></label>
+      <label class="opt"><input type="radio" name="glp1CmtNem2" value="Não sei"><span>🤷 Não sei</span></label>
     </div>
 
     <label class="campo" style="margin-top:1.2rem">Você já teve pancreatite (inflamação no pâncreas)?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="glp1Pancreatite" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="glp1Pancreatite" value="Sim"><span>Sim</span></label>
-      <label class="opt"><input type="radio" name="glp1Pancreatite" value="Não sei"><span>Não sei</span></label>
+      <label class="opt"><input type="radio" name="glp1Pancreatite" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="glp1Pancreatite" value="Sim"><span>✅ Sim</span></label>
+      <label class="opt"><input type="radio" name="glp1Pancreatite" value="Não sei"><span>🤷 Não sei</span></label>
     </div>
 
     <label class="campo" style="margin-top:1.2rem">Você ronca alto ou já foi diagnosticado(a) com apneia do sono?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="glp1Apneia" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="glp1Apneia" value="Sim, tenho apneia do sono diagnosticada"><span>Sim, tenho apneia do sono diagnosticada</span></label>
-      <label class="opt"><input type="radio" name="glp1Apneia" value="Ronco frequentemente, mas não tenho diagnóstico"><span>Ronco frequentemente, mas não tenho diagnóstico</span></label>
-      <label class="opt"><input type="radio" name="glp1Apneia" value="Não sei"><span>Não sei</span></label>
+      <label class="opt"><input type="radio" name="glp1Apneia" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="glp1Apneia" value="Sim, tenho apneia do sono diagnosticada"><span>😴 Sim, tenho apneia do sono diagnosticada</span></label>
+      <label class="opt"><input type="radio" name="glp1Apneia" value="Ronco frequentemente, mas não tenho diagnóstico"><span>💤 Ronco frequentemente, mas não tenho diagnóstico</span></label>
+      <label class="opt"><input type="radio" name="glp1Apneia" value="Não sei"><span>🤷 Não sei</span></label>
     </div>
 
     <label class="campo" style="margin-top:1.2rem">Tem diagnóstico de lipedema?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="glp1Lipedema" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="glp1Lipedema" value="Sim"><span>Sim</span></label>
-      <label class="opt"><input type="radio" name="glp1Lipedema" value="Não sei"><span>Não sei</span></label>
+      <label class="opt"><input type="radio" name="glp1Lipedema" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="glp1Lipedema" value="Sim"><span>✅ Sim</span></label>
+      <label class="opt"><input type="radio" name="glp1Lipedema" value="Não sei"><span>🤷 Não sei</span></label>
     </div>
 
     <div class="secao-mulher">
@@ -566,15 +568,15 @@
 
     <label class="campo" style="margin-top:1.2rem">Tem planos de engravidar nos próximos meses?</label>
     <div class="opts">
-      <label class="opt"><input type="radio" name="glp1Gravidez" value="Não"><span>Não</span></label>
-      <label class="opt"><input type="radio" name="glp1Gravidez" value="Sim"><span>Sim</span></label>
-      <label class="opt"><input type="radio" name="glp1Gravidez" value="Não sei"><span>Não sei</span></label>
+      <label class="opt"><input type="radio" name="glp1Gravidez" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="glp1Gravidez" value="Sim"><span>✅ Sim</span></label>
+      <label class="opt"><input type="radio" name="glp1Gravidez" value="Não sei"><span>🤷 Não sei</span></label>
     </div>
     </div>
   </div>
 
   <div class="card">
-    <h2>🧪 9. Exames complementares e documentos</h2>
+    <h2>🧪 10. Exames complementares e documentos</h2>
     <div class="sub">Se tiver exames laboratoriais, de imagem, laudos ou relatórios recentes, anexe abaixo (foto ou PDF, até 15MB cada).</div>
     <label class="file-drop" for="documentos">
       <div>📎 <strong>Toque para escolher os arquivos</strong></div>
@@ -585,7 +587,7 @@
   </div>
 
   <div class="card">
-    <h2>❓ 10. Principais dúvidas para a consulta</h2>
+    <h2>❓ 11. Principais dúvidas para a consulta</h2>
     <div class="sub">Até 3 dúvidas ou assuntos que você gostaria de abordar.</div>
     <input class="duvida-input" type="text" name="duvida1" placeholder="1.">
     <input class="duvida-input" type="text" name="duvida2" placeholder="2." style="margin-top:0.6rem">
@@ -593,7 +595,7 @@
   </div>
 
   <div class="card">
-    <h2>✅ 11. Confirmação</h2>
+    <h2>✅ 12. Confirmação</h2>
     <label class="confirma">
       <input type="checkbox" name="confirmo" required>
       <span>Declaro que as informações acima são verdadeiras, dentro do meu conhecimento, e autorizo — em conformidade com a Lei Geral de Proteção de Dados (LGPD, Lei 13.709/2018) — o uso destes dados exclusivamente para organização, direcionamento e registro da minha consulta médica com o Dr. Gabriel Baptista.</span>
@@ -601,7 +603,7 @@
   </div>
 
   <div class="card">
-    <h2>💰 12. Confirme o pacote escolhido</h2>
+    <h2>💰 13. Confirme o pacote escolhido</h2>
     <div class="sub">Selecione o plano e a forma de pagamento. O link (Pix ou cartão) chegará no seu e-mail. Somente após o pagamento será confirmada sua reserva de horário.</div>
     <div class="price-grid">
       <div class="price-card">
@@ -954,7 +956,7 @@
 
     if (!pacoteField.value || !pagamentoField.value){
       msgErro.hidden = false;
-      msgErro.textContent = 'Antes de enviar, selecione o pacote (item 12) e a forma de pagamento.';
+      msgErro.textContent = 'Antes de enviar, selecione o pacote (item 13) e a forma de pagamento.';
       window.scrollTo({top: msgErro.offsetTop - 20, behavior:'smooth'});
       return;
     }
