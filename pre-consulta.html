@@ -41,6 +41,9 @@
   .privacidade-nota{margin-top:1rem;font-size:0.82rem;color:var(--mint);}
 
   .card{background:transparent;color:#fff;border:1px solid var(--ash);border-radius:20px;padding:1.6rem 1.5rem;margin-bottom:1.1rem;}
+  .resumo-selecao{background:#fff;border:1.5px solid var(--iris-pulse);border-radius:14px;padding:0.9rem 1rem;margin-bottom:1.1rem;font-size:0.86rem;color:var(--iris);}
+  .resumo-selecao p{margin:0;}
+  .resumo-selecao p + p{margin-top:0.35rem;}
   .card-nutri{border-color:#bfe3c0;}
   .card-nutri .chk,.card-nutri input,.card-nutri textarea{background:#fff;}
   #particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
@@ -146,6 +149,13 @@
 <div class="wrap">
 
 <form id="formPreConsulta">
+
+  <div id="resumoSelecao" class="resumo-selecao" hidden>
+    <p>📦 <strong id="resumoPacote"></strong></p>
+    <p id="resumoPagamentoLinha" hidden>💳 <strong id="resumoPagamento"></strong></p>
+  </div>
+  <input type="hidden" name="pacoteEscolhido" id="pacoteEscolhidoField">
+  <input type="hidden" name="formaPagamento" id="formaPagamentoField">
 
   <div class="card">
     <h2>👤 1. Dados básicos</h2>
@@ -865,6 +875,27 @@
     var range = document.getElementById('satisfacaoPeso');
     var display = document.getElementById('escalaValor');
     range.addEventListener('input', function(){ display.textContent = range.value; });
+  })();
+
+  // recebe o pacote/pagamento escolhidos la no site principal (via link
+  // "ja agendei" depois do calendario) pela URL e mostra um resumo pra
+  // pessoa conferir, ja gravando nos campos ocultos que vao no envio
+  (function(){
+    var params = new URLSearchParams(window.location.search);
+    var pacote = params.get('pacote');
+    var pagamento = params.get('pagamento');
+    if (!pacote && !pagamento) return;
+    document.getElementById('pacoteEscolhidoField').value = pacote || '';
+    document.getElementById('formaPagamentoField').value = pagamento || '';
+    if (pacote){
+      document.getElementById('resumoPacote').textContent = 'Pacote selecionado: ' + pacote;
+      document.getElementById('resumoSelecao').hidden = false;
+    }
+    if (pagamento){
+      document.getElementById('resumoPagamento').textContent = 'Pagamento: ' + pagamento;
+      document.getElementById('resumoPagamentoLinha').hidden = false;
+      document.getElementById('resumoSelecao').hidden = false;
+    }
   })();
 
   // envio

@@ -156,6 +156,9 @@
   .agenda-wrap iframe{width:100%;height:600px;border:0;border-radius:14px;}
   .agenda-fallback{margin-top:1rem;font-size:0.85rem;color:#55536b;}
   .agenda-fallback a{color:var(--iris-pulse);text-decoration:underline;}
+  .confirmar-box{margin-top:1.6rem;text-align:center;background:#fff;border:1.5px solid var(--ash);border-radius:20px;padding:1.4rem 1.2rem;}
+  .confirmar-box p{font-size:0.9rem;color:#55536b;margin-bottom:0.9rem;}
+  .confirmar-btn{display:inline-block;background:var(--iris-pulse);color:#fff;font-weight:700;font-size:0.95rem;border-radius:9999px;padding:0.9rem 1.6rem;text-decoration:none;box-shadow:0 10px 26px rgba(83,80,204,0.35);}
   .price-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1.6rem;}
   .price-card{background:#fff;border:2px solid var(--ash);border-radius:20px;padding:1.4rem 1.2rem;text-align:center;transition:border-color 0.2s ease, box-shadow 0.2s ease;}
   .price-label{display:block;font-size:0.8rem;font-weight:600;color:#55536b;margin-bottom:0.5rem;}
@@ -639,7 +642,7 @@
     <div class="faq-group reveal" data-cat="pos" hidden>
       <details class="faq-item">
         <summary>O que acontece depois que eu agendar?</summary>
-        <p>Você recebe a confirmação e o link da videochamada automaticamente, além da orientação de como se preparar pra consulta.</p>
+        <p>Depois de marcar o horário, clique no botão de confirmação — ele te leva direto pro formulário de pré-consulta, o último passo antes do atendimento. Você também recebe a confirmação e o link da videochamada automaticamente, além da orientação de como se preparar.</p>
       </details>
       <details class="faq-item">
         <summary>Como funciona o acompanhamento após a primeira consulta?</summary>
@@ -662,7 +665,7 @@
     <div class="section-head reveal">
       <span class="eyebrow">Agende agora</span>
       <h2>Escolha o melhor plano para você.</h2>
-      <p class="body-copy">Primeiro, escolha entre acompanhamento médico ou médico + nutricional, e monte seu pacote. Quanto mais consultas você escolher, maior o desconto — o cuidado contínuo sai bem mais em conta pra você. Depois, agende seu horário no Google Agenda abaixo. Não se preocupe, o pagamento será realizado diretamente com o consultório, entraremos em contato após o agendamento do horário.</p>
+      <p class="body-copy">Primeiro, escolha entre acompanhamento médico ou médico + nutricional, monte seu pacote e a forma de pagamento. Quanto mais consultas você escolher, maior o desconto — o cuidado contínuo sai bem mais em conta pra você. Depois, agende seu horário no Google Agenda abaixo e confirme — você será direcionado pro formulário de pré-consulta, o último passo antes do seu atendimento.</p>
     </div>
     <div class="plan-tabs reveal" role="tablist">
       <button type="button" class="plan-tab active" data-plan="medico">Acompanhamento médico</button>
@@ -854,6 +857,10 @@
       <!-- end Google Calendar Appointment Scheduling -->
     </div>
     <p class="agenda-fallback">A agenda não carregou? <a href="https://calendar.app.google/9LKsMbvEuJ7yjtoU8" target="_blank" rel="noopener">Abra a página de agendamento aqui</a>.</p>
+    <div class="confirmar-box reveal">
+      <p>Já marcou seu horário na agenda acima?</p>
+      <a href="pre-consulta.html" id="confirmarAgendamento" class="confirmar-btn">Já agendei — confirmar e preencher pré-consulta →</a>
+    </div>
   </div>
 </section>
 
@@ -1118,8 +1125,34 @@
     document.querySelectorAll('.reveal, .clip').forEach(function(el){ el.classList.add('in'); });
   }
 
-  // selecionar plano -- so visual por enquanto, sem persistir/enviar nada
+  // selecionar plano -- persiste pacote+pagamento no localStorage, pra
+  // levar a escolha pro formulario de pre-consulta via link (o botao
+  // "ja agendei" abaixo do calendario) sem precisar de servidor no meio
   (function(){
+    var STORAGE_KEY = 'impilo_selecao';
+    function ler(){
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+      catch(e){ return {}; }
+    }
+    function salvar(campo, valor){
+      try {
+        var atual = ler();
+        atual[campo] = valor;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(atual));
+      } catch(e){}
+      atualizarLinkConfirmar();
+    }
+    function atualizarLinkConfirmar(){
+      var link = document.getElementById('confirmarAgendamento');
+      if (!link) return;
+      var atual = ler();
+      var params = new URLSearchParams();
+      if (atual.pacote) params.set('pacote', atual.pacote);
+      if (atual.pagamento) params.set('pagamento', atual.pagamento);
+      var qs = params.toString();
+      link.href = 'pre-consulta.html' + (qs ? ('?' + qs) : '');
+    }
+
     var btns = document.querySelectorAll('.price-select');
     btns.forEach(function(btn){
       btn.addEventListener('click', function(){
@@ -1133,10 +1166,26 @@
         if (!alreadySelected){
           card.classList.add('selected');
           btn.textContent = 'Selecionado ✓';
+          var label = card.querySelector('.price-label');
+          salvar('pacote', label ? label.textContent.trim() : '');
+        } else {
+          salvar('pacote', '');
+          salvar('pagamento', '');
         }
-        // se ja estava selecionado, o clique so desmarca (ja foi resetado acima)
       });
     });
+
+    // forma de pagamento -- delegado no document porque o combo
+    // reconstroi os radios (innerHTML) toda vez que os steppers mudam,
+    // o que destruiria um listener preso direto no elemento
+    document.addEventListener('change', function(e){
+      if (!e.target.matches || !e.target.matches('.price-detail input[type=radio]')) return;
+      var opt = e.target.closest('.pd-opt');
+      var span = opt ? opt.querySelector('span') : null;
+      salvar('pagamento', span ? span.textContent.trim() : '');
+    });
+
+    atualizarLinkConfirmar();
   })();
 
   // botao "quero ver meu desconto" -- mostra o preco riscado + o com desconto
