@@ -158,6 +158,9 @@
   .agenda-fallback a{color:var(--iris-pulse);text-decoration:underline;}
   .confirmar-box{margin-top:1.6rem;text-align:center;background:#fff;border:1.5px solid var(--ash);border-radius:20px;padding:1.4rem 1.2rem;}
   .confirmar-box p{font-size:0.9rem;color:#55536b;margin-bottom:0.9rem;}
+  .confirmar-input{display:block;width:100%;max-width:360px;margin:0 auto 0.7rem;border:1.5px solid var(--ash);border-radius:12px;padding:0.7rem 0.85rem;font-family:inherit;font-size:0.94rem;color:var(--iris);background:#fbfbfd;text-align:left;}
+  .confirmar-input:focus{outline:none;border-color:var(--iris-pulse);background:#fff;}
+  .confirmar-erro{color:#c81e3a;font-size:0.82rem;margin-bottom:0.7rem;}
   .confirmar-btn{display:inline-block;background:var(--iris-pulse);color:#fff;font-weight:700;font-size:0.95rem;border-radius:9999px;padding:0.9rem 1.6rem;text-decoration:none;box-shadow:0 10px 26px rgba(83,80,204,0.35);animation:piscaVermelho 1.6s ease-in-out infinite;}
   @keyframes piscaAzul{0%,100%{box-shadow:0 0 0 0 rgba(83,80,204,0.6);}50%{box-shadow:0 0 0 11px rgba(83,80,204,0);}}
   @keyframes piscaVerde{0%,100%{box-shadow:0 0 0 0 rgba(127,224,160,0.75);}50%{box-shadow:0 0 0 11px rgba(127,224,160,0);}}
@@ -864,7 +867,10 @@
     </div>
     <p class="agenda-fallback">A agenda não carregou? <a href="https://calendar.app.google/9LKsMbvEuJ7yjtoU8" target="_blank" rel="noopener">Abra a página de agendamento aqui</a>.</p>
     <div class="confirmar-box reveal">
-      <p>Já marcou seu horário na agenda acima?</p>
+      <p>Já marcou seu horário na agenda acima? Preencha seus dados pra confirmar:</p>
+      <input type="text" id="confNome" class="confirmar-input" placeholder="Seu nome completo" autocomplete="name">
+      <input type="tel" id="confTelefone" class="confirmar-input" placeholder="Seu WhatsApp (com DDD)" autocomplete="tel">
+      <p class="confirmar-erro" id="confErro" hidden>Preenche nome e WhatsApp pra confirmar 🙂</p>
       <a href="pre-consulta.html" id="confirmarAgendamento" class="confirmar-btn">Já agendei — confirmar e preencher pré-consulta →</a>
     </div>
   </div>
@@ -1155,6 +1161,8 @@
       var params = new URLSearchParams();
       if (atual.pacote) params.set('pacote', atual.pacote);
       if (atual.pagamento) params.set('pagamento', atual.pagamento);
+      if (atual.nome) params.set('nome', atual.nome);
+      if (atual.telefone) params.set('telefone', atual.telefone);
       var qs = params.toString();
       link.href = 'pre-consulta.html' + (qs ? ('?' + qs) : '');
     }
@@ -1190,6 +1198,42 @@
       var span = opt ? opt.querySelector('span') : null;
       salvar('pagamento', span ? span.textContent.trim() : '');
     });
+
+    // campos de nome/whatsapp -- preenche do localStorage se a pessoa ja
+    // tinha começado antes, salva a cada letra digitada, e valida antes
+    // de deixar ir pra pre-consulta
+    var campoNome = document.getElementById('confNome');
+    var campoTelefone = document.getElementById('confTelefone');
+    var atualInicial = ler();
+    if (campoNome && atualInicial.nome) campoNome.value = atualInicial.nome;
+    if (campoTelefone && atualInicial.telefone) campoTelefone.value = atualInicial.telefone;
+    if (campoNome) campoNome.addEventListener('input', function(){ salvar('nome', campoNome.value.trim()); });
+    if (campoTelefone) campoTelefone.addEventListener('input', function(){ salvar('telefone', campoTelefone.value.trim()); });
+
+    var linkConfirmar = document.getElementById('confirmarAgendamento');
+    var erroConfirmar = document.getElementById('confErro');
+    var NOTIFICAR_URL = 'https://overbite-stick-sneezing.ngrok-free.dev/agendamento-confirmado';
+    if (linkConfirmar){
+      linkConfirmar.addEventListener('click', function(e){
+        var atual = ler();
+        if (!atual.nome || !atual.telefone){
+          e.preventDefault();
+          if (erroConfirmar) erroConfirmar.hidden = false;
+          (campoNome && !atual.nome ? campoNome : campoTelefone).focus();
+          return;
+        }
+        if (erroConfirmar) erroConfirmar.hidden = true;
+        // avisa a gente na hora, sem travar a navegacao pra pre-consulta
+        // (sendBeacon sobrevive a troca de pagina, diferente de fetch normal)
+        try {
+          var blob = new Blob([JSON.stringify({
+            nome: atual.nome, telefone: atual.telefone,
+            pacote: atual.pacote || '', pagamento: atual.pagamento || ''
+          })], {type: 'application/json'});
+          navigator.sendBeacon(NOTIFICAR_URL, blob);
+        } catch(err){}
+      });
+    }
 
     atualizarLinkConfirmar();
   })();

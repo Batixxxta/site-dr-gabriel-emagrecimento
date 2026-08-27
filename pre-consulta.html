@@ -884,6 +884,23 @@
     var params = new URLSearchParams(window.location.search);
     var pacote = params.get('pacote');
     var pagamento = params.get('pagamento');
+    var nome = params.get('nome');
+    var telefone = params.get('telefone');
+
+    // pre-preenche nome/telefone que a pessoa ja tinha digitado la no
+    // site principal, pra nao ter que digitar tudo de novo (usa
+    // getElementById direto, nao a const "form" -- essa ainda nao existe
+    // aqui, so e declarada mais abaixo, na secao de envio)
+    var formEl = document.getElementById('formPreConsulta');
+    if (nome) {
+      var campoNome = formEl.querySelector('[name=nome]');
+      if (campoNome && !campoNome.value) campoNome.value = nome;
+    }
+    if (telefone) {
+      var campoTelefone = formEl.querySelector('[name=telefone]');
+      if (campoTelefone && !campoTelefone.value) campoTelefone.value = telefone;
+    }
+
     if (!pacote && !pagamento) return;
     document.getElementById('pacoteEscolhidoField').value = pacote || '';
     document.getElementById('formaPagamentoField').value = pagamento || '';
