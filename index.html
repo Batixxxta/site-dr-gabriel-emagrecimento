@@ -168,6 +168,9 @@
   .plan-tab[data-plan="medico"]{animation:piscaAzul 1.8s ease-in-out infinite;}
   .plan-tab[data-plan="combo"]{animation:piscaVerde 1.8s ease-in-out infinite;animation-delay:0.9s;}
   @media(prefers-reduced-motion:reduce){.confirmar-btn,.plan-tab[data-plan="medico"],.plan-tab[data-plan="combo"]{animation:none;}}
+  /* Trava: enquanto nao escolher pacote + forma de pagamento, o botao de
+     confirmar fica apagado e nao pisca (nao adianta convidar pro clique). */
+  .confirmar-btn.bloqueado{background:var(--ash);color:#6b6b78;box-shadow:none;animation:none;cursor:not-allowed;}
   .price-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1.6rem;}
   .price-card{background:#fff;border:2px solid var(--ash);border-radius:20px;padding:1.4rem 1.2rem;text-align:center;transition:border-color 0.2s ease, box-shadow 0.2s ease;}
   .price-label{display:block;font-size:0.8rem;font-weight:600;color:#55536b;margin-bottom:0.5rem;}
@@ -1181,6 +1184,10 @@
       if (atual.telefone) params.set('telefone', atual.telefone);
       var qs = params.toString();
       link.href = 'pre-consulta.html' + (qs ? ('?' + qs) : '');
+      // trava visual: so libera quando tiver pacote E forma de pagamento
+      var faltaPlano = !atual.pacote || !atual.pagamento;
+      link.classList.toggle('bloqueado', faltaPlano);
+      link.setAttribute('aria-disabled', faltaPlano ? 'true' : 'false');
     }
 
     var btns = document.querySelectorAll('.price-select');
@@ -1236,9 +1243,28 @@
     if (linkConfirmar){
       linkConfirmar.addEventListener('click', function(e){
         var atual = ler();
+        // 1o) trava do pacote/pagamento -- sem isso a pessoa chegava na
+        // pre-consulta sem plano nenhum e achava que tinha terminado
+        // (aconteceu de verdade com uma paciente em 08/09/2026)
+        if (!atual.pacote || !atual.pagamento){
+          e.preventDefault();
+          if (erroConfirmar){
+            erroConfirmar.textContent = !atual.pacote
+              ? 'Antes de confirmar, escolha um pacote de consultas ali em cima 👆'
+              : 'Falta escolher a forma de pagamento do pacote ali em cima 👆';
+            erroConfirmar.hidden = false;
+          }
+          var destino = document.querySelector('.price-card.selected') ||
+                        document.querySelector('.plan-tabs');
+          if (destino) destino.scrollIntoView({behavior:'smooth', block:'center'});
+          return;
+        }
         if (!atual.nome || !atual.telefone){
           e.preventDefault();
-          if (erroConfirmar) erroConfirmar.hidden = false;
+          if (erroConfirmar){
+            erroConfirmar.textContent = 'Preenche nome e WhatsApp pra confirmar 🙂';
+            erroConfirmar.hidden = false;
+          }
           (campoNome && !atual.nome ? campoNome : campoTelefone).focus();
           return;
         }
