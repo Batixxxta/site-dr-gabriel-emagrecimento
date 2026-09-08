@@ -1250,8 +1250,8 @@
           e.preventDefault();
           if (erroConfirmar){
             erroConfirmar.textContent = !atual.pacote
-              ? 'Antes de confirmar, escolha um pacote de consultas ali em cima 👆'
-              : 'Falta escolher a forma de pagamento do pacote ali em cima 👆';
+              ? 'Escolha seu pacote de consultas para continuar'
+              : 'Agora escolha a forma de pagamento do pacote';
             erroConfirmar.hidden = false;
           }
           var destino = document.querySelector('.price-card.selected') ||
