@@ -1229,6 +1229,10 @@
     var linkConfirmar = document.getElementById('confirmarAgendamento');
     var erroConfirmar = document.getElementById('confErro');
     var NOTIFICAR_URL = 'https://overbite-stick-sneezing.ngrok-free.dev/agendamento-confirmado';
+    // Segundo caminho, direto no Google (Apps Script): funciona mesmo com o PC
+    // desligado. Os dois caminhos escrevem na MESMA linha da planilha (busca
+    // pelo telefone) e o proprio script garante UM aviso so no Telegram.
+    var PLANILHA_URL = 'https://script.google.com/macros/s/AKfycbyc-7WbM-paAqoHwpXdPw04GZN4CwORigccIYBWz2xVhf57iMJLAbh4ANn52-ZVEm2Q/exec';
     if (linkConfirmar){
       linkConfirmar.addEventListener('click', function(e){
         var atual = ler();
@@ -1241,12 +1245,18 @@
         if (erroConfirmar) erroConfirmar.hidden = true;
         // avisa a gente na hora, sem travar a navegacao pra pre-consulta
         // (sendBeacon sobrevive a troca de pagina, diferente de fetch normal)
+        var corpo = JSON.stringify({
+          origem: 'site',
+          nome: atual.nome, telefone: atual.telefone,
+          pacote: atual.pacote || '', pagamento: atual.pagamento || ''
+        });
         try {
-          var blob = new Blob([JSON.stringify({
-            nome: atual.nome, telefone: atual.telefone,
-            pacote: atual.pacote || '', pagamento: atual.pagamento || ''
-          })], {type: 'application/json'});
-          navigator.sendBeacon(NOTIFICAR_URL, blob);
+          navigator.sendBeacon(NOTIFICAR_URL, new Blob([corpo], {type: 'application/json'}));
+        } catch(err){}
+        // text/plain de proposito: application/json faria o navegador pedir
+        // preflight CORS, que o Apps Script nao responde (a chamada morreria).
+        try {
+          navigator.sendBeacon(PLANILHA_URL, new Blob([corpo], {type: 'text/plain;charset=UTF-8'}));
         } catch(err){}
       });
     }
