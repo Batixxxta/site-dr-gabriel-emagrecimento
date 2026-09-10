@@ -612,8 +612,8 @@
     var colors = ['#00b1ff', '#b1a6f6', '#00ffaa', '#5350cc', '#59b4ff', '#ffffff'];
     var sandColors = ['#ffa726', '#ffb74d', '#ff9800', '#ffcc80'];
     var rot = 0, clock = 0, formFrame = 0, sandFormFrame = 0;
-    var formDuration = 90;
-    var sandFormDuration = 60;
+    var formDuration = 180; // igual ao site principal (10/09/2026)
+    var sandFormDuration = 180; // areia forma junto com o vidro, igual ao site principal
 
     function resize(){
       W = canvas.width = window.innerWidth || document.documentElement.clientWidth || 360;
@@ -677,7 +677,7 @@
       clock += speedMul;
       if (formFrame < formDuration) formFrame += speedMul;
       var formT = ease(Math.min(1, formFrame/formDuration));
-      if (formFrame >= formDuration && sandFormFrame < sandFormDuration) sandFormFrame += speedMul;
+      if (sandFormFrame < sandFormDuration) sandFormFrame += speedMul;
       var sandFormT = ease(Math.min(1, sandFormFrame/sandFormDuration));
       var maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       var scrollFrac = Math.min(1, window.scrollY / maxScroll);
@@ -718,7 +718,7 @@
         var pileTopY = H - 30 - scrollFrac*(H*0.14);
         for (var s=0;s<streamP.length;s++){
           var sp = streamP[s];
-          var loopT = ((clock*0.0028) + sp.phase) % 1;
+          var loopT = ((clock*0.001666) + sp.phase) % 1; // mesma queda do site principal (10/09/2026)
           var fy = waistY + loopT*(pileTopY - waistY);
           var fx = cx + Math.sin(clock*0.05 + sp.wobble)*1.4;
           ctx.globalAlpha = 0.75*sandFormT;

@@ -79,7 +79,7 @@
   .quando b{color:var(--mint);font-weight:700;}
 
   /* --- conteudo abaixo do arco --- */
-  .bloco{margin-top:1.6rem;background:rgba(22,22,92,0.78);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(89,180,255,0.30);border-radius:24px;padding:1.6rem;}
+  .bloco{margin-top:1.6rem;background:rgba(22,22,92,0.30);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);border:1px solid rgba(89,180,255,0.35);border-radius:24px;padding:1.6rem;text-shadow:0 1px 10px rgba(8,8,40,0.9);}
   .bloco h2{font-size:1.15rem;margin-bottom:0.7rem;}
   .bloco p{color:var(--ash);font-size:0.95rem;font-weight:500;margin-bottom:0.7rem;}
   .bloco p:last-child{margin-bottom:0;}
@@ -89,23 +89,13 @@
   .campo label{display:block;font-size:0.82rem;font-weight:600;color:var(--ash);margin-bottom:0.35rem;}
   .campo input{
     width:100%;padding:0.85rem 1rem;font-size:1rem;font-family:inherit;
-    background:var(--iris);color:var(--white);
-    border:1px solid var(--iris-border);border-radius:14px;
+    background:rgba(10,10,48,0.55);color:var(--white);
+    border:1px solid rgba(89,180,255,0.35);border-radius:14px;
   }
   .campo input:focus{outline:2px solid var(--cyan);outline-offset:1px;}
 
-  .termo{
-    background:var(--iris);border:1px solid var(--iris-border);border-radius:16px;
-    padding:1.1rem 1.2rem;margin:0.9rem 0 1.2rem;text-align:left;
-  }
-  .termo ul{list-style:none;}
-  .termo li{
-    font-size:0.93rem;color:var(--ash);font-weight:500;
-    padding-left:1.6rem;position:relative;margin-bottom:0.65rem;line-height:1.45;
-  }
-  .termo li:last-child{margin-bottom:0;}
-  .termo li::before{content:"—";position:absolute;left:0.35rem;color:var(--mint);}
-  .termo li b{color:var(--white);}
+  .bloco .termo-texto{font-size:0.98rem;line-height:1.6;color:#eef0ff;font-weight:500;margin:0.2rem 0 1.3rem;}
+  .termo-texto b{color:var(--mint);font-weight:700;}
 
   /* os dois botoes tem MESMO peso visual: e requisito de validade do
      consentimento, nao gentileza. Termo so com "aceito" e consentimento
@@ -115,7 +105,7 @@
     font-family:inherit;font-size:0.95rem;font-weight:700;
     padding:1rem 0.8rem;border-radius:16px;cursor:pointer;
     border:1.5px solid var(--iris-border);
-    background:var(--iris);color:var(--white);
+    background:rgba(10,10,48,0.45);color:var(--white);
     transition:transform .15s ease, border-color .15s ease, background .15s ease;
     line-height:1.25;
   }
@@ -165,8 +155,7 @@
   <div class="janela">
     <div class="janela-in">
       <div class="marca">Dr. Gabriel Baptista · CRM 52-1316923-RJ</div>
-      <h1 class="ola">Que bom<br>ter você <em>aqui</em>.</h1>
-      <p class="sub">Esta é a sua sala de espera. Respire — daqui a pouco a gente conversa.</p>
+      <h1 class="ola">Sala de espera</h1>
       <div class="quando" id="quando" hidden>🗓️ <span id="quandoTxt"></span></div>
     </div>
   </div>
@@ -174,13 +163,8 @@
   <!-- PASSO 1: identificar + termo -->
   <div id="passo1">
     <div class="bloco">
-      <h2>Antes de entrar, uma escolha sua</h2>
-      <p>O doutor Gabriel usa um sistema que <strong>transcreve a conversa</strong> — o que você fala e o que ele fala — para montar o seu prontuário depois, sem precisar digitar durante a consulta.</p>
-      <p>Isso é uma escolha sua, e <strong>a consulta acontece do mesmo jeito</strong> se você preferir que não.</p>
-
-      <div class="termo">
-        <ul id="termoLista"></ul>
-      </div>
+      <h2>Termo de consentimento</h2>
+      <p class="termo-texto" id="termoTexto"></p>
 
       <div class="campo">
         <label for="nome">Seu nome completo</label>
@@ -228,25 +212,16 @@
      versao a paciente leu. E o item 2 dos requisitos de validade de um
      aceite digital (clickwrap).
   ------------------------------------------------------------------ */
-  var TERMO_VERSAO = '2026-09-09.1';
+  var TERMO_VERSAO = '2026-09-10.1';   // texto resumido a pedido dele (10/09/2026)
   var TERMO = [
-    'A nossa conversa na videochamada é <b>transcrita em texto</b>, incluindo o que você fala e o que o médico fala.',
-    'Isso serve <b>só para montar o seu prontuário</b>. Não é divulgado, não é publicado e não é usado para estudo ou propaganda.',
-    'O <b>áudio é apagado</b> depois de virar texto. Fica guardado apenas o registro clínico, protegido por sigilo médico.',
-    'Você pode <b>mudar de ideia</b> a qualquer momento, inclusive durante a consulta — é só falar.',
-    'Se você <b>não autorizar</b>, a consulta acontece normalmente e nada é transcrito.'
+    'Durante a consulta, a conversa entre você e o Dr. Gabriel é <b>transcrita em texto apenas para montar o seu prontuário</b>. Nada é divulgado ou usado para outro fim, e o <b>áudio é apagado</b> assim que vira texto. Você pode <b>recusar ou mudar de ideia</b> a qualquer momento, e a consulta acontece normalmente de qualquer forma.'
   ];
 
   function texto(el){ return (el.value || '').trim(); }
   function digitos(s){ return String(s || '').replace(/\D/g, ''); }
 
   /* monta o termo na tela a partir da MESMA fonte que vai pro hash */
-  var lista = document.getElementById('termoLista');
-  TERMO.forEach(function(linha){
-    var li = document.createElement('li');
-    li.innerHTML = linha;
-    lista.appendChild(li);
-  });
+  document.getElementById('termoTexto').innerHTML = TERMO.join(' ');
 
   /* impressao digital do texto: prova que o termo nao foi alterado depois */
   function hashDoTermo(){
