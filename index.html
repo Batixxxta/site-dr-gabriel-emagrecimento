@@ -201,7 +201,7 @@
   .mp-node{position:relative;display:flex;flex-direction:column;align-items:center;
     width:100%;max-width:132px;cursor:pointer;border:0;background:none;font-family:inherit;color:var(--mpink);padding:0;}
   .mp-grid.topo .mp-node{max-width:170px;}
-  .mp-float{animation:var(--mp-anim,mpFloatA) var(--mp-dur,7s) ease-in-out infinite;animation-delay:var(--mp-delay,0s);}
+  .mp-float{animation:var(--mp-anim,mpFloatA) var(--mp-dur,14s) ease-in-out infinite;animation-delay:var(--mp-delay,0s);}
   .mp-root:hover .mp-float,.mp-node:hover .mp-float,.mp-node.ativo .mp-float{animation-play-state:paused;}
   @keyframes mpFloatA{0%{transform:translate(0,0)}25%{transform:translate(7px,-9px)}50%{transform:translate(-3px,5px)}75%{transform:translate(-8px,-4px)}100%{transform:translate(0,0)}}
   @keyframes mpFloatB{0%{transform:translate(0,0)}30%{transform:translate(-8px,-6px)}55%{transform:translate(6px,7px)}80%{transform:translate(4px,-8px)}100%{transform:translate(0,0)}}
@@ -716,7 +716,7 @@
           <div class="mp-titulo">Mapa de Saúde</div>
 
           <button class="mp-root" id="mpRoot" type="button" aria-expanded="false">
-            <span class="mp-float" style="--mp-anim:mpFloatA;--mp-dur:8s;">
+            <span class="mp-float" style="--mp-anim:mpFloatA;--mp-dur:16s;">
               <span class="mp-avatar">
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2c-4.4 0-8 2.5-8 5.5V22h16v-2.5c0-3-3.6-5.5-8-5.5z"/></svg>
               </span>
@@ -1860,7 +1860,7 @@
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'mp-node';
-      b.innerHTML = '<span class="mp-float" style="--mp-anim:'+ANIMS[i%3]+';--mp-dur:'+(6.5+i*0.7)+'s;--mp-delay:'+(i*0.4)+'s;">'+
+      b.innerHTML = '<span class="mp-float" style="--mp-anim:'+ANIMS[i%3]+';--mp-dur:'+(13+i*1.4)+'s;--mp-delay:'+(i*0.4)+'s;">'+
                       '<span class="mp-bolha" style="background:'+p.cor+'">'+svg(p.ic)+'</span></span>'+
                     '<span class="mp-rot">'+esc(p.rot)+'</span><span class="mp-cap">'+esc(p.cap)+'</span>';
       b.addEventListener('click', function(){ abreProblema(grid, b, p); });
@@ -1966,7 +1966,7 @@
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'mp-node';
-      b.innerHTML = '<span class="mp-float" style="--mp-anim:'+ANIMS[i%3]+';--mp-dur:'+(7+i*0.8)+'s;--mp-delay:'+(i*0.5)+'s;">'+
+      b.innerHTML = '<span class="mp-float" style="--mp-anim:'+ANIMS[i%3]+';--mp-dur:'+(14+i*1.6)+'s;--mp-delay:'+(i*0.5)+'s;">'+
                       '<span class="mp-bolha" style="background:'+a.cor+'">'+svg(a.ic)+'</span></span>'+
                     '<span class="mp-rot">'+a.rot+'</span><span class="mp-cap">'+a.cap+'</span>';
       b.addEventListener('click', function(){
