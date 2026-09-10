@@ -212,9 +212,13 @@
      versao a paciente leu. E o item 2 dos requisitos de validade de um
      aceite digital (clickwrap).
   ------------------------------------------------------------------ */
-  var TERMO_VERSAO = '2026-09-10.1';   // texto resumido a pedido dele (10/09/2026)
+  // 2026-09-10.3: informa o apoio de inteligência artificial (Copiloto de
+  // Consulta). A frase sobre processamento em nuvem fora do Brasil foi tirada
+  // por decisão expressa dele ("sei das consequências, pode tirar", 10/09/2026).
+  // A 2026-09-10.2 nunca foi publicada.
+  var TERMO_VERSAO = '2026-09-10.3';
   var TERMO = [
-    'Durante a consulta, a conversa entre você e o Dr. Gabriel é <b>transcrita em texto apenas para montar o seu prontuário</b>. Nada é divulgado ou usado para outro fim, e o <b>áudio é apagado</b> assim que vira texto. Você pode <b>recusar ou mudar de ideia</b> a qualquer momento, e a consulta acontece normalmente de qualquer forma.'
+    'Durante a consulta, a conversa entre você e o Dr. Gabriel é <b>transcrita em texto</b> e organizada, junto com a sua pré-consulta, <b>com apoio de inteligência artificial, apenas para apoiar o seu atendimento e montar o seu prontuário</b>. Nenhum áudio é guardado. Toda decisão sobre a sua saúde é do Dr. Gabriel. Você pode <b>recusar ou mudar de ideia</b> a qualquer momento, e a consulta acontece normalmente de qualquer forma.'
   ];
 
   function texto(el){ return (el.value || '').trim(); }
