@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sala de espera — Dr. Gabriel Baptista</title>
+<meta name="description" content="Sua consulta online com o Dr. Gabriel Baptista.">
+<meta name="robots" content="noindex, nofollow">
+<style>
+  :root{
+    --iris:#16165c;
+    --iris-shadow:#232269;
+    --iris-glow:#403cd5;
+    --iris-border:#4846c6;
+    --lilac:#b1a6f6;
+    --cyan:#00b1ff;
+    --cyan-soft:#59b4ff;
+    --mint:#00ffaa;
+    --white:#ffffff;
+    --ash:#d8d8e3;
+    --fog:#9494a9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--iris);
+    color:var(--white);
+    font-family:Manrope,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+
+  /* --- o arco de luz: "uma janela para pousar antes da conversa" --- */
+  .arco{
+    position:relative;
+    max-width:620px;
+    margin:0 auto;
+    padding:0 1.2rem 3.5rem;
+  }
+  .janela{
+    position:relative;
+    margin-top:2.2rem;
+    border-radius:200px 200px 28px 28px;
+    background:
+      radial-gradient(ellipse 320px 260px at 50% 12%, rgba(0,255,170,0.16), transparent 70%),
+      radial-gradient(ellipse 420px 320px at 50% 0%, rgba(0,177,255,0.20), transparent 72%),
+      var(--iris-shadow);
+    border:1px solid var(--iris-border);
+    overflow:hidden;
+    box-shadow:0 24px 70px rgba(0,0,0,0.35);
+  }
+  #graos{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+  .janela-in{position:relative;z-index:1;padding:3.6rem 1.5rem 2.4rem;text-align:center;}
+
+  /* o arco e curvo em cima: texto largo demais some nas bordas.
+     Conferido no navegador em 390px. */
+  .marca{font-size:0.63rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--cyan-soft);
+    margin-bottom:1.3rem;padding:0 0.4rem;line-height:1.5;}
+  .ola{font-size:clamp(1.6rem,6vw,2.1rem);font-weight:700;line-height:1.18;margin-bottom:0.8rem;}
+  .ola em{font-style:normal;color:var(--mint);}
+  .sub{color:var(--ash);font-size:1rem;max-width:34ch;margin:0 auto;font-weight:500;}
+
+  .quando{
+    display:inline-flex;align-items:center;gap:0.6rem;
+    margin-top:1.6rem;padding:0.7rem 1.2rem;
+    border:1px solid var(--iris-border);border-radius:9999px;
+    background:rgba(0,0,0,0.18);
+    font-size:0.95rem;font-weight:600;
+  }
+  .quando b{color:var(--mint);font-weight:700;}
+
+  /* --- conteudo abaixo do arco --- */
+  .bloco{margin-top:1.6rem;background:var(--iris-shadow);border:1px solid var(--iris-border);border-radius:24px;padding:1.6rem;}
+  .bloco h2{font-size:1.15rem;margin-bottom:0.7rem;}
+  .bloco p{color:var(--ash);font-size:0.95rem;font-weight:500;margin-bottom:0.7rem;}
+  .bloco p:last-child{margin-bottom:0;}
+  .bloco strong{color:var(--white);}
+
+  .campo{margin-bottom:0.9rem;text-align:left;}
+  .campo label{display:block;font-size:0.82rem;font-weight:600;color:var(--ash);margin-bottom:0.35rem;}
+  .campo input{
+    width:100%;padding:0.85rem 1rem;font-size:1rem;font-family:inherit;
+    background:var(--iris);color:var(--white);
+    border:1px solid var(--iris-border);border-radius:14px;
+  }
+  .campo input:focus{outline:2px solid var(--cyan);outline-offset:1px;}
+
+  .termo{
+    background:var(--iris);border:1px solid var(--iris-border);border-radius:16px;
+    padding:1.1rem 1.2rem;margin:0.9rem 0 1.2rem;text-align:left;
+  }
+  .termo ul{list-style:none;}
+  .termo li{
+    font-size:0.93rem;color:var(--ash);font-weight:500;
+    padding-left:1.6rem;position:relative;margin-bottom:0.65rem;line-height:1.45;
+  }
+  .termo li:last-child{margin-bottom:0;}
+  .termo li::before{content:"—";position:absolute;left:0.35rem;color:var(--mint);}
+  .termo li b{color:var(--white);}
+
+  /* os dois botoes tem MESMO peso visual: e requisito de validade do
+     consentimento, nao gentileza. Termo so com "aceito" e consentimento
+     forcado e cai numa contestacao. */
+  .escolha{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;}
+  .escolha button{
+    font-family:inherit;font-size:0.95rem;font-weight:700;
+    padding:1rem 0.8rem;border-radius:16px;cursor:pointer;
+    border:1.5px solid var(--iris-border);
+    background:var(--iris);color:var(--white);
+    transition:transform .15s ease, border-color .15s ease, background .15s ease;
+    line-height:1.25;
+  }
+  .escolha button:hover{transform:translateY(-2px);}
+  .escolha .sim{border-color:var(--mint);}
+  .escolha .sim:hover{background:rgba(0,255,170,0.12);}
+  .escolha .nao{border-color:var(--cyan-soft);}
+  .escolha .nao:hover{background:rgba(89,180,255,0.12);}
+  .escolha button:disabled{opacity:0.45;cursor:wait;transform:none;}
+
+  .aviso{font-size:0.82rem;color:var(--fog);margin-top:0.9rem;text-align:center;}
+
+  /* --- tela final --- */
+  .entrar{display:block;text-align:center;text-decoration:none;
+    background:var(--iris-glow);color:var(--white);font-weight:700;font-size:1.05rem;
+    padding:1.15rem;border-radius:18px;margin-top:0.4rem;
+    box-shadow:0 0 0 0 rgba(64,60,213,0.6);animation:pulso 2.6s ease-out infinite;}
+  @keyframes pulso{0%{box-shadow:0 0 0 0 rgba(64,60,213,0.55);}70%{box-shadow:0 0 0 18px rgba(64,60,213,0);}100%{box-shadow:0 0 0 0 rgba(64,60,213,0);}}
+  .selo-ok{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.85rem;font-weight:600;
+    color:var(--mint);border:1px solid var(--mint);border-radius:9999px;padding:0.4rem 0.9rem;margin-bottom:1rem;}
+  .selo-ok.neutro{color:var(--cyan-soft);border-color:var(--cyan-soft);}
+
+  .rodape{text-align:center;color:var(--fog);font-size:0.78rem;margin-top:2rem;line-height:1.6;}
+  .rodape a{color:var(--cyan-soft);}
+
+  [hidden]{display:none !important;}
+
+  @media(max-width:420px){
+    .escolha{grid-template-columns:1fr;}
+    .janela-in{padding:2.6rem 1.1rem 1.8rem;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .entrar{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="arco">
+
+  <div class="janela">
+    <canvas id="graos" aria-hidden="true"></canvas>
+    <div class="janela-in">
+      <div class="marca">Dr. Gabriel Baptista · CRM 52-1316923-RJ</div>
+      <h1 class="ola">Que bom<br>ter você <em>aqui</em>.</h1>
+      <p class="sub">Esta é a sua sala de espera. Respire — daqui a pouco a gente conversa.</p>
+      <div class="quando" id="quando" hidden>🗓️ <span id="quandoTxt"></span></div>
+    </div>
+  </div>
+
+  <!-- PASSO 1: identificar + termo -->
+  <div id="passo1">
+    <div class="bloco">
+      <h2>Antes de entrar, uma escolha sua</h2>
+      <p>O doutor Gabriel usa um sistema que <strong>transcreve a conversa</strong> — o que você fala e o que ele fala — para montar o seu prontuário depois, sem precisar digitar durante a consulta.</p>
+      <p>Isso é uma escolha sua, e <strong>a consulta acontece do mesmo jeito</strong> se você preferir que não.</p>
+
+      <div class="termo">
+        <ul id="termoLista"></ul>
+      </div>
+
+      <div class="campo">
+        <label for="nome">Seu nome completo</label>
+        <input type="text" id="nome" autocomplete="name" placeholder="Como está no seu documento">
+      </div>
+      <div class="campo">
+        <label for="tel">Seu telefone com DDD</label>
+        <input type="tel" id="tel" autocomplete="tel" inputmode="numeric" placeholder="21 90000-0000">
+      </div>
+
+      <div class="escolha">
+        <button type="button" class="sim" id="btnSim">Autorizo a<br>transcrição</button>
+        <button type="button" class="nao" id="btnNao">Não autorizo<br>a transcrição</button>
+      </div>
+      <p class="aviso" id="aviso">As duas opções liberam sua consulta.</p>
+    </div>
+  </div>
+
+  <!-- PASSO 2: link liberado -->
+  <div id="passo2" hidden>
+    <div class="bloco" style="text-align:center;">
+      <div class="selo-ok" id="selo"></div>
+      <h2 id="tituloFinal">Tudo certo!</h2>
+      <p id="textoFinal"></p>
+      <a class="entrar" id="linkMeet" href="#" target="_blank" rel="noopener">Entrar na consulta →</a>
+      <p class="aviso">Se o botão não abrir, chame o doutor Gabriel no WhatsApp que ele te manda o link.</p>
+    </div>
+  </div>
+
+  <p class="rodape">
+    Suas informações são tratadas com sigilo médico.<br>
+    Dúvidas? Fale com o doutor Gabriel pelo WhatsApp.
+  </p>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var PLANILHA_URL = 'https://script.google.com/macros/s/AKfycbyc-7WbM-paAqoHwpXdPw04GZN4CwORigccIYBWz2xVhf57iMJLAbh4ANn52-ZVEm2Q/exec';
+
+  /* ------------------------------------------------------------------
+     O TERMO. A versao e o texto ficam AQUI, juntos: se um dia o texto
+     mudar, a versao TEM que mudar junto -- e o hash guardado prova qual
+     versao a paciente leu. E o item 2 dos requisitos de validade de um
+     aceite digital (clickwrap).
+  ------------------------------------------------------------------ */
+  var TERMO_VERSAO = '2026-09-09.1';
+  var TERMO = [
+    'A nossa conversa na videochamada é <b>transcrita em texto</b>, incluindo o que você fala e o que o médico fala.',
+    'Isso serve <b>só para montar o seu prontuário</b>. Não é divulgado, não é publicado e não é usado para estudo ou propaganda.',
+    'O <b>áudio é apagado</b> depois de virar texto. Fica guardado apenas o registro clínico, protegido por sigilo médico.',
+    'Você pode <b>mudar de ideia</b> a qualquer momento, inclusive durante a consulta — é só falar.',
+    'Se você <b>não autorizar</b>, a consulta acontece normalmente e nada é transcrito.'
+  ];
+
+  function texto(el){ return (el.value || '').trim(); }
+  function digitos(s){ return String(s || '').replace(/\D/g, ''); }
+
+  /* monta o termo na tela a partir da MESMA fonte que vai pro hash */
+  var lista = document.getElementById('termoLista');
+  TERMO.forEach(function(linha){
+    var li = document.createElement('li');
+    li.innerHTML = linha;
+    lista.appendChild(li);
+  });
+
+  /* impressao digital do texto: prova que o termo nao foi alterado depois */
+  function hashDoTermo(){
+    var puro = TERMO_VERSAO + '\n' + TERMO.join('\n').replace(/<\/?b>/g, '');
+    if (!window.crypto || !window.crypto.subtle) return Promise.resolve('sem-suporte');
+    return window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(puro))
+      .then(function(buf){
+        return Array.prototype.map.call(new Uint8Array(buf), function(b){
+          return ('0' + b.toString(16)).slice(-2);
+        }).join('').slice(0, 32);
+      })
+      .catch(function(){ return 'falhou'; });
+  }
+
+  /* ---- dados que vieram no link (ele manda personalizado por WhatsApp) ---- */
+  var p = new URLSearchParams(location.search);
+  var meetParam = p.get('meet') || '';
+  var quandoParam = p.get('quando') || '';
+
+  if (p.get('nome')) document.getElementById('nome').value = p.get('nome');
+  if (p.get('tel'))  document.getElementById('tel').value  = p.get('tel');
+  if (quandoParam){
+    document.getElementById('quandoTxt').textContent = quandoParam;
+    document.getElementById('quando').hidden = false;
+  }
+
+  function urlDoMeet(){
+    if (!meetParam) return '';
+    if (/^https?:\/\//i.test(meetParam)) return meetParam;
+    return 'https://meet.google.com/' + meetParam.replace(/^\/+/, '');
+  }
+
+  /* ---- IP: melhor esforço. Se falhar, registra honestamente que faltou ---- */
+  function pegarIP(){
+    if (!window.fetch) return Promise.resolve('nao capturado');
+    var corta = new Promise(function(r){ setTimeout(function(){ r('nao capturado'); }, 2500); });
+    var busca = fetch('https://api.ipify.org?format=json')
+      .then(function(r){ return r.json(); })
+      .then(function(d){ return d.ip || 'nao capturado'; })
+      .catch(function(){ return 'nao capturado'; });
+    return Promise.race([busca, corta]);
+  }
+
+  /* ---- grava na Planilha Master, pelo Apps Script que ja existe ----
+     Uso 'adicionar_nota' de proposito: acrescenta na coluna de observacoes
+     sem sobrescrever nada da paciente. E o script publicado ja aceita, entao
+     nao precisa republicar nada. */
+  function registrar(autorizou, nome, tel){
+    return Promise.all([hashDoTermo(), pegarIP()]).then(function(r){
+      var hash = r[0], ip = r[1];
+      var agora = new Date();
+      var obs = 'CONSENTIMENTO DE TRANSCRICAO: ' + (autorizou ? 'AUTORIZOU' : 'NAO AUTORIZOU') +
+                ' | quem: ' + nome + ' (' + tel + ')' +
+                ' | quando: ' + agora.toLocaleString('pt-BR') +
+                ' | termo v' + TERMO_VERSAO + ' hash ' + hash +
+                ' | ip: ' + ip +
+                ' | dispositivo: ' + navigator.userAgent;
+
+      var corpo = JSON.stringify({
+        acao: 'adicionar_nota',
+        telefone: tel,
+        nome: nome,
+        observacoes: obs
+      });
+
+      // sendBeacon com text/plain: application/json dispara preflight CORS
+      // que o Apps Script nao responde. Aprendido na marra em 08/09/2026.
+      try {
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(PLANILHA_URL, new Blob([corpo], {type: 'text/plain;charset=UTF-8'}));
+          return true;
+        }
+      } catch(e){}
+      try {
+        return fetch(PLANILHA_URL, {
+          method: 'POST', mode: 'no-cors',
+          headers: {'Content-Type': 'text/plain;charset=UTF-8'},
+          body: corpo
+        }).then(function(){ return true; }).catch(function(){ return false; });
+      } catch(e){ return false; }
+    });
+  }
+
+  /* ---- o clique ---- */
+  var btnSim = document.getElementById('btnSim');
+  var btnNao = document.getElementById('btnNao');
+  var aviso  = document.getElementById('aviso');
+
+  function escolher(autorizou){
+    var nome = texto(document.getElementById('nome'));
+    var tel  = digitos(texto(document.getElementById('tel')));
+
+    if (nome.length < 3){
+      aviso.textContent = 'Escreva seu nome completo, por favor.';
+      aviso.style.color = '#ffb08a';
+      document.getElementById('nome').focus();
+      return;
+    }
+    if (tel.length < 10){
+      aviso.textContent = 'Escreva seu telefone com DDD, por favor.';
+      aviso.style.color = '#ffb08a';
+      document.getElementById('tel').focus();
+      return;
+    }
+
+    btnSim.disabled = true;
+    btnNao.disabled = true;
+    aviso.style.color = '';
+    aviso.textContent = 'Um instante...';
+
+    registrar(autorizou, nome, tel).then(function(){
+      mostrarFinal(autorizou, nome);
+    }).catch(function(){
+      // registrar falhou, mas a paciente NAO pode ficar de fora da consulta
+      // que ela pagou. Libera assim mesmo; o doutor Gabriel confirma na hora.
+      mostrarFinal(autorizou, nome);
+    });
+  }
+
+  function mostrarFinal(autorizou, nome){
+    var selo = document.getElementById('selo');
+    var titulo = document.getElementById('tituloFinal');
+    var txt = document.getElementById('textoFinal');
+    var link = document.getElementById('linkMeet');
+
+    var primeiro = nome.split(/\s+/)[0];
+
+    if (autorizou){
+      selo.textContent = '✅ Transcrição autorizada';
+      selo.className = 'selo-ok';
+      txt.innerHTML = 'Obrigado, ' + primeiro + '. Sua escolha ficou registrada e o áudio será apagado depois de virar texto.';
+    } else {
+      selo.textContent = '🔒 Consulta sem transcrição';
+      selo.className = 'selo-ok neutro';
+      txt.innerHTML = 'Sem problema nenhum, ' + primeiro + '. Sua consulta acontece normalmente e nada será transcrito.';
+    }
+    titulo.textContent = 'Pronto, ' + primeiro + '!';
+
+    var u = urlDoMeet();
+    if (u){
+      link.href = u;
+    } else {
+      link.textContent = 'O doutor Gabriel vai te mandar o link';
+      link.removeAttribute('href');
+      link.style.animation = 'none';
+      link.style.background = 'var(--iris-shadow)';
+      link.style.border = '1px solid var(--iris-border)';
+    }
+
+    document.getElementById('passo1').hidden = true;
+    document.getElementById('passo2').hidden = false;
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  btnSim.addEventListener('click', function(){ escolher(true); });
+  btnNao.addEventListener('click', function(){ escolher(false); });
+
+  /* ------------------------------------------------------------------
+     OS GRAOS (ideia da Ana Bot, 09/09/2026): "a areia da home ganha
+     destino" -- alguns graos descem e se ACOMODAM na base do arco,
+     formando um jardim abstrato. Movimento curto e depois repouso: sem
+     loop, pra nao competir com a paciente lendo o termo.
+  ------------------------------------------------------------------ */
+  (function(){
+    var canvas = document.getElementById('graos');
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext('2d');
+    var caixa = canvas.parentElement;
+    var parado = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    var W, H, graos = [], quadro = 0, DURACAO = 190;
+    var cores = ['#00ffaa', '#59b4ff', '#00b1ff', '#b1a6f6'];
+
+    function medir(){
+      W = canvas.width  = caixa.clientWidth  || 320;
+      H = canvas.height = caixa.clientHeight || 300;
+    }
+
+    function semear(){
+      medir();
+      graos = [];
+      var n = Math.max(14, Math.min(30, Math.round(W / 22)));
+      for (var i = 0; i < n; i++){
+        var x = W * (0.12 + Math.random() * 0.76);
+        graos.push({
+          x: x,
+          y: -20 - Math.random() * H * 0.9,
+          vy: 0.5 + Math.random() * 0.9,
+          r: 1.2 + Math.random() * 1.8,
+          c: cores[i % cores.length],
+          a: 0.35 + Math.random() * 0.45,
+          // onde ele repousa: uma curva suave, como areia acomodada
+          chao: H - 14 - Math.sin((x / W) * Math.PI) * 16 - Math.random() * 5,
+          quieto: false
+        });
+      }
+    }
+
+    function desenhar(){
+      ctx.clearRect(0, 0, W, H);
+      var todosQuietos = true;
+      for (var i = 0; i < graos.length; i++){
+        var g = graos[i];
+        if (!g.quieto){
+          g.y += g.vy;
+          g.vy += 0.012;
+          if (g.y >= g.chao){ g.y = g.chao; g.quieto = true; }
+          else todosQuietos = false;
+        }
+        ctx.globalAlpha = g.a;
+        ctx.fillStyle = g.c;
+        ctx.beginPath();
+        ctx.arc(g.x, g.y, g.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      quadro++;
+      // para de animar quando tudo pousou: nada de loop infinito atras do texto
+      if (!todosQuietos && quadro < DURACAO) requestAnimationFrame(desenhar);
+    }
+
+    function pousados(){
+      medir();
+      semear();
+      for (var i = 0; i < graos.length; i++){ graos[i].y = graos[i].chao; graos[i].quieto = true; }
+      desenhar();
+    }
+
+    window.addEventListener('resize', function(){
+      if (parado) pousados(); else { medir(); }
+    });
+
+    if (parado) pousados();
+    else { semear(); requestAnimationFrame(desenhar); }
+  })();
+})();
+</script>
+</body>
+</html>
