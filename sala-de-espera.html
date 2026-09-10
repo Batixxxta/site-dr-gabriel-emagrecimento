@@ -32,6 +32,15 @@
     overflow-x:hidden;
   }
 
+  /* --- fundo em video (10/09/2026): esferas de vidro boiando na agua, loop de
+     8,5s gerado no Seedance 1.5 Pro e desacelerado 50%, aprovado por ele.
+     Substitui os graos animados. O veu escuro por cima garante leitura do
+     termo; sem ele o texto some sobre os reflexos da agua. --- */
+  .fundo-video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;
+    background:#0d0d3a url('img/sala/esferas-poster.jpg') center/cover no-repeat;}
+  .fundo-veu{position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:linear-gradient(180deg, rgba(10,10,48,0.35) 0%, rgba(10,10,48,0.55) 45%, rgba(10,10,48,0.80) 100%);}
+
   /* --- o arco de luz: "uma janela para pousar antes da conversa" --- */
   .arco{
     position:relative;
@@ -43,15 +52,13 @@
     position:relative;
     margin-top:2.2rem;
     border-radius:200px 200px 28px 28px;
-    background:
-      radial-gradient(ellipse 320px 260px at 50% 12%, rgba(0,255,170,0.16), transparent 70%),
-      radial-gradient(ellipse 420px 320px at 50% 0%, rgba(0,177,255,0.20), transparent 72%),
-      var(--iris-shadow);
-    border:1px solid var(--iris-border);
+    background:rgba(22,22,92,0.22);
+    -webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);
+    text-shadow:0 2px 14px rgba(8,8,40,0.85);
+    border:1px solid rgba(89,180,255,0.35);
     overflow:hidden;
     box-shadow:0 24px 70px rgba(0,0,0,0.35);
   }
-  #graos{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
   .janela-in{position:relative;z-index:1;padding:3.6rem 1.5rem 2.4rem;text-align:center;}
 
   /* o arco e curvo em cima: texto largo demais some nas bordas.
@@ -72,7 +79,7 @@
   .quando b{color:var(--mint);font-weight:700;}
 
   /* --- conteudo abaixo do arco --- */
-  .bloco{margin-top:1.6rem;background:var(--iris-shadow);border:1px solid var(--iris-border);border-radius:24px;padding:1.6rem;}
+  .bloco{margin-top:1.6rem;background:rgba(22,22,92,0.78);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(89,180,255,0.30);border-radius:24px;padding:1.6rem;}
   .bloco h2{font-size:1.15rem;margin-bottom:0.7rem;}
   .bloco p{color:var(--ash);font-size:0.95rem;font-weight:500;margin-bottom:0.7rem;}
   .bloco p:last-child{margin-bottom:0;}
@@ -147,10 +154,15 @@
 </head>
 <body>
 
+<video class="fundo-video" id="fundoVideo" autoplay muted loop playsinline preload="auto"
+       poster="img/sala/esferas-poster.jpg" aria-hidden="true" tabindex="-1">
+  <source src="img/sala/esferas-loop.mp4" type="video/mp4">
+</video>
+<div class="fundo-veu" aria-hidden="true"></div>
+
 <div class="arco">
 
   <div class="janela">
-    <canvas id="graos" aria-hidden="true"></canvas>
     <div class="janela-in">
       <div class="marca">Dr. Gabriel Baptista · CRM 52-1316923-RJ</div>
       <h1 class="ola">Que bom<br>ter você <em>aqui</em>.</h1>
@@ -393,82 +405,22 @@
   btnNao.addEventListener('click', function(){ escolher(false); });
 
   /* ------------------------------------------------------------------
-     OS GRAOS (ideia da Ana Bot, 09/09/2026): "a areia da home ganha
-     destino" -- alguns graos descem e se ACOMODAM na base do arco,
-     formando um jardim abstrato. Movimento curto e depois repouso: sem
-     loop, pra nao competir com a paciente lendo o termo.
+     VIDEO DE FUNDO. Quem pediu "reduzir movimento" no celular fica com a
+     imagem parada (poster). Se o navegador bloquear o autoplay (ex.: modo
+     de economia de bateria do iPhone), o poster continua ali e nada quebra.
   ------------------------------------------------------------------ */
   (function(){
-    var canvas = document.getElementById('graos');
-    if (!canvas || !canvas.getContext) return;
-    var ctx = canvas.getContext('2d');
-    var caixa = canvas.parentElement;
-    var parado = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    var W, H, graos = [], quadro = 0, DURACAO = 190;
-    var cores = ['#00ffaa', '#59b4ff', '#00b1ff', '#b1a6f6'];
-
-    function medir(){
-      W = canvas.width  = caixa.clientWidth  || 320;
-      H = canvas.height = caixa.clientHeight || 300;
+    var v = document.getElementById('fundoVideo');
+    if (!v) return;
+    var calmo = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (calmo){
+      v.removeAttribute('autoplay');
+      try { v.pause(); } catch(e){}
+      return;
     }
-
-    function semear(){
-      medir();
-      graos = [];
-      var n = Math.max(14, Math.min(30, Math.round(W / 22)));
-      for (var i = 0; i < n; i++){
-        var x = W * (0.12 + Math.random() * 0.76);
-        graos.push({
-          x: x,
-          y: -20 - Math.random() * H * 0.9,
-          vy: 0.5 + Math.random() * 0.9,
-          r: 1.2 + Math.random() * 1.8,
-          c: cores[i % cores.length],
-          a: 0.35 + Math.random() * 0.45,
-          // onde ele repousa: uma curva suave, como areia acomodada
-          chao: H - 14 - Math.sin((x / W) * Math.PI) * 16 - Math.random() * 5,
-          quieto: false
-        });
-      }
-    }
-
-    function desenhar(){
-      ctx.clearRect(0, 0, W, H);
-      var todosQuietos = true;
-      for (var i = 0; i < graos.length; i++){
-        var g = graos[i];
-        if (!g.quieto){
-          g.y += g.vy;
-          g.vy += 0.012;
-          if (g.y >= g.chao){ g.y = g.chao; g.quieto = true; }
-          else todosQuietos = false;
-        }
-        ctx.globalAlpha = g.a;
-        ctx.fillStyle = g.c;
-        ctx.beginPath();
-        ctx.arc(g.x, g.y, g.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-      quadro++;
-      // para de animar quando tudo pousou: nada de loop infinito atras do texto
-      if (!todosQuietos && quadro < DURACAO) requestAnimationFrame(desenhar);
-    }
-
-    function pousados(){
-      medir();
-      semear();
-      for (var i = 0; i < graos.length; i++){ graos[i].y = graos[i].chao; graos[i].quieto = true; }
-      desenhar();
-    }
-
-    window.addEventListener('resize', function(){
-      if (parado) pousados(); else { medir(); }
-    });
-
-    if (parado) pousados();
-    else { semear(); requestAnimationFrame(desenhar); }
+    v.muted = true;
+    var tocar = v.play && v.play();
+    if (tocar && tocar.catch) tocar.catch(function(){});
   })();
 })();
 </script>
