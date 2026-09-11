@@ -966,6 +966,89 @@
   const msgErro = document.getElementById('msgErro');
   const btn = document.getElementById('btnEnviar');
 
+  // ---- envio pelo Google (Apps Script da planilha), v3.1 de 11/09/2026 ----
+  // Caminho principal: funciona com o PC do consultorio desligado. O servidor
+  // do PC (ENDPOINT) continua como reserva se o Google falhar de vez.
+  // O Google as vezes demora ou perde a resposta (teste real de 11/09): cada
+  // passo e repetido sozinho, e o identificador do envio e criado AQUI, entao
+  // repetir nao duplica pasta, arquivo nem aviso.
+  const PLANILHA_URL = 'https://script.google.com/macros/s/AKfycbyc-7WbM-paAqoHwpXdPw04GZN4CwORigccIYBWz2xVhf57iMJLAbh4ANn52-ZVEm2Q/exec';
+  function novoEnvio(){
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    const b = new Uint8Array(16); crypto.getRandomValues(b);
+    const h = Array.from(b, x => x.toString(16).padStart(2, '0')).join('');
+    return h.slice(0,8) + '-' + h.slice(8,12) + '-' + h.slice(12,16) + '-' + h.slice(16,20) + '-' + h.slice(20);
+  }
+  const esperarMs = ms => new Promise(r => setTimeout(r, ms));
+  async function chamarGoogle(corpo){
+    let ultimoErro = null;
+    for (let tentativa = 1; tentativa <= 5; tentativa++){
+      const controle = new AbortController();
+      const limite = setTimeout(() => controle.abort(), 90000);
+      try{
+        // text/plain de proposito: evita preflight CORS e a resposta volta legivel
+        const resp = await fetch(PLANILHA_URL, {method:'POST', headers:{'Content-Type':'text/plain;charset=UTF-8'}, body: JSON.stringify(corpo), signal: controle.signal});
+        const texto = await resp.text();
+        let j = null;
+        try { j = JSON.parse(texto); } catch (e) { j = null; }
+        if (!j) throw new Error('resposta perdida (' + resp.status + ')'); // repete
+        if (j.ok) return j;
+        const err = new Error(j.erro || 'erro no Google');
+        err.recusado = !!j.recusado;
+        err.definitivo = !/ocupado/.test(j.erro || '');
+        throw err;
+      }catch(err){
+        if (err.recusado || err.definitivo) throw err;
+        ultimoErro = err;
+        if (tentativa < 5) await esperarMs(3000 * tentativa);
+      }finally{
+        clearTimeout(limite);
+      }
+    }
+    throw ultimoErro || new Error('Google sem resposta');
+  }
+  function respostasDoFormulario(f){
+    const obj = {};
+    for (const [k, v] of new FormData(f).entries()){
+      if (v instanceof File) continue;
+      if (Object.prototype.hasOwnProperty.call(obj, k)){
+        if (!Array.isArray(obj[k])) obj[k] = [obj[k]];
+        obj[k].push(v);
+      } else obj[k] = v;
+    }
+    return obj;
+  }
+  function lerBase64(arquivo){
+    return new Promise((ok, falha)=>{
+      const leitor = new FileReader();
+      leitor.onload = ()=> ok(String(leitor.result).split(',')[1] || '');
+      leitor.onerror = ()=> falha(new Error('não consegui ler o arquivo ' + arquivo.name));
+      leitor.readAsDataURL(arquivo);
+    });
+  }
+  async function enviarPeloGoogle(f){
+    const envio = novoEnvio();
+    btn.textContent = 'Enviando suas respostas... (pode levar até 1 minuto)';
+    await chamarGoogle({acao:'preconsulta_iniciar', envio, respostas: respostasDoFormulario(f)});
+    const lista = [];
+    const foto = document.getElementById('fotoPaciente').files[0];
+    if (foto) lista.push(['fotoPaciente', foto]);
+    [...document.getElementById('documentos').files].forEach(a => lista.push(['documentos', a]));
+    for (let i = 0; i < lista.length; i++){
+      const [campo, arquivo] = lista[i];
+      btn.textContent = 'Enviando arquivo ' + (i + 1) + ' de ' + lista.length + '... (pode demorar um pouco)';
+      const base64 = await lerBase64(arquivo);
+      try{
+        await chamarGoogle({acao:'preconsulta_arquivo', envio, campo, nome: arquivo.name, tipo: arquivo.type, base64});
+      }catch(err){
+        if (!err.recusado) throw err; // arquivo recusado segue; falha de verdade vai pra reserva
+      }
+    }
+    btn.textContent = 'Finalizando...';
+    const fim = await chamarGoogle({acao:'preconsulta_concluir', envio});
+    return fim.recusados || [];
+  }
+
   form.addEventListener('submit', async (e)=>{
     e.preventDefault();
     msgErro.hidden = true;
@@ -973,21 +1056,36 @@
     btn.disabled = true;
     btn.textContent = 'Enviando...';
     try{
-      const fd = new FormData(form);
-      const resp = await fetch(ENDPOINT, {
-        method:'POST',
-        body: fd,
-        headers: { 'ngrok-skip-browser-warning': '1' }
-      });
-      if(!resp.ok) throw new Error('status ' + resp.status);
-      const data = await resp.json();
-      if(!data.ok) throw new Error(data.erro || 'erro desconhecido');
+      let recusados = [];
+      try{
+        recusados = await enviarPeloGoogle(form);
+      }catch(errGoogle){
+        // reserva: servidor do PC, como era antes
+        console.warn('Google falhou, tentando o servidor do consultório: ' + errGoogle.message);
+        btn.textContent = 'Enviando...';
+        const fd = new FormData(form);
+        const resp = await fetch(ENDPOINT, {
+          method:'POST',
+          body: fd,
+          headers: { 'ngrok-skip-browser-warning': '1' }
+        });
+        if(!resp.ok) throw new Error('status ' + resp.status);
+        const data = await resp.json();
+        if(!data.ok) throw new Error(data.erro || 'erro desconhecido');
+        recusados = data.arquivosRejeitados || [];
+      }
+      if (recusados.length){
+        const aviso = document.createElement('p');
+        aviso.className = 'aviso-recusados';
+        aviso.textContent = 'Atenção: estes arquivos não foram aceitos: ' + recusados.join(', ') + '. Você pode mandar de novo em PDF, JPG ou PNG.';
+        document.getElementById('telaSucesso').appendChild(aviso);
+      }
       form.hidden = true;
       document.getElementById('telaSucesso').hidden = false;
       window.scrollTo({top:0, behavior:'smooth'});
     }catch(err){
       msgErro.hidden = false;
-      msgErro.textContent = 'Não deu pra enviar agora (' + err.message + '). Tenta de novo em instantes, ou manda direto pelo WhatsApp do consultório.';
+      msgErro.textContent = 'Não deu pra enviar agora (' + err.message + '). Tenta de novo em instantes, ou avise pelo e-mail drgabriel-vdb@hotmail.com.';
       btn.disabled = false;
       btn.textContent = 'Enviar formulário';
       window.scrollTo({top: msgErro.offsetTop - 20, behavior:'smooth'});
