@@ -315,6 +315,13 @@
   .confirmar-input{display:block;width:100%;max-width:360px;margin:0 auto 0.7rem;border:1.5px solid var(--ash);border-radius:12px;padding:0.7rem 0.85rem;font-family:inherit;font-size:0.94rem;color:var(--iris);background:#fbfbfd;text-align:left;}
   .confirmar-input:focus{outline:none;border-color:var(--iris-pulse);background:#fff;}
   .confirmar-erro{color:#c81e3a;font-size:0.82rem;margin-bottom:0.7rem;}
+  .politica-box{max-width:520px;margin:0 auto 0.9rem;text-align:left;border:1.5px solid var(--ash);border-radius:14px;padding:0.7rem 0.9rem;background:#fbfbfd;}
+  .politica-box summary{cursor:pointer;font-weight:600;font-size:0.9rem;color:var(--iris);}
+  .confirmar-box .politica-texto p{font-size:0.84rem;color:#55536b;margin:0.6rem 0 0;text-align:left;}
+  .confirmar-box .politica-texto .politica-versao{font-size:0.75rem;color:#8a8898;}
+  .aceite-politica{display:flex;gap:0.5rem;align-items:flex-start;justify-content:center;max-width:420px;margin:0 auto 0.8rem;font-size:0.86rem;color:#55536b;text-align:left;cursor:pointer;}
+  .aceite-politica input{margin-top:0.2rem;width:1.05rem;height:1.05rem;accent-color:var(--iris-pulse);flex:none;}
+  .aceite-politica a{color:var(--iris-pulse);}
   .confirmar-btn{display:inline-block;background:var(--iris-pulse);color:#fff;font-weight:700;font-size:0.95rem;border-radius:9999px;padding:0.9rem 1.6rem;text-decoration:none;box-shadow:0 10px 26px rgba(83,80,204,0.35);animation:piscaVermelho 1.6s ease-in-out infinite;}
   @keyframes piscaAzul{0%,100%{box-shadow:0 0 0 0 rgba(83,80,204,0.6);}50%{box-shadow:0 0 0 11px rgba(83,80,204,0);}}
   @keyframes piscaVerde{0%,100%{box-shadow:0 0 0 0 rgba(127,224,160,0.75);}50%{box-shadow:0 0 0 11px rgba(127,224,160,0);}}
@@ -863,11 +870,11 @@
       </details>
       <details class="faq-item">
         <summary>Como funcionam cancelamentos e remarcações?</summary>
-        <p>É só entrar em contato com antecedência pra reagendar — os horários disponíveis aparecem direto na agenda abaixo.</p>
+        <p>Você pode desistir em até 7 dias depois do pagamento e recebe o valor de volta, desde que nenhuma consulta tenha sido realizada. Depois disso não há devolução em dinheiro: as consultas não usadas continuam valendo por 6 meses a partir do pagamento, só pra você (o crédito é pessoal e intransferível). Remarcações são sem custo com pelo menos 12 horas de antecedência; falta sem aviso conta como consulta realizada. <a href="#politica-cancelamento">Leia a política completa</a>.</p>
       </details>
       <details class="faq-item">
         <summary>Nos pacotes com mais de uma consulta, preciso marcar tudo de uma vez?</summary>
-        <p>Não. Ao comprar um pacote de consultas, você marca aqui só a primeira — as demais (médicas e com a nutricionista) você agenda quando quiser, no seu tempo, direto com o consultório, sem prazo fixo pra usar.</p>
+        <p>Não. Ao comprar um pacote de consultas, você marca aqui só a primeira — as demais (médicas e com a nutricionista) você agenda quando quiser, no seu tempo, direto com o consultório, dentro de 6 meses a partir do pagamento.</p>
       </details>
     </div>
 
@@ -1124,6 +1131,17 @@
       <p>Já marcou seu horário na agenda acima? Preencha seus dados pra confirmar:</p>
       <input type="text" id="confNome" class="confirmar-input" placeholder="Seu nome completo" autocomplete="name">
       <input type="tel" id="confTelefone" class="confirmar-input" placeholder="Seu WhatsApp (com DDD)" autocomplete="tel">
+      <details class="politica-box" id="politica-cancelamento">
+        <summary>Política de cancelamento e remarcação</summary>
+        <div class="politica-texto">
+          <p><strong>1. Arrependimento em até 7 dias.</strong> Quem compra um pacote pelo site, WhatsApp ou link de pagamento pode desistir em até 7 dias corridos a partir da data do pagamento, sem precisar explicar o motivo (art. 49 do Código de Defesa do Consumidor), desde que nenhuma consulta do pacote tenha sido realizada. Nesse caso, o valor pago é devolvido integralmente, pelo mesmo meio de pagamento (estorno no cartão ou Pix). A partir da realização da primeira consulta, mesmo dentro desses 7 dias, não há devolução de valores.</p>
+          <p><strong>2. Depois de 7 dias.</strong> Não há devolução em dinheiro. As consultas não realizadas continuam valendo como crédito por 6 meses a partir da data do pagamento, para o mesmo tipo de consulta do pacote (médica ou nutricional). O crédito é pessoal e intransferível.</p>
+          <p><strong>3. Remarcação e faltas.</strong> A remarcação é gratuita se pedida pelo WhatsApp ou por e-mail com pelo menos 12 horas de antecedência. Falta sem aviso, ou aviso com menos de 12 horas, conta como consulta realizada. Situações excepcionais podem ser avaliadas pelo consultório.</p>
+          <p><strong>4. Como pedir.</strong> Pelo WhatsApp do consultório ou pelo e-mail <a href="mailto:drgabriel-vdb@hotmail.com">drgabriel-vdb@hotmail.com</a>. O recebimento do pedido é confirmado no mesmo dia, e o estorno, quando cabível, é solicitado à operadora do cartão em até 2 dias úteis. O prazo para o valor aparecer na fatura depende do banco emissor do cartão.</p>
+          <p class="politica-versao">Versão de 11/09/2026.</p>
+        </div>
+      </details>
+      <label class="aceite-politica"><input type="checkbox" id="aceitePolitica"> <span>Li e concordo com a <a href="#politica-cancelamento">política de cancelamento e remarcação</a></span></label>
       <p class="confirmar-erro" id="confErro" hidden>Preenche nome e WhatsApp pra confirmar 🙂</p>
       <a href="pre-consulta.html" id="confirmarAgendamento" class="confirmar-btn">Já agendei — confirmar e preencher pré-consulta →</a>
     </div>
@@ -1420,10 +1438,11 @@
       if (atual.pagamento) params.set('pagamento', atual.pagamento);
       if (atual.nome) params.set('nome', atual.nome);
       if (atual.telefone) params.set('telefone', atual.telefone);
+      if (atual.aceitePolitica) params.set('politica', atual.aceitePolitica);
       var qs = params.toString();
       link.href = 'pre-consulta.html' + (qs ? ('?' + qs) : '');
       // trava visual: so libera quando tiver pacote E forma de pagamento
-      var faltaPlano = !atual.pacote || !atual.pagamento;
+      var faltaPlano = !atual.pacote || !atual.pagamento || !atual.aceitePolitica;
       link.classList.toggle('bloqueado', faltaPlano);
       link.setAttribute('aria-disabled', faltaPlano ? 'true' : 'false');
     }
@@ -1471,6 +1490,24 @@
     if (campoNome) campoNome.addEventListener('input', function(){ salvar('nome', campoNome.value.trim()); });
     if (campoTelefone) campoTelefone.addEventListener('input', function(){ salvar('telefone', campoTelefone.value.trim()); });
 
+    // aceite da politica de cancelamento (pedido dele em 11/09/2026): guarda a VERSAO aceita;
+    // aceite de versao antiga nao vale
+    var POLITICA_VERSAO = '2026-09-11';
+    var campoAceite = document.getElementById('aceitePolitica');
+    if (atualInicial.aceitePolitica && atualInicial.aceitePolitica !== POLITICA_VERSAO) salvar('aceitePolitica', '');
+    if (campoAceite){
+      campoAceite.checked = ler().aceitePolitica === POLITICA_VERSAO;
+      campoAceite.addEventListener('change', function(){
+        salvar('aceitePolitica', campoAceite.checked ? POLITICA_VERSAO : '');
+        // marcou: some o aviso de "marque que concorda" (visto no teste: ficava na tela)
+        var aviso = document.getElementById('confErro');
+        if (campoAceite.checked && aviso && /pol[ií]tica de cancelamento/.test(aviso.textContent)) aviso.hidden = true;
+      });
+    }
+    document.querySelectorAll('a[href="#politica-cancelamento"]').forEach(function(a){
+      a.addEventListener('click', function(){ var d = document.getElementById('politica-cancelamento'); if (d) d.open = true; });
+    });
+
     var linkConfirmar = document.getElementById('confirmarAgendamento');
     var erroConfirmar = document.getElementById('confErro');
     var NOTIFICAR_URL = 'https://overbite-stick-sneezing.ngrok-free.dev/agendamento-confirmado';
@@ -1506,13 +1543,24 @@
           (campoNome && !atual.nome ? campoNome : campoTelefone).focus();
           return;
         }
+        if (!atual.aceitePolitica){
+          e.preventDefault();
+          if (erroConfirmar){
+            erroConfirmar.textContent = 'Leia e marque que concorda com a política de cancelamento para continuar';
+            erroConfirmar.hidden = false;
+          }
+          var caixa = document.getElementById('aceitePolitica');
+          if (caixa){ caixa.scrollIntoView({behavior:'smooth', block:'center'}); caixa.focus(); }
+          return;
+        }
         if (erroConfirmar) erroConfirmar.hidden = true;
         // avisa a gente na hora, sem travar a navegacao pra pre-consulta
         // (sendBeacon sobrevive a troca de pagina, diferente de fetch normal)
         var corpo = JSON.stringify({
           origem: 'site',
           nome: atual.nome, telefone: atual.telefone,
-          pacote: atual.pacote || '', pagamento: atual.pagamento || ''
+          pacote: atual.pacote || '', pagamento: atual.pagamento || '',
+          politicaCancelamento: 'aceita v' + atual.aceitePolitica + ' em ' + new Date().toLocaleString('pt-BR')
         });
         try {
           navigator.sendBeacon(NOTIFICAR_URL, new Blob([corpo], {type: 'application/json'}));

@@ -156,6 +156,7 @@
   </div>
   <input type="hidden" name="pacoteEscolhido" id="pacoteEscolhidoField">
   <input type="hidden" name="formaPagamento" id="formaPagamentoField">
+  <input type="hidden" name="politicaCancelamento" id="politicaCancelamentoField">
 
   <div class="card">
     <h2>👤 1. Dados básicos</h2>
@@ -900,6 +901,10 @@
       var campoTelefone = formEl.querySelector('[name=telefone]');
       if (campoTelefone && !campoTelefone.value) campoTelefone.value = telefone;
     }
+
+    // versao da politica de cancelamento que a pessoa aceitou no site (11/09/2026)
+    var politica = params.get('politica');
+    if (politica) document.getElementById('politicaCancelamentoField').value = 'aceita v' + politica;
 
     if (!pacote && !pagamento) return;
     document.getElementById('pacoteEscolhidoField').value = pacote || '';
