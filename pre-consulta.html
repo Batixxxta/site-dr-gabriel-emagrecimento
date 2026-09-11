@@ -41,6 +41,16 @@
   .privacidade-nota{margin-top:1rem;font-size:0.82rem;color:var(--mint);}
 
   .card{background:transparent;color:#fff;border:1px solid var(--ash);border-radius:20px;padding:1.6rem 1.5rem;margin-bottom:1.1rem;}
+  .progresso{position:sticky;top:0;z-index:30;margin:0 0 1.1rem;padding:0.65rem 0.9rem;border-radius:14px;background:rgba(22,22,92,0.92);border:1px solid var(--iris-border,#4846c6);backdrop-filter:blur(6px);}
+  .progresso-rotulo{display:flex;justify-content:space-between;font-size:0.8rem;color:#fff;margin-bottom:0.45rem;font-weight:600;}
+  .progresso-trilho{height:8px;border-radius:9999px;background:rgba(255,255,255,0.14);overflow:hidden;}
+  .progresso-barra{height:100%;width:0;border-radius:9999px;background:var(--iris-pulse,#5350cc);transition:width .35s ease;}
+  @media(prefers-reduced-motion:reduce){.progresso-barra{transition:none;}}
+  .tcle{background:rgba(22,22,92,0.96);position:relative;z-index:1;border:1px solid var(--iris-border,#4846c6);border-radius:14px;padding:0.75rem 0.95rem;margin:0.4rem 0 0.9rem;color:#fff;}
+  .tcle summary{cursor:pointer;font-weight:600;font-size:0.92rem;}
+  .tcle-texto p{font-size:0.86rem;line-height:1.55;margin:0.55rem 0 0;color:#e9e8ff;}
+  .tcle-texto .tcle-versao{font-size:0.75rem;color:#b9b7e8;}
+  .confirma a{color:#cfcdfb;}
   .resumo-selecao{background:#fff;border:1.5px solid var(--iris-pulse);border-radius:14px;padding:0.9rem 1rem;margin-bottom:1.1rem;font-size:0.86rem;color:var(--iris);}
   .resumo-selecao p{margin:0;}
   .resumo-selecao p + p{margin-top:0.35rem;}
@@ -141,7 +151,7 @@
   <div class="wrap">
     <a class="voltar" href="index.html">← voltar para o site de agendamento</a>
     <h1>🩺 Formulário de Pré-Consulta</h1>
-    <p>Pra tornar sua consulta mais organizada, objetiva e individualizada, peço que preencha este formulário antes do atendimento. Leva uns 5 minutinhos.</p>
+    <p>Pra tornar sua consulta mais organizada, objetiva e individualizada, peço que preencha este formulário antes do atendimento. Leva cerca de 15 minutos: vá com calma, a barra no topo mostra quanto falta.</p>
     <p class="privacidade-nota">🔒 Suas informações são usadas exclusivamente pra direcionar sua avaliação médica.</p>
   </div>
 </header>
@@ -149,6 +159,11 @@
 <div class="wrap">
 
 <form id="formPreConsulta">
+
+  <div class="progresso" id="progresso" aria-live="polite">
+    <div class="progresso-rotulo"><span id="progressoTexto">Seção 1 de 15</span><span id="progressoPct">0%</span></div>
+    <div class="progresso-trilho"><div class="progresso-barra" id="progressoBarra"></div></div>
+  </div>
 
   <div id="resumoSelecao" class="resumo-selecao" hidden>
     <p>📦 <strong id="resumoPacote"></strong></p>
@@ -548,6 +563,14 @@
       <input type="text" name="glp1ContraceptivoOutroDetalhe">
     </div>
 
+    <label class="campo" style="margin-top:1.2rem">Está grávida ou amamentando no momento?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="gestacaoAtual" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="gestacaoAtual" value="Grávida"><span>🤰 Grávida</span></label>
+      <label class="opt"><input type="radio" name="gestacaoAtual" value="Amamentando"><span>🍼 Amamentando</span></label>
+      <label class="opt"><input type="radio" name="gestacaoAtual" value="Não sei"><span>🤷 Não sei</span></label>
+    </div>
+
     <label class="campo" style="margin-top:1.2rem">Tem planos de engravidar nos próximos meses?</label>
     <div class="opts">
       <label class="opt"><input type="radio" name="glp1Gravidez" value="Não"><span>❌ Não</span></label>
@@ -578,9 +601,27 @@
 
   <div class="card">
     <h2>✅ 15. Confirmação</h2>
+    <details class="tcle" id="tcle">
+      <summary>Termo de consentimento para atendimento por telemedicina (toque para ler)</summary>
+      <div class="tcle-texto">
+        <p>Autorizo o atendimento médico por telemedicina (teleconsulta por videochamada) com o Dr. Gabriel Vinícius Damasceno Baptista, MÉDICO, CRM-RJ 52-131692-3, e a transmissão dos meus dados e imagens necessários a esse atendimento, conforme a Resolução CFM nº 2.314/2022. Declaro estar ciente de que:</p>
+        <p>1. A teleconsulta tem limitações, principalmente a impossibilidade de exame físico completo, e o médico pode indicar avaliação presencial, exames ou encaminhamento sempre que julgar necessário.</p>
+        <p>2. Tanto eu quanto o médico podemos interromper o atendimento a distância e optar pela consulta presencial.</p>
+        <p>3. Em acompanhamento prolongado, sou orientado(a) a realizar consulta presencial em intervalos de no máximo 180 dias. A marcação de consulta presencial com o Dr. Gabriel está sujeita à disponibilidade de horários.</p>
+        <p>4. A teleconsulta não é adequada para urgências e emergências; nesses casos devo procurar atendimento presencial imediato (SAMU 192 ou pronto-socorro).</p>
+        <p>5. As informações do atendimento ficam registradas no meu prontuário, com sigilo médico e conforme a Lei Geral de Proteção de Dados.</p>
+        <p>6. A consulta não garante resultado específico.</p>
+        <p>Posso revogar este consentimento a qualquer momento.</p>
+        <p class="tcle-versao">Versão de 11/09/2026.</p>
+      </div>
+    </details>
+    <label class="confirma">
+      <input type="checkbox" name="consentimentoTelemedicina" value="aceito v2026-09-11" required>
+      <span>Li e autorizo o atendimento por telemedicina, nos termos acima.</span>
+    </label>
     <label class="confirma">
       <input type="checkbox" name="confirmo" required>
-      <span>Declaro que as informações acima são verdadeiras, dentro do meu conhecimento, e autorizo — em conformidade com a Lei Geral de Proteção de Dados (LGPD, Lei 13.709/2018) — o uso destes dados exclusivamente para organização, direcionamento e registro da minha consulta médica com o Dr. Gabriel Baptista, inclusive com apoio de ferramentas de inteligência artificial, sempre sob revisão do médico.</span>
+      <span>Declaro que as informações acima são verdadeiras, dentro do meu conhecimento, e autorizo — em conformidade com a Lei Geral de Proteção de Dados (LGPD, Lei 13.709/2018) e com a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a> — o uso destes dados exclusivamente para organização, direcionamento e registro da minha consulta médica com o Dr. Gabriel Baptista, inclusive com apoio de ferramentas de inteligência artificial, sempre sob revisão do médico.</span>
     </label>
   </div>
 
@@ -954,5 +995,33 @@
   });
 </script>
 
+<script>
+  // barra de progresso (revisao do site, 11/09/2026): mostra em qual das secoes a pessoa esta
+  (function(){
+    var form = document.getElementById('formPreConsulta');
+    if (!form) return;
+    var cards = Array.prototype.filter.call(form.querySelectorAll('.card'), function(c){
+      var h = c.querySelector('h2'); return h && /\d{1,2}\./.test(h.textContent);
+    });
+    var total = cards.length;
+    var txt = document.getElementById('progressoTexto');
+    var pct = document.getElementById('progressoPct');
+    var barra = document.getElementById('progressoBarra');
+    if (!total || !txt || !barra) return;
+    function atualizar(){
+      var meio = window.innerHeight * 0.4, atual = 0;
+      cards.forEach(function(c, i){ if (c.getBoundingClientRect().top < meio) atual = i; });
+      var fimDaPagina = window.innerHeight + window.scrollY >= document.body.scrollHeight - 4;
+      if (fimDaPagina) atual = total - 1;
+      var p = Math.round((atual + 1) / total * 100);
+      txt.textContent = 'Seção ' + (atual + 1) + ' de ' + total;
+      pct.textContent = p + '%';
+      barra.style.width = p + '%';
+    }
+    window.addEventListener('scroll', atualizar, {passive: true});
+    window.addEventListener('resize', atualizar);
+    atualizar();
+  })();
+</script>
 </body>
 </html>

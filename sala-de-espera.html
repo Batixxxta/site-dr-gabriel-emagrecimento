@@ -154,7 +154,7 @@
 
   <div class="janela">
     <div class="janela-in">
-      <div class="marca">Dr. Gabriel Baptista · CRM 52-1316923-RJ</div>
+      <div class="marca">Dr. Gabriel Baptista · MÉDICO · CRM-RJ 52-131692-3</div>
       <h1 class="ola">Sala de espera</h1>
       <div class="quando" id="quando" hidden>🗓️ <span id="quandoTxt"></span></div>
     </div>
@@ -195,7 +195,7 @@
   </div>
 
   <p class="rodape">
-    Suas informações são tratadas com sigilo médico.<br>
+    Suas informações são tratadas com sigilo médico (<a href="privacidade.html" style="color:inherit">Política de Privacidade</a>).<br>
     Dúvidas? Fale com o doutor Gabriel pelo WhatsApp.
   </p>
 </div>
@@ -254,8 +254,10 @@
 
   function urlDoMeet(){
     if (!meetParam) return '';
-    if (/^https?:\/\//i.test(meetParam)) return meetParam;
-    return 'https://meet.google.com/' + meetParam.replace(/^\/+/, '');
+    // so aceita Google Meet: um link montado com outro endereco podia levar a paciente
+    // pra fora usando o nome do doutor (revisao da Ana Bot, 11/09/2026)
+    var m = String(meetParam).trim().match(/^(?:https:\/\/meet\.google\.com\/)?([a-z]{3}-[a-z]{4}-[a-z]{3})\/?(?:\?.*)?$/i);
+    return m ? 'https://meet.google.com/' + m[1].toLowerCase() : '';
   }
 
   /* ---- IP: melhor esforço. Se falhar, registra honestamente que faltou ---- */
@@ -291,21 +293,27 @@
         observacoes: obs
       });
 
-      // sendBeacon com text/plain: application/json dispara preflight CORS
-      // que o Apps Script nao responde. Aprendido na marra em 08/09/2026.
-      try {
-        if (navigator.sendBeacon) {
-          navigator.sendBeacon(PLANILHA_URL, new Blob([corpo], {type: 'text/plain;charset=UTF-8'}));
-          return true;
-        }
-      } catch(e){}
-      try {
-        return fetch(PLANILHA_URL, {
-          method: 'POST', mode: 'no-cors',
-          headers: {'Content-Type': 'text/plain;charset=UTF-8'},
-          body: corpo
-        }).then(function(){ return true; }).catch(function(){ return false; });
-      } catch(e){ return false; }
+      // text/plain de proposito: application/json dispara preflight CORS que o
+      // Apps Script nao responde (08/09/2026). Com text/plain a resposta volta
+      // legivel (testado 11/09/2026), entao so dizemos "registrada" quando a
+      // planilha CONFIRMA -- antes o site afirmava registro mesmo se o envio falhasse.
+      function beacon(){
+        try { if (navigator.sendBeacon) navigator.sendBeacon(PLANILHA_URL, new Blob([corpo], {type: 'text/plain;charset=UTF-8'})); } catch(e){}
+      }
+      if (!window.fetch){ beacon(); return false; }
+      var corta = new Promise(function(res){ setTimeout(function(){ res(null); }, 10000); });
+      var envio = fetch(PLANILHA_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'text/plain;charset=UTF-8'},
+        body: corpo
+      }).then(function(resp){ return resp.json(); })
+        .then(function(j){ return !!(j && j.ok); })
+        .catch(function(){ return null; });
+      return Promise.race([envio, corta]).then(function(ok){
+        if (ok === true) return true;
+        if (ok === null) beacon();   // rede instavel: tenta o caminho antigo, mas NAO confirma
+        return false;
+      });
     });
   }
 
@@ -336,16 +344,16 @@
     aviso.style.color = '';
     aviso.textContent = 'Um instante...';
 
-    registrar(autorizou, nome, tel).then(function(){
-      mostrarFinal(autorizou, nome);
+    registrar(autorizou, nome, tel).then(function(confirmado){
+      mostrarFinal(autorizou, nome, confirmado === true);
     }).catch(function(){
       // registrar falhou, mas a paciente NAO pode ficar de fora da consulta
       // que ela pagou. Libera assim mesmo; o doutor Gabriel confirma na hora.
-      mostrarFinal(autorizou, nome);
+      mostrarFinal(autorizou, nome, false);
     });
   }
 
-  function mostrarFinal(autorizou, nome){
+  function mostrarFinal(autorizou, nome, confirmado){
     var selo = document.getElementById('selo');
     var titulo = document.getElementById('tituloFinal');
     var txt = document.getElementById('textoFinal');
@@ -356,11 +364,15 @@
     if (autorizou){
       selo.textContent = '✅ Transcrição autorizada';
       selo.className = 'selo-ok';
-      txt.innerHTML = 'Obrigado, ' + primeiro + '. Sua escolha ficou registrada e o áudio será apagado depois de virar texto.';
+      txt.textContent = confirmado
+        ? 'Obrigado, ' + primeiro + '. Sua escolha ficou registrada. Nenhum áudio é guardado: a conversa vira texto durante a consulta.'
+        : 'Obrigado, ' + primeiro + '. Não conseguimos confirmar o registro da sua escolha agora. Tudo bem: avise o Dr. Gabriel no começo da consulta.';
     } else {
       selo.textContent = '🔒 Consulta sem transcrição';
       selo.className = 'selo-ok neutro';
-      txt.innerHTML = 'Sem problema nenhum, ' + primeiro + '. Sua consulta acontece normalmente e nada será transcrito.';
+      txt.textContent = confirmado
+        ? 'Sem problema nenhum, ' + primeiro + '. Sua consulta acontece normalmente e nada será transcrito.'
+        : 'Sem problema nenhum, ' + primeiro + '. Não conseguimos confirmar o registro da sua escolha agora: avise o Dr. Gabriel no começo da consulta que você não quer a transcrição.';
     }
     titulo.textContent = 'Pronto, ' + primeiro + '!';
 
