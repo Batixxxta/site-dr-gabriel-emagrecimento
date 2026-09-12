@@ -266,7 +266,7 @@
   if (/^(nao|n|0|false)$/i.test(p.get('transcricao') || '')) {
     document.getElementById('passo1').hidden = true;
     document.getElementById('passo2').hidden = false;
-    document.getElementById('selo').textContent = '💜 Consulta confirmada';
+    document.getElementById('selo').textContent = '🩺 Consulta confirmada';
     document.getElementById('tituloFinal').textContent = 'Tudo certo!';
     var primeiroNome = (p.get('nome') || '').trim().split(/\s+/)[0];
     document.getElementById('textoFinal').textContent = (primeiroNome ? primeiroNome + ', sua' : 'Sua') +
