@@ -260,6 +260,22 @@
     return m ? 'https://meet.google.com/' + m[1].toLowerCase() : '';
   }
 
+  /* SEM TRANSCRICAO (pedido dele, 12/09/2026, consulta da Aline): com ?transcricao=nao a sala
+     so confirma o horario e libera o Meet -- sem termo, sem escolha e sem registro na planilha.
+     Volta a pedir o consentimento quando o copiloto estiver pronto, e o link vai sem esse pedaco. */
+  if (/^(nao|n|0|false)$/i.test(p.get('transcricao') || '')) {
+    document.getElementById('passo1').hidden = true;
+    document.getElementById('passo2').hidden = false;
+    document.getElementById('selo').textContent = '💜 Consulta confirmada';
+    document.getElementById('tituloFinal').textContent = 'Tudo certo!';
+    var primeiroNome = (p.get('nome') || '').trim().split(/\s+/)[0];
+    document.getElementById('textoFinal').textContent = (primeiroNome ? primeiroNome + ', sua' : 'Sua') +
+      ' consulta é por videochamada. Quando chegar o horário, é só entrar pelo botão abaixo.';
+    var botaoSem = document.getElementById('linkMeet');
+    var linkSem = urlDoMeet();
+    if (linkSem) { botaoSem.href = linkSem; } else { botaoSem.hidden = true; }
+  }
+
   /* ---- IP: melhor esforço. Se falhar, registra honestamente que faltou ---- */
   function pegarIP(){
     if (!window.fetch) return Promise.resolve('nao capturado');
