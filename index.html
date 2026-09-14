@@ -275,6 +275,54 @@
   .mp-yt:hover{background:rgba(255,107,107,.14);}
   .mp-yt svg{width:15px;height:15px;fill:currentColor;}
 
+  /* --- amostra alinhada ao mapa do Pedro (14/09/2026): aviso, trocas da dieta, "?" do aeróbico --- */
+  .mp-intro{margin:0 0 14px;text-align:center;}
+  .mp-aviso{font-size:13.5px;line-height:1.55;color:#ddd6fe;background:rgba(155,135,245,.08);
+    border:1px dashed rgba(155,135,245,.55);border-radius:12px;padding:12px 14px;margin-top:16px;text-align:left;}
+  .mp-refs{background:rgba(255,255,255,.02);border:1px solid var(--mpline);border-radius:14px;padding:13px 14px;margin-top:14px;}
+  .mp-refs-t{font-weight:700;font-size:13.5px;color:var(--mpink);margin-bottom:8px;}
+  .mp-refs ol{margin:0;padding-left:18px;font-size:11.5px;color:var(--mpsub);line-height:1.55;}
+  .mp-refs li{margin-bottom:5px;}
+  .mp-dieta-card{background:rgba(255,255,255,.03);border:1px solid var(--mpline);border-radius:14px;padding:14px 14px 10px;}
+  .mp-dieta-head{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:14px;color:var(--mpink);margin-bottom:8px;}
+  .mp-dieta-kcal{font-weight:600;font-size:12.5px;color:#4ade80;}
+  .mp-dieta-slot{margin-bottom:6px;}
+  .mp-dieta-chip{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;width:100%;text-align:left;border-radius:14px;}
+  .mp-dieta-nome{font-weight:700;color:var(--mpink);}
+  .mp-dieta-medida{font-size:12.5px;color:var(--mpsub);font-weight:500;}
+  .mp-dieta-troca{margin-left:auto;font-size:12px;color:#4ade80;font-weight:600;}
+  .mp-dieta-det{display:none;font-size:13.5px;line-height:1.55;color:#c7c3d6;background:rgba(255,255,255,.03);
+    border:1px solid var(--mpline);border-radius:12px;padding:12px 13px;margin:7px 0 4px;}
+  .mp-dieta-det.on{display:block;animation:mpPop .25s ease both;}
+  .mp-dieta-det b{display:block;margin-bottom:4px;color:var(--mpink);}
+  .mp-dieta-opcoes{display:flex;flex-direction:column;gap:6px;margin-top:6px;}
+  .mp-dieta-opcao{text-align:left;font-size:13px;color:#c7c3d6;background:rgba(255,255,255,.03);border:1px solid var(--mpline);
+    border-radius:10px;padding:8px 11px;cursor:pointer;font-family:inherit;}
+  .mp-dieta-opcao:hover{background:rgba(74,222,128,.08);}
+  .mp-dieta-opcao.sel{border-color:#4ade80;background:rgba(74,222,128,.14);color:var(--mpink);font-weight:600;}
+  .mp-dieta-volta{margin-top:8px;font-size:12.5px;color:#4ade80;background:none;border:none;padding:4px 0;cursor:pointer;text-decoration:underline;font-family:inherit;}
+  .mp-aero-help{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;margin-left:6px;border-radius:50%;
+    border:1px solid #38bdf8;background:rgba(56,189,248,.15);color:#38bdf8;font-weight:800;font-size:13px;cursor:pointer;vertical-align:middle;padding:0;font-family:inherit;}
+  .mp-feito{display:inline-flex;align-items:center;gap:8px;margin-top:11px;font-size:12.5px;font-weight:600;color:var(--mpsub);
+    border:1.5px solid var(--mpline);border-radius:999px;padding:6px 13px;cursor:pointer;}
+  .mp-feito input{accent-color:#4ade80;width:15px;height:15px;margin:0;}
+  .mp-feito.on{border-color:#4ade80;color:#bdf3d5;background:rgba(74,222,128,.1);}
+  .mp-ex.feito{border-color:rgba(74,222,128,.45);}
+  /* o pop-up vai direto no <body>: a regra "body > *" do site forca position:relative com especificidade de id,
+     por isso o !important no position/z-index; as cores vao fixas porque as variaveis --mp* moram na moldura */
+  .mp-modal{position:fixed !important;inset:0;z-index:9999 !important;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:16px;
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;}
+  .mp-modal-box{position:relative;width:100%;max-width:430px;max-height:88vh;overflow-y:auto;background:#15121e;border:1px solid #332d43;border-radius:16px;padding:10px;}
+  .mp-modal-fechar{position:absolute;top:10px;right:12px;background:none;border:none;color:#948fa8;font-size:18px;cursor:pointer;z-index:1;}
+  .mp-escada{background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.35);border-radius:14px;padding:14px;}
+  .mp-escada-tit{font-weight:700;font-size:14px;color:#e8e6f0;margin-bottom:6px;padding-right:24px;}
+  .mp-escada-expl{font-size:13.5px;color:#c7c3d6;line-height:1.5;margin-bottom:10px;}
+  .mp-escada-tab{width:100%;border-collapse:collapse;font-size:13px;}
+  .mp-escada-tab th{text-align:left;font-size:11.5px;color:#948fa8;font-weight:600;padding:6px;border-bottom:1px solid #332d43;}
+  .mp-escada-tab td{padding:7px 6px;color:#e8e6f0;border-bottom:1px solid rgba(255,255,255,.05);}
+  .mp-escada-tab td:nth-child(2){color:#38bdf8;font-weight:700;white-space:nowrap;}
+  .mp-escada-nota{font-size:11.5px;color:#948fa8;font-style:italic;line-height:1.5;margin-top:10px;}
+
   .mp-selo{display:inline-flex;align-items:center;gap:0.45rem;margin-top:1.6rem;
     border:1px dashed var(--mpline);border-radius:9999px;padding:0.45rem 0.95rem;font-size:0.75rem;color:var(--mpsub);font-weight:500;}
   .mp-selo b{color:var(--mpaccent);font-weight:700;}
@@ -1796,87 +1844,42 @@
     { rot:'Pressão alta', cap:'sob controle', cor:'#5fa8ff', ic:'coracao',
       txt:'Sua pressão vinha alta nas medidas do consultório. Isso força o coração e os vasos com o tempo — por isso a gente trata mesmo quando você não sente nada.',
       exames:[['Pressão arterial','março · 148/94 mmHg','O ideal é ficar abaixo de 130/80. A sua estava acima, o que confirma a hipertensão.']],
-      trat:[['Losartana 50 mg','1 comprimido por dia, de manhã','Relaxa os vasos sanguíneos, então o sangue circula com menos esforço e a pressão cai.','Pode dar uma leve tontura nos primeiros dias, principalmente ao levantar rápido.']] },
-    { rot:'Glicose alta', cap:'pré-diabetes', cor:'#ff8a5c', ic:'acucar',
-      txt:'Seu açúcar no sangue está acima do normal, mas ainda não é diabetes. É o melhor momento pra agir: nessa fase dá pra voltar ao normal.',
-      exames:[['Hemoglobina glicada','março · 6,0%','Mostra a média do açúcar dos últimos 3 meses. Abaixo de 5,7% é normal; de 5,7 a 6,4 é pré-diabetes.'],
-              ['Glicemia de jejum','março · 112 mg/dL','Açúcar medido em jejum. O ideal fica entre 70 e 99.']],
-      trat:[['Ajuste alimentar e caminhada','todos os dias','Reduzir açúcar e farinha e caminhar 30 minutos melhora a forma como seu corpo usa a insulina.','Nenhum efeito colateral — só exige constância.']] },
-    { rot:'Colesterol', cap:'em tratamento', cor:'#f2c14e', ic:'gota',
-      txt:'O colesterol ruim (LDL) está acima do recomendado pra você. Ele se acumula na parede das artérias com o passar dos anos, e é isso que a gente quer evitar.',
-      exames:[['LDL (colesterol ruim)','março · 162 mg/dL','Pro seu risco, o alvo é abaixo de 130.'],
-              ['HDL (colesterol bom)','março · 41 mg/dL','O ideal é acima de 50 nas mulheres e 40 nos homens.']],
-      trat:[['Rosuvastatina 10 mg','1 comprimido à noite','Diminui a produção de colesterol no fígado e ajuda a limpar o que já está circulando.','Dor muscular é rara, mas se aparecer, precisa avisar o médico.']] },
-    { rot:'Peso', cap:'obesidade grau I', cor:'#4fd1c5', ic:'peso',
-      txt:'Seu peso está acima do saudável pra sua altura. Não é sobre estética nem sobre culpa: é o que está por trás da pressão e do açúcar alterados.',
-      exames:[['Peso e IMC','março · 88 kg · IMC 32,3','O IMC entre 30 e 34,9 é obesidade grau I.'],
-              ['Circunferência abdominal','março · 104 cm','Mede a gordura que fica em volta dos órgãos, a que mais aumenta risco.']],
-      trat:[['Plano individualizado','revisto a cada consulta','Combina alimentação, atividade física e, quando indicado, medicação — sempre com acompanhamento.','Cada etapa é ajustada conforme você responde.']] }
+      trat:[['Losartana 50 mg','1 comprimido por dia, de manhã','Relaxa os vasos sanguíneos, então o sangue circula com menos esforço e a pressão cai.','Pode dar uma leve tontura nos primeiros dias, principalmente ao levantar rápido.']] }
   ];
 
-  /* plano alimentar detalhado: kcal por refeicao, emoji em cada alimento, 2 opcoes */
-  var CARDAPIO = {
-    'Segunda': { kcal:1620, refs:[
-      ['Café da manhã', 380, [['🍳 2 ovos mexidos com 1 fatia de queijo branco','🍞 1 fatia de pão integral','☕ Café sem açúcar','🍈 1 fatia de mamão'],
-                              ['🥣 Iogurte natural (170 g) com 2 col. de aveia','🍓 6 morangos','☕ Café sem açúcar']]],
-      ['Lanche da manhã', 150, [['🍎 1 maçã','🌰 6 castanhas-de-caju'],['🍌 1 banana','🥜 1 col. de pasta de amendoim']]],
-      ['Almoço', 520, [['🍗 150 g de frango grelhado','🍚 4 col. de arroz integral','🥘 1 concha de feijão','🥗 Salada de folhas com tomate e pepino','🥄 1 fio de azeite'],
-                       ['🐟 150 g de tilápia assada','🍠 1 batata-doce média','🥦 Brócolis e cenoura no vapor','🥗 Alface e rúcula']]],
-      ['Lanche da tarde', 180, [['🥛 Iogurte natural com canela','🌾 1 col. de aveia'],['🧀 2 fatias de queijo branco','🍅 Tomate-cereja','🍵 Chá sem açúcar']]],
-      ['Jantar', 390, [['🍲 Sopa de legumes com frango desfiado','🍞 1 torrada integral'],['🥚 Omelete de 2 ovos com espinafre','🥗 Salada verde à vontade']]]
-    ]},
-    'Terça': { kcal:1580, refs:[
-      ['Café da manhã', 360, [['🥞 Tapioca (2 col. de goma) com queijo','☕ Café sem açúcar','🍊 1 laranja'],
-                              ['🍞 2 fatias de pão integral com ovo','☕ Café sem açúcar']]],
-      ['Lanche da manhã', 140, [['🍐 1 pera','🌰 5 amêndoas'],['🥛 1 copo de leite desnatado','🍪 2 biscoitos de arroz']]],
-      ['Almoço', 510, [['🐟 150 g de peixe assado','🎃 Purê de abóbora','🥦 Brócolis refogado','🥗 Salada de folhas'],
-                       ['🥩 130 g de patinho grelhado','🍚 4 col. de arroz integral','🥘 1 concha de feijão','🥕 Cenoura e beterraba raladas']]],
-      ['Lanche da tarde', 170, [['🍌 Vitamina de banana com leite desnatado, sem açúcar'],['🥜 1 col. de pasta de amendoim','🍞 1 torrada integral']]],
-      ['Jantar', 400, [['🥚 Omelete de 2 ovos com tomate e orégano','🥗 Salada verde'],['🥣 Creme de abóbora com frango desfiado']]]
-    ]},
-    'Quarta': { kcal:1650, refs:[
-      ['Café da manhã', 390, [['🍞 Pão integral com ovo mexido','☕ Café sem açúcar','🍉 1 fatia de melancia'],
-                              ['🥣 Iogurte com granola sem açúcar','🍇 Uvas']]],
-      ['Lanche da manhã', 150, [['🍏 1 maçã verde','🌰 6 castanhas'],['🧀 1 fatia de queijo branco','🍅 Tomate-cereja']]],
-      ['Almoço', 540, [['🥩 130 g de carne magra','🍚 4 col. de arroz','🥘 1 concha de feijão','🥬 Legumes salteados'],
-                       ['🍗 150 g de frango ao molho de tomate','🌾 4 col. de quinoa','🥗 Salada colorida']]],
-      ['Lanche da tarde', 180, [['🍌 Vitamina de banana sem açúcar'],['🥛 Iogurte natural','🌾 1 col. de aveia']]],
-      ['Jantar', 390, [['🌯 Wrap integral de frango com salada'],['🍲 Sopa de legumes com ovo poché']]]
-    ]},
-    'Quinta': { kcal:1600, refs:[
-      ['Café da manhã', 370, [['🥣 Iogurte com granola sem açúcar','🍓 Morangos','☕ Café sem açúcar'],
-                              ['🍳 2 ovos cozidos','🍞 1 fatia de pão integral','☕ Café sem açúcar']]],
-      ['Lanche da manhã', 145, [['🍊 1 laranja','🌰 5 castanhas'],['🥛 Iogurte natural pequeno']]],
-      ['Almoço', 520, [['🍗 150 g de frango ao molho','🌾 4 col. de quinoa','🥗 Salada colorida'],
-                       ['🐟 150 g de peixe grelhado','🍚 4 col. de arroz integral','🥦 Brócolis no vapor']]],
-      ['Lanche da tarde', 170, [['🧀 Queijo branco com tomate','🍵 Chá sem açúcar'],['🍎 1 maçã','🥜 1 col. de pasta de amendoim']]],
-      ['Jantar', 395, [['🥣 Creme de abóbora com carne desfiada'],['🥚 Omelete de 2 ovos com queijo','🥗 Salada verde']]]
-    ]},
-    'Sexta': { kcal:1630, refs:[
-      ['Café da manhã', 380, [['🍳 2 ovos mexidos','🍈 1 fatia de mamão','☕ Café sem açúcar'],
-                              ['🥞 Tapioca com queijo','☕ Café sem açúcar','🍊 1 laranja']]],
-      ['Lanche da manhã', 150, [['🌰 Mix de castanhas (30 g)'],['🍌 1 banana','🌾 1 col. de aveia']]],
-      ['Almoço', 530, [['🐟 150 g de peixe','🍠 1 batata-doce média','🥗 Salada de folhas com azeite'],
-                       ['🍗 150 g de frango grelhado','🍚 4 col. de arroz integral','🥘 1 concha de feijão','🥬 Couve refogada']]],
-      ['Lanche da tarde', 175, [['🥛 Iogurte natural com canela'],['🧀 2 fatias de queijo branco','🍅 Tomate-cereja']]],
-      ['Jantar', 395, [['🥗 Salada completa com atum e grão-de-bico'],['🍲 Sopa de legumes com frango desfiado','🍞 1 torrada integral']]]
-    ]}
-  };
+  /* AMOSTRA (pedido dele em 14/09/2026): o site é público, então aqui aparece só um pedaço de cada
+     plano -- o completo o paciente recebe depois da consulta. Estrutura igual à do mapa do Pedro. */
+  var CAFE = { nome:'Café da manhã', icone:'☀️',
+    itens:[ {g:'pães e biscoitos', p:1, padrao:'Pão francês'},
+            {g:'laticínios',       p:1, padrao:'Queijo tipo Minas'},
+            {g:'frutas A',         p:1, padrao:'Laranja'} ],
+    grupos: {"pães e biscoitos": {"rotulo": "Pães", "itens": [{"a": "Farelo de aveia", "m": "3 colheres de sopa", "k": 146}, {"a": "Pão de queijo", "m": "1 unidade grande", "k": 134}, {"a": "Pão francês", "m": "1 unidade", "k": 152}, {"a": "Pão sovado", "m": "1 fatia", "k": 157}, {"a": "Torrada de pão francês", "m": "8 fatias", "k": 159}]}, "laticínios": {"rotulo": "Leite e queijos", "itens": [{"a": "Leite em pó desnatado", "m": "2 colheres de sopa", "k": 77}, {"a": "Leite em pó integral", "m": "1 colher de sopa", "k": 54}, {"a": "Queijo tipo cottage", "m": "2 colheres de sopa", "k": 57}, {"a": "Requeijão comum", "m": "2 colheres de sobremesa", "k": 67}, {"a": "Requeijão light", "m": "2 colheres de sopa", "k": 56}, {"a": "Leite desnatado", "m": "1 copo americano", "k": 51}, {"a": "Polenguinho®", "m": "1 unidade", "k": 41}, {"a": "Queijo mussarela", "m": "1 fatia", "k": 49}, {"a": "Queijo prato", "m": "1 fatia pequena", "k": 62}, {"a": "Queijo tipo Minas", "m": "1 fatia pequena", "k": 56}, {"a": "Ricota", "m": "1 fatia grande", "k": 49}]}, "frutas A": {"rotulo": "Frutas (A)", "itens": [{"a": "Abacaxi", "m": "2 fatias médias", "k": 66}, {"a": "Caju", "m": "2 unidades médias", "k": 63}, {"a": "Carambola", "m": "2 unidades médias", "k": 66}, {"a": "Goiaba", "m": "1 unidade média", "k": 64}, {"a": "Laranja", "m": "1 unidade média", "k": 59}, {"a": "Melancia", "m": "1 fatia média", "k": 64}, {"a": "Melão", "m": "1 fatia média", "k": 48}, {"a": "Mexerica", "m": "1 unidade média", "k": 56}, {"a": "Morango", "m": "12 unidades", "k": 61}, {"a": "Pêssego", "m": "2 unidades pequenas", "k": 62}]}} };
 
   /* biblioteca de exercicios -- fotos e videos sao os mesmos do mapa do Pedro */
   var EX = {
     agachamento: {nome:'Agachamento livre', grupo:'Quadríceps e glúteo', video:'https://www.youtube.com/shorts/pm7MHnkm5IU'},
-    remada:      {nome:'Remada curvada', grupo:'Costas', video:'https://www.youtube.com/shorts/kJv7bKyw5k0'},
-    puxada:      {nome:'Puxada frente (pulldown)', grupo:'Costas', video:'https://www.youtube.com/shorts/Vy9vAEsk38U'},
     supino:      {nome:'Supino reto', grupo:'Peito', video:'https://www.youtube.com/shorts/ZINbHcRi3U8'},
-    abdominal:   {nome:'Abdominal supra', grupo:'Abdômen', video:'https://www.youtube.com/shorts/w08qG9nQZ_Q'},
-    aerobico:    {nome:'Aeróbico (esteira ou caminhada)', grupo:'Cardio', video:null}
+    aerobico:    {nome:'Aeróbico (esteira, bicicleta ou caminhada)', grupo:'Cardio', video:null}
   };
-  var TREINO = {
-    'Dia A': [['agachamento','4x12',9],['supino','3x12',7],['abdominal','3x15',6],['aerobico','20 min contínuos',20]],
-    'Dia B': [['remada','4x10',8],['puxada','3x12',7],['abdominal','3x15',6],['aerobico','20 min contínuos',20]],
-    'Dia C': [['aerobico','30 min contínuos',30],['abdominal','4x15',7]]
-  };
+  var TREINO = [['agachamento','4x12',9],['supino','3x12',7],['aerobico','30 min contínuos',30]];
+
+  /* conteúdo do pop-up do "?" -- mesmo quadro do mapa do Pedro, sem o que era específico do pé dele */
+  var META_AEROBICO_HTML =
+    '<div class="mp-escada">'+
+    '<div class="mp-escada-tit">🏃 Sua meta de aeróbico da semana</div>'+
+    '<div class="mp-escada-expl">Além dos exercícios de força, o seu corpo precisa de exercício aeróbico — e ele entra aos poucos. '+
+    'Pode ser esteira, bicicleta ergométrica ou caminhada, no fim do treino ou em outros dias. Some os minutos da semana inteira:</div>'+
+    '<table class="mp-escada-tab">'+
+    '<tr><th>Semanas</th><th>Aeróbico na semana</th><th>Por exemplo</th></tr>'+
+    '<tr><td>1 e 2</td><td>60 min</td><td>3 vezes de 20 min</td></tr>'+
+    '<tr><td>3 e 4</td><td>90 min</td><td>3 vezes de 30 min</td></tr>'+
+    '<tr><td>5 e 6</td><td>120 min</td><td>4 vezes de 30 min</td></tr>'+
+    '<tr><td>7 em diante</td><td>150 min</td><td>5 vezes de 30 min</td></tr>'+
+    '</table>'+
+    '<div class="mp-escada-nota">A meta de 150 minutos por semana é a recomendação da Organização Mundial da Saúde, que também orienta '+
+    'começar com pouco e ir aumentando aos poucos. O ritmo da subida é definido pelo Dr. Gabriel. '+
+    'Se sentir dor, falta de ar forte ou tontura, pare e avise o Dr. Gabriel.</div>'+
+    '</div>';
 
   function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
@@ -1933,6 +1936,13 @@
     botao.parentNode.insertBefore(d, botao.nextSibling);
   }
 
+  function aviso(caixa, texto){
+    var a = document.createElement('div');
+    a.className = 'mp-aviso';
+    a.textContent = texto;
+    caixa.appendChild(a);
+  }
+
   function renderMedico(caixa){
     var grid = document.createElement('div');
     grid.className = 'mp-grid';
@@ -1947,89 +1957,155 @@
       grid.appendChild(b);
     });
     caixa.appendChild(grid);
+    var intro = document.createElement('p');
+    intro.className = 'mp-expl mp-intro';
+    intro.textContent = 'Toque na bolinha abaixo pra entender cada ponto da sua avaliação médica.';
+    caixa.insertBefore(intro, grid);
+    aviso(caixa, '📋 Aqui é só um exemplo. O plano médico completo, com todos os seus diagnósticos, exames e tratamentos, será disponibilizado após a consulta.');
   }
 
   function renderNutricao(caixa){
-    var dias = Object.keys(CARDAPIO);
-    var h = '<h4>🥗 Seu plano alimentar da semana</h4>'+
-            '<p class="mp-expl">Montado pela nutricionista a partir da sua rotina e das suas preferências. Cada refeição tem duas opções — escolha a que ficar melhor no seu dia.</p>'+
-            '<div class="mp-dias">';
-    dias.forEach(function(d,i){ h += '<button type="button" class="mp-dia'+(i===0?' on':'')+'" data-d="'+d+'">'+d+'</button>'; });
-    h += '</div><div class="mp-alvo"></div>';
-    var d = novoDetalhe('#4ade80', h);
-    var alvo = d.querySelector('.mp-alvo');
-    function pinta(dia){
-      var info = CARDAPIO[dia];
-      var s = '<div class="mp-kcal">Meta do dia: aproximadamente '+info.kcal+' kcal</div>';
-      info.refs.forEach(function(r){
-        s += '<div class="mp-ref"><div class="mp-ref-h"><span class="mp-ref-n">'+esc(r[0])+'</span><span class="mp-ref-k">~'+r[1]+' kcal</span></div>';
-        r[2].forEach(function(op, i){
-          s += '<div class="mp-op"><div class="mp-op-t">Opção '+(i+1)+'</div><ul>';
-          op.forEach(function(item){ s += '<li>'+esc(item)+'</li>'; });
-          s += '</ul></div>';
-        });
-        s += '</div>';
-      });
-      alvo.innerHTML = s;
+    var d = novoDetalhe('#4ade80',
+      '<h4>🥗 Plano alimentar</h4>'+
+      '<p class="mp-expl">O plano alimentar é montado pelo Dr. Gabriel a partir das suas condições de saúde. '+
+      '<b>Toque em qualquer alimento</b> para trocar por outro do mesmo grupo — as calorias continuam parecidas, '+
+      'então você come o que gosta sem sair do plano.</p>'+
+      '<div class="mp-dieta-card"><div class="mp-dieta-head"><span></span><span class="mp-dieta-kcal"></span></div></div>');
+    var card = d.querySelector('.mp-dieta-card');
+    card.querySelector('.mp-dieta-head span').textContent = CAFE.icone + ' ' + CAFE.nome;
+    var kcalEl = card.querySelector('.mp-dieta-kcal');
+    var escolha = CAFE.itens.map(function(it){ return it.padrao; });
+
+    function item(gi, nome){
+      var lista = CAFE.grupos[CAFE.itens[gi].g].itens;
+      for (var i=0;i<lista.length;i++){ if (lista[i].a === nome) return lista[i]; }
+      return lista[0];
     }
-    pinta(dias[0]);
-    d.addEventListener('click', function(ev){
-      var b = ev.target.closest('.mp-dia');
-      if (!b) return;
-      Array.prototype.forEach.call(d.querySelectorAll('.mp-dia'), function(x){ x.classList.remove('on'); });
-      b.classList.add('on');
-      pinta(b.getAttribute('data-d'));
+    function somaKcal(){
+      var k = 0;
+      CAFE.itens.forEach(function(it, i){ k += item(i, escolha[i]).k * it.p; });
+      kcalEl.textContent = '~' + k + ' kcal';
+    }
+
+    CAFE.itens.forEach(function(slot, ii){
+      var wrap = document.createElement('div'); wrap.className = 'mp-dieta-slot';
+      var chip = document.createElement('button'); chip.type = 'button'; chip.className = 'mp-chip trat mp-dieta-chip';
+      var det = document.createElement('div'); det.className = 'mp-dieta-det';
+      function desenha(){
+        var e = item(ii, escolha[ii]);
+        chip.innerHTML = '';
+        var n = document.createElement('span'); n.className = 'mp-dieta-nome'; n.textContent = e.a;
+        var me = document.createElement('span'); me.className = 'mp-dieta-medida'; me.textContent = e.m + ' · ' + (e.k * slot.p) + ' kcal';
+        var tr = document.createElement('span'); tr.className = 'mp-dieta-troca'; tr.textContent = '⇄ trocar';
+        chip.appendChild(n); chip.appendChild(me); chip.appendChild(tr);
+        det.innerHTML = '';
+        var b = document.createElement('b'); b.textContent = CAFE.grupos[slot.g].rotulo + ' — pode trocar por:';
+        det.appendChild(b);
+        var lista = document.createElement('div'); lista.className = 'mp-dieta-opcoes';
+        CAFE.grupos[slot.g].itens.forEach(function(op){
+          var o = document.createElement('button'); o.type = 'button';
+          o.className = 'mp-dieta-opcao' + (op.a === e.a ? ' sel' : '');
+          o.textContent = op.a + ' — ' + op.m + ' · ' + (op.k * slot.p) + ' kcal';
+          o.addEventListener('click', function(ev){ ev.stopPropagation(); escolha[ii] = op.a; desenha(); somaKcal(); });
+          lista.appendChild(o);
+        });
+        det.appendChild(lista);
+        if (e.a !== slot.padrao){
+          var volta = document.createElement('button'); volta.type = 'button'; volta.className = 'mp-dieta-volta';
+          volta.textContent = '↺ voltar ao sugerido (' + slot.padrao + ')';
+          volta.addEventListener('click', function(ev){ ev.stopPropagation(); escolha[ii] = slot.padrao; desenha(); somaKcal(); });
+          det.appendChild(volta);
+        }
+      }
+      chip.addEventListener('click', function(){
+        var abrir = !det.classList.contains('on');
+        chip.classList.toggle('on', abrir);
+        det.classList.toggle('on', abrir);
+      });
+      desenha();
+      wrap.appendChild(chip); wrap.appendChild(det); card.appendChild(wrap);
     });
+    somaKcal();
+    aviso(d, '📋 Aqui é só o exemplo de uma refeição. O plano nutricional completo, com todas as refeições do dia, será disponibilizado após a consulta.');
+    var refs = document.createElement('div');
+    refs.className = 'mp-refs';
+    refs.innerHTML = '<div class="mp-refs-t">📚 Referências científicas</div><ol>'+
+      '<li>Brasil. Ministério da Saúde. Guia Alimentar para a População Brasileira. 2ª ed. Brasília: Ministério da Saúde; 2014.</li>'+
+      '<li>Associação Brasileira para o Estudo da Obesidade e da Síndrome Metabólica (ABESO). Diretrizes Brasileiras de Obesidade 2016. 4ª ed. São Paulo: ABESO; 2016.</li>'+
+      '<li>Ribeiro RC, Oliveira TRPR, Ribeiro TL, Campos KA. Porções alimentares adaptadas: proposta de instrumento para educação nutricional. Nutrire. 2013;38(2):172-188.</li>'+
+      '</ol>';
+    d.appendChild(refs);
     caixa.appendChild(d);
   }
 
+  function abrirMetaAerobico(){
+    var velho = document.querySelector('.mp-modal'); if (velho) velho.remove();
+    var ov = document.createElement('div'); ov.className = 'mp-modal';
+    var box = document.createElement('div'); box.className = 'mp-modal-box';
+    box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true');
+    var fechar = document.createElement('button'); fechar.type = 'button'; fechar.className = 'mp-modal-fechar';
+    fechar.textContent = '✕'; fechar.setAttribute('aria-label', 'Fechar');
+    var corpo = document.createElement('div'); corpo.innerHTML = META_AEROBICO_HTML;
+    box.appendChild(fechar); box.appendChild(corpo); ov.appendChild(box);
+    document.body.appendChild(ov);
+    function sai(){ ov.remove(); document.removeEventListener('keydown', tecla); }
+    function tecla(ev){ if (ev.key === 'Escape') sai(); }
+    fechar.addEventListener('click', sai);
+    ov.addEventListener('click', function(ev){ if (ev.target === ov) sai(); });
+    document.addEventListener('keydown', tecla);
+    fechar.focus();
+  }
+
   function renderTreino(caixa){
-    var dias = Object.keys(TREINO);
-    var h = '<h4>🏋️ Seu treino da semana</h4>'+
-            '<p class="mp-expl">Montado pelo Dr. Gabriel a partir das suas condições de saúde: se você tem alguma limitação no joelho, no ombro ou na coluna, os exercícios são trocados pra não sobrecarregar essa parte. Cada um mostra as duas posições e tem um vídeo curto explicando a execução correta.</p>'+
-            '<div class="mp-dias">';
-    dias.forEach(function(d,i){ h += '<button type="button" class="mp-dia'+(i===0?' on':'')+'" data-d="'+d+'">'+d+'</button>'; });
-    h += '</div><div class="mp-alvo"></div>';
-    var d = novoDetalhe('#38bdf8', h);
-    var alvo = d.querySelector('.mp-alvo');
-    function pinta(dia){
-      var lista = TREINO[dia];
-      var total = lista.reduce(function(s,e){ return s + (e[2]||0); }, 0);
-      var s = '<div class="mp-tempo">⏱ Tempo estimado do treino: cerca de '+total+' minutos</div>';
-      lista.forEach(function(e, i){
-        var info = EX[e[0]];
-        s += '<div class="mp-ex"><span class="mp-ex-n">'+(i+1)+'</span><div class="mp-ex-c">'+
-             '<div class="mp-ex-nome">'+esc(info.nome)+'</div>'+
-             '<div class="mp-ex-meta">'+esc(info.grupo)+' · '+esc(e[1])+' · cerca de '+e[2]+' min</div>'+
-             '<div class="mp-fotos">'+
-               '<img src="img/ex/'+e[0]+'-a.jpg" alt="Posição inicial do '+esc(info.nome)+'" loading="lazy">'+
-               '<span class="mp-seta">→</span>'+
-               '<img src="img/ex/'+e[0]+'-b.jpg" alt="Posição final do '+esc(info.nome)+'" loading="lazy">'+
-             '</div>';
-        if (info.video){
-          s += '<a class="mp-yt" href="'+info.video+'" target="_blank" rel="noopener">'+
-               '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3L10 15z"/></svg>'+
-               'Ver como fazer no YouTube</a>';
-        }
-        s += '</div></div>';
-      });
-      alvo.innerHTML = s;
-    }
-    pinta(dias[0]);
-    d.addEventListener('click', function(ev){
-      var b = ev.target.closest('.mp-dia');
-      if (!b) return;
-      Array.prototype.forEach.call(d.querySelectorAll('.mp-dia'), function(x){ x.classList.remove('on'); });
-      b.classList.add('on');
-      pinta(b.getAttribute('data-d'));
+    var total = TREINO.reduce(function(s,e){ return s + (e[2]||0); }, 0);
+    var h = '<h4>🏋️ Educação física</h4>'+
+            '<p class="mp-expl">O treino é montado pelo Dr. Gabriel a partir das suas condições de saúde: se você tem alguma limitação no joelho, no ombro ou na coluna, os exercícios são trocados pra não sobrecarregar essa parte. Cada um mostra as duas posições e tem um vídeo curto explicando a execução correta. Vá marcando os exercícios conforme for completando.</p>'+
+            '<div class="mp-tempo">⏱ Tempo estimado deste exemplo: cerca de '+total+' minutos</div>';
+    TREINO.forEach(function(e, i){
+      var info = EX[e[0]];
+      var aero = /cardio|aer[oó]bic/i.test(info.grupo);
+      h += '<div class="mp-ex"><span class="mp-ex-n">'+(i+1)+'</span><div class="mp-ex-c">'+
+           '<div class="mp-ex-nome">'+esc(info.nome)+(aero ? ' <button type="button" class="mp-aero-help" aria-label="Meta de aeróbico da semana">?</button>' : '')+'</div>'+
+           '<div class="mp-ex-meta">'+esc(info.grupo)+' · '+esc(e[1])+' · cerca de '+e[2]+' min</div>'+
+           '<div class="mp-fotos">'+
+             '<img src="img/ex/'+e[0]+'-a.jpg" alt="Posição inicial do '+esc(info.nome)+'" loading="lazy">'+
+             '<span class="mp-seta">→</span>'+
+             '<img src="img/ex/'+e[0]+'-b.jpg" alt="Posição final do '+esc(info.nome)+'" loading="lazy">'+
+           '</div>';
+      if (info.video){
+        h += '<a class="mp-yt" href="'+info.video+'" target="_blank" rel="noopener">'+
+             '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3L10 15z"/></svg>'+
+             'Ver como fazer no YouTube</a>';
+      }
+      h += '<label class="mp-feito"><input type="checkbox"><span>✓ Completei este exercício</span></label>';
+      h += '</div></div>';
     });
+    var d = novoDetalhe('#38bdf8', h);
+    d.addEventListener('click', function(ev){
+      if (ev.target.closest('.mp-aero-help')){ ev.preventDefault(); abrirMetaAerobico(); }
+    });
+    d.addEventListener('change', function(ev){
+      var cb = ev.target.closest('.mp-feito input');
+      if (!cb) return;
+      cb.parentNode.classList.toggle('on', cb.checked);
+      cb.closest('.mp-ex').classList.toggle('feito', cb.checked);
+    });
+    aviso(d, '📋 Aqui são só 3 exercícios de exemplo. O plano de treino e de atividade física personalizado será disponibilizado após a consulta.');
+    var refs = document.createElement('div');
+    refs.className = 'mp-refs';
+    refs.innerHTML = '<div class="mp-refs-t">📚 Referências científicas</div><ol>'+
+      '<li>World Health Organization. WHO Guidelines on Physical Activity and Sedentary Behaviour. Geneva: WHO; 2020.</li>'+
+      '<li>Brasil. Ministério da Saúde. Guia de Atividade Física para a População Brasileira. Brasília: Ministério da Saúde; 2021.</li>'+
+      '<li>American College of Sports Medicine. Progression models in resistance training for healthy adults. Med Sci Sports Exerc. 2009;41(3):687-708.</li>'+
+      '</ol>';
+    d.appendChild(refs);
     caixa.appendChild(d);
   }
 
   var AREAS = [
-    { id:'medico',  rot:'Consulta médica',  cap:'4 diagnósticos',    cor:'#9b87f5', ic:'medico',   render:renderMedico },
-    { id:'nutri',   rot:'Plano alimentar',  cap:'5 dias montados',   cor:'#4ade80', ic:'nutricao', render:renderNutricao },
-    { id:'treino',  rot:'Educação física',  cap:'3 dias por semana', cor:'#38bdf8', ic:'treino',   render:renderTreino }
+    { id:'medico',  rot:'Consulta médica',  cap:'diagnósticos e tratamento', cor:'#9b87f5', ic:'medico',   render:renderMedico },
+    { id:'nutri',   rot:'Plano alimentar',  cap:'sua dieta, com trocas', cor:'#4ade80', ic:'nutricao', render:renderNutricao },
+    { id:'treino',  rot:'Educação física',  cap:'treino pronto pra você', cor:'#38bdf8', ic:'treino',   render:renderTreino }
   ];
 
   var aberta = null;
@@ -2121,7 +2197,7 @@
           d.vy += (Math.random()-0.5)*0.08;
           var sp = Math.sqrt(d.vx*d.vx + d.vy*d.vy);
           if (sp > 2.2){ d.vx = d.vx/sp*2.2; d.vy = d.vy/sp*2.2; }
-          d.x += d.vx*mul; d.y += d.vy*mul;
+          d.x += d.vx*mul*0.3; d.y += d.vy*mul*0.3; // 70% mais lento, igual ao mapa do Pedro (14/09/2026)
           if (d.x<0){ d.x=0; d.vx = Math.abs(d.vx); }
           if (d.x>W){ d.x=W; d.vx = -Math.abs(d.vx); }
           if (d.y<0){ d.y=0; d.vy = Math.abs(d.vy); }
