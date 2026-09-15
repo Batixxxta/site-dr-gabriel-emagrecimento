@@ -184,6 +184,28 @@
     <label class="campo">Data de nascimento</label>
     <input type="date" name="nascimento">
 
+    <!-- pedido do Dr. Gabriel (15/09/2026): rastreios certos pela idade, sexo e anatomia -->
+    <label class="campo">Sexo biológico</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="sexo" value="Feminino"><span>Feminino</span></label>
+      <label class="opt"><input type="radio" name="sexo" value="Masculino"><span>Masculino</span></label>
+      <label class="opt"><input type="radio" name="sexo" value="Prefiro conversar na consulta"><span>Prefiro conversar na consulta</span></label>
+    </div>
+
+    <label class="campo">Você tem útero?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="temUtero" value="Sim"><span>✅ Sim</span></label>
+      <label class="opt"><input type="radio" name="temUtero" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="temUtero" value="Não sei"><span>🤷 Não sei</span></label>
+    </div>
+
+    <label class="campo">Você tem mamas?</label>
+    <div class="opts">
+      <label class="opt"><input type="radio" name="temMamas" value="Sim"><span>✅ Sim</span></label>
+      <label class="opt"><input type="radio" name="temMamas" value="Não"><span>❌ Não</span></label>
+      <label class="opt"><input type="radio" name="temMamas" value="Não sei"><span>🤷 Não sei</span></label>
+    </div>
+
     <label class="campo">Telefone (com DDD) *</label>
     <input type="tel" name="telefone" required placeholder="(21) 90000-0000">
 
