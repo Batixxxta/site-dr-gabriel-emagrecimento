@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Como a caneta emagrecedora funciona no seu corpo | Dr. Gabriel Baptista</title>
+<meta name="description" content="Entenda o mecanismo das canetas emagrecedoras: a fisiologia natural da fome e saciedade, a aplicação subcutânea, a liberação do remédio ao longo dos dias e o efeito órgão por órgão — explicado de forma científica e acessível.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --iris:#16165c;
+    --iris-shadow:#232269;
+    --iris-glow:#403cd5;
+    --iris-pulse:#5350cc;
+    --iris-border:#4846c6;
+    --lilac:#b1a6f6;
+    --cyan:#00b1ff;
+    --cyan-soft:#59b4ff;
+    --mint:#00ffaa;
+    --white:#ffffff;
+    --pearl:#f4f4f6;
+    --ash:#d8d8e3;
+    --fog:#9494a9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--iris);
+    color:var(--white);
+    font-family:Manrope,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 1.4rem;}
+  h1,h2,h3{font-weight:700;line-height:1.08;letter-spacing:-0.02em;text-wrap:balance;}
+  .eyebrow{font-weight:700;font-size:0.76rem;letter-spacing:0.08em;color:var(--mint);text-transform:uppercase;display:inline-block;margin-bottom:0.9rem;}
+  .body-copy{font-weight:500;font-size:1.04rem;line-height:1.65;color:var(--ash);max-width:62ch;}
+  .body-copy strong{color:var(--white);}
+  section{padding:4.6rem 0;position:relative;}
+  @media(max-width:760px){section{padding:3rem 0;}}
+
+  /* --- fundo ambiente (glow fixo, bem sutil) --- */
+  .ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+  .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:0.28;will-change:transform;}
+  .blob1{width:520px;height:520px;background:var(--iris-glow);top:-120px;left:-140px;animation:floatA 22s ease-in-out infinite;}
+  .blob2{width:460px;height:460px;background:var(--cyan);top:38vh;right:-160px;animation:floatB 26s ease-in-out infinite;opacity:0.14;}
+  .blob3{width:400px;height:400px;background:var(--mint);bottom:-120px;left:20vw;animation:floatC 24s ease-in-out infinite;opacity:0.1;}
+  @keyframes floatA{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,40px)}}
+  @keyframes floatB{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,60px)}}
+  @keyframes floatC{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-50px)}}
+  main{position:relative;z-index:1;}
+
+  /* --- barra de progresso de leitura --- */
+  #progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--cyan),var(--mint));z-index:100;transition:width 0.1s linear;}
+
+  /* --- nav --- */
+  nav{position:sticky;top:0;z-index:50;background:rgba(22,22,92,0.78);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.06);}
+  nav .wrap{height:64px;display:flex;align-items:center;justify-content:space-between;}
+  nav a.back{font-size:0.86rem;font-weight:600;color:var(--cyan-soft);text-decoration:none;display:flex;align-items:center;gap:0.4rem;}
+  nav .crm{font-size:0.76rem;color:var(--fog);}
+  @media(max-width:600px){nav .crm{display:none;}}
+
+  /* --- hero --- */
+  .hero{padding-top:4.2rem;padding-bottom:1rem;text-align:center;}
+  .hero h1{font-size:clamp(2rem,6vw,3.6rem);margin:0 auto 1.2rem;max-width:18ch;}
+  .hero .body-copy{margin:0 auto 1.8rem;text-align:center;}
+  .hero-frame{position:relative;max-width:460px;margin:2.2rem auto 0;border-radius:28px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,0.5);}
+  .hero-frame img{width:100%;}
+  .hero-frame::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(22,22,92,0.55));}
+
+  /* reveal palavra a palavra */
+  .word-reveal{display:inline-block;overflow:hidden;}
+  .word-reveal .w{display:inline-block;opacity:0;transform:translateY(0.5em);transition:opacity 0.55s cubic-bezier(.2,.8,.2,1), transform 0.55s cubic-bezier(.2,.8,.2,1);}
+  .word-reveal.in .w{opacity:1;transform:translateY(0);}
+
+  /* reveal padrão (fade + sobe) */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity 0.7s ease, transform 0.7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* --- cards --- */
+  .card{background:var(--iris-shadow);border:1px solid var(--iris-border);border-radius:24px;padding:2.1rem;}
+  .section-head{margin-bottom:1.8rem;max-width:58ch;}
+  .section-head h2{font-size:clamp(1.6rem,3.6vw,2.4rem);}
+
+  /* --- bloco imagem+texto alternado, com parallax --- */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:2.6rem;align-items:center;}
+  .split.inv{direction:rtl;}
+  .split.inv > *{direction:ltr;}
+  @media(max-width:820px){.split{grid-template-columns:1fr;}.split.inv{direction:ltr;}}
+  .split-img{border-radius:24px;overflow:hidden;box-shadow:0 24px 54px rgba(0,0,0,0.45);position:relative;}
+  .split-img img{width:100%;display:block;}
+  .parallax{will-change:transform;}
+
+  .stat-mini{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(0,255,170,0.08);border:1px solid rgba(0,255,170,0.3);color:var(--mint);font-size:0.8rem;font-weight:700;border-radius:999px;padding:0.4rem 0.9rem;margin-bottom:1rem;}
+
+  /* --- grid orgao por orgao --- */
+  .organ-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;}
+  @media(max-width:900px){.organ-grid{grid-template-columns:1fr;}}
+  .organ-card{background:var(--iris-shadow);border:1px solid var(--iris-border);border-radius:22px;overflow:hidden;transition:transform 0.3s ease;}
+  .organ-card:hover{transform:translateY(-6px);}
+  .organ-card .organ-img{aspect-ratio:3/4;overflow:hidden;}
+  .organ-card .organ-img img{width:100%;height:100%;object-fit:cover;}
+  .organ-card .organ-body{padding:1.3rem 1.4rem 1.6rem;}
+  .organ-card h3{font-size:1.08rem;margin-bottom:0.5rem;color:var(--cyan-soft);}
+  .organ-card p{font-size:0.9rem;color:var(--ash);line-height:1.58;}
+
+  /* --- nota de escopo --- */
+  .nota-escopo{background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.22);border-radius:18px;padding:1.3rem 1.5rem;font-size:0.9rem;color:var(--ash);}
+  .nota-escopo strong{color:var(--white);}
+
+  /* --- cta --- */
+  .cta-box{background:linear-gradient(135deg,var(--iris-pulse),var(--iris-glow));border-radius:28px;padding:3rem 2rem;text-align:center;}
+  .cta-box h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:0.8rem;}
+  .cta-box p{color:#e3e2fb;margin-bottom:1.5rem;}
+  .pill{display:inline-flex;align-items:center;background:var(--white);color:var(--iris);font-weight:700;font-size:1rem;border-radius:9999px;padding:0.95rem 1.8rem;text-decoration:none;border:none;box-shadow:0 10px 30px rgba(0,0,0,0.3);}
+
+  /* --- referencias --- */
+  .ref{font-size:0.82rem;color:var(--fog);word-break:break-word;line-height:1.7;}
+  .ref a{color:var(--cyan-soft);text-decoration:none;}
+  footer{padding:2rem 0 3rem;text-align:center;color:var(--fog);font-size:0.78rem;}
+
+  @media (prefers-reduced-motion: reduce){
+    .blob{animation:none !important;}
+    .reveal, .word-reveal .w{transition:none !important;opacity:1 !important;transform:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+</div>
+<div id="progress"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; voltar para o site</a>
+    <span class="crm">Dr. Gabriel Baptista · CRM-RJ 52-131692-3</span>
+  </div>
+</nav>
+
+<main>
+
+<section class="hero wrap">
+  <span class="eyebrow">Mecanismo, explicado</span>
+  <h1><span class="word-reveal" id="heroTitle"></span></h1>
+  <p class="body-copy">Antes de falar de qualquer remédio, vale entender como o seu corpo <strong>já</strong> controla a fome sozinho — e só depois ver, passo a passo, o que a caneta muda nesse circuito: a injeção, a liberação ao longo dos dias e o efeito em cada órgão.</p>
+  <div class="hero-frame reveal">
+    <img src="img/caneta/hero-eixo-intestino-cerebro.png" alt="Ilustração do eixo intestino-cérebro, sinal de saciedade subindo até o hipotálamo">
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head reveal">
+    <span class="eyebrow">Antes da caneta</span>
+    <h2>Como a fome e a saciedade já funcionam no seu corpo</h2>
+  </div>
+  <div class="card reveal">
+    <p class="body-copy" style="margin-bottom:1rem;">Seu corpo não espera remédio nenhum para controlar o quanto você come. Quando o estômago está vazio, ele libera um hormônio chamado <strong>grelina</strong>, que sinaliza fome. Quando você come, o intestino libera outro grupo de hormônios — entre eles o <strong>GLP-1</strong> — que viajam pelo sangue até o cérebro e avisam: "já chegou comida suficiente, pode desacelerar".</p>
+    <p class="body-copy">Esse sinal chega principalmente a uma região chamada <strong>hipotálamo</strong>, o centro de controle da fome e da saciedade. É um sistema de troca constante: quanto mais forte e mais duradouro o sinal de saciedade, mais rápido vem a sensação de "estou satisfeito". O problema é que, no corpo de muita gente, esse sinal natural dura só alguns minutos — e a fome volta rápido.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head reveal">
+    <span class="eyebrow">O mecanismo</span>
+    <h2>O que a caneta faz: ela imita esse hormônio natural</h2>
+  </div>
+  <div class="card reveal">
+    <p class="body-copy" style="margin-bottom:1rem;">As canetas emagrecedoras mais usadas hoje são <strong>análogos do receptor de GLP-1</strong> — algumas também agem no receptor de GIP, outro hormônio intestinal parecido. "Análogo" quer dizer que a molécula do medicamento foi desenhada para se parecer com o GLP-1 que o seu próprio intestino já produz, e se encaixar nos mesmos receptores que ele usaria.</p>
+    <p class="body-copy">A diferença é a duração: o GLP-1 natural dura poucos minutos no sangue antes de ser degradado. A molécula da caneta foi modificada quimicamente (geralmente presa a uma cadeia de ácido graxo que se liga a uma proteína do sangue, a albumina) para resistir muito mais tempo — por isso o sinal de saciedade fica mais forte e, principalmente, mais constante ao longo do dia [1][2].</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="split reveal">
+    <div class="split-img">
+      <img class="parallax" data-speed="0.06" src="img/caneta/injecao-subcutanea.png" alt="Corte da pele mostrando epiderme, derme e tecido subcutâneo com a agulha da caneta aplicada no subcutâneo">
+    </div>
+    <div>
+      <span class="stat-mini">Aplicação subcutânea</span>
+      <h2 style="margin-bottom:1rem;">Por que a agulha vai só até embaixo da pele</h2>
+      <p class="body-copy">A pele tem camadas: a <strong>epiderme</strong> (mais superficial), a <strong>derme</strong> e, por baixo, o <strong>tecido subcutâneo</strong> — uma camada de gordura e tecido conjuntivo com bastante vaso sanguíneo pequeno (capilar). A caneta usa uma agulha curta e fina desenhada para parar exatamente nessa camada, sem chegar ao músculo.</p>
+      <p class="body-copy" style="margin-top:0.8rem;">É ali, no subcutâneo, que o corpo absorve o medicamento de forma lenta e constante — bem diferente de uma aplicação intravenosa (que entra direto na circulação, de uma vez) ou intramuscular (que absorve mais rápido). Por isso a injeção é subcutânea: é o jeito de garantir que o remédio entre devagar no sangue [2].</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="split inv reveal">
+    <div class="split-img">
+      <img class="parallax" data-speed="0.06" src="img/caneta/liberacao-gradual.png" alt="Linha do tempo de sete dias mostrando a liberação contínua e gradual do hormônio no sangue">
+    </div>
+    <div>
+      <span class="stat-mini">Liberação ao longo dos dias</span>
+      <h2 style="margin-bottom:1rem;">Por que a aplicação costuma ser só 1 vez por semana</h2>
+      <p class="body-copy">Depois que o medicamento entra no tecido subcutâneo, ele não cai todo de uma vez na corrente sanguínea. A mesma modificação química que faz a molécula durar mais também cria um efeito de "liberação devagar": uma parte fica retida ali na aplicação e no sangue, ligada à albumina, e vai sendo liberada de forma gradual nos dias seguintes [2].</p>
+      <p class="body-copy" style="margin-top:0.8rem;">O resultado prático é uma concentração do remédio relativamente <strong>estável</strong> ao longo da semana — sem o pico abrupto de uma aplicação diária e sem precisar repetir a dose todos os dias. É esse perfil de liberação lenta que permite o intervalo semanal entre as aplicações.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head reveal">
+    <span class="eyebrow">Órgão por órgão</span>
+    <h2>O que o sinal da caneta faz dentro do corpo</h2>
+    <p class="body-copy" style="margin-top:0.8rem;">O mesmo sinal, só que mais forte e mais constante, chega a três lugares principais. Veja o que acontece em cada um:</p>
+  </div>
+  <div class="organ-grid">
+    <div class="organ-card reveal">
+      <div class="organ-img"><img src="img/caneta/cerebro-hipotalamo.png" alt="Cérebro em corte com o hipotálamo em destaque recebendo o sinal de saciedade"></div>
+      <div class="organ-body">
+        <h3>Cérebro — hipotálamo</h3>
+        <p>É onde o sinal de saciedade é lido. Com o receptor de GLP-1 mais estimulado, o hipotálamo reduz a sensação de fome e antecipa a sensação de "estou satisfeito" — você tende a comer menos na mesma refeição e sentir fome mais tarde [1].</p>
+      </div>
+    </div>
+    <div class="organ-card reveal">
+      <div class="organ-img"><img src="img/caneta/estomago.png" alt="Estômago com setas mostrando o esvaziamento gástrico mais lento"></div>
+      <div class="organ-body">
+        <h3>Estômago</h3>
+        <p>O esvaziamento gástrico — a velocidade com que a comida sai do estômago — fica mais lento. A comida permanece mais tempo ali, prolongando a sensação de estômago cheio entre uma refeição e outra [1].</p>
+      </div>
+    </div>
+    <div class="organ-card reveal">
+      <div class="organ-img"><img src="img/caneta/pancreas.png" alt="Pâncreas com as ilhotas liberando insulina de forma equilibrada"></div>
+      <div class="organ-body">
+        <h3>Pâncreas</h3>
+        <p>O pâncreas passa a liberar insulina de forma dependente da glicose — ou seja, só quando o açúcar no sangue está alto — e libera menos glucagon. Esse mecanismo específico ajuda a regular a glicemia com menor risco de hipoglicemia por essa via [1].</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="nota-escopo reveal">
+    <strong>Esse material explica só o mecanismo.</strong> Perda de massa muscular, reganho de peso, efeitos colaterais e benefício cardiovascular têm cada um seu próprio material — na consulta a gente junta todas essas peças para o seu caso específico.
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta-box reveal">
+    <h2>Quer entender como isso se aplica ao seu caso?</h2>
+    <p>A consulta é online e a avaliação é individual, com investigação e plano feitos para você.</p>
+    <a class="pill" href="index.html">Agendar consulta</a>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2 style="font-size:1.1rem;margin-bottom:0.8rem;" class="reveal">Referências</h2>
+  <ol class="ref reveal">
+    <li>Mechanisms of action of GLP-1 in the pancreas, stomach and central nervous system — <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9420816/">PMC9420816</a></li>
+    <li>Discovery and development of liraglutide and semaglutide — pharmacokinetics, albumin binding and subcutaneous absorption of long-acting GLP-1 analogues — <a href="https://www.frontiersin.org/journals/endocrinology/articles/10.3389/fendo.2019.00155/full">Frontiers in Endocrinology</a></li>
+  </ol>
+  <p class="nota" style="font-size:0.78rem;color:var(--fog);margin-top:0.8rem;">Este material é educativo e não substitui a consulta médica. Ele não indica, prescreve nem ajusta medicação, nem promove marca ou produto específico: cada caso precisa de avaliação individual.</p>
+</section>
+
+</main>
+
+<footer>Dr. Gabriel Baptista · CRM-RJ 52-131692-3</footer>
+
+<script>
+  // titulo do hero, palavra por palavra
+  (function(){
+    var titulo = "O que realmente acontece no seu corpo quando você usa a caneta";
+    var host = document.getElementById('heroTitle');
+    titulo.split(' ').forEach(function(palavra, i){
+      var span = document.createElement('span');
+      span.className = 'w';
+      span.style.transitionDelay = (i*0.05) + 's';
+      span.textContent = palavra + ' ';
+      host.appendChild(span);
+    });
+  })();
+
+  // reveal ao rolar
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.15});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+    var ioWord = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); ioWord.unobserve(e.target); }
+      });
+    }, {threshold:0.4});
+    document.querySelectorAll('.word-reveal').forEach(function(el){ ioWord.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal, .word-reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // parallax leve nas imagens dos blocos split
+  (function(){
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var mul = reduced ? 0 : 1;
+    var els = Array.prototype.slice.call(document.querySelectorAll('.parallax'));
+    function update(){
+      for (var i=0;i<els.length;i++){
+        var el = els[i];
+        var speed = parseFloat(el.getAttribute('data-speed')) || 0.05;
+        var rect = el.getBoundingClientRect();
+        var centerOffset = (rect.top + rect.height/2) - window.innerHeight/2;
+        var shift = Math.max(-40, Math.min(40, -centerOffset*speed*mul));
+        el.style.transform = 'translateY(' + shift.toFixed(1) + 'px) scale(1.08)';
+      }
+      requestAnimationFrame(update);
+    }
+    update();
+  })();
+
+  // barra de progresso de leitura
+  (function(){
+    var bar = document.getElementById('progress');
+    function update(){
+      var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      var pct = Math.min(100, (window.scrollY / max) * 100);
+      bar.style.width = pct + '%';
+    }
+    window.addEventListener('scroll', update, {passive:true});
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
+
+</body>
+</html>
