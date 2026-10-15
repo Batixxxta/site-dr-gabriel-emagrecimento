@@ -21,6 +21,28 @@
     --ash:#d8d8e3;
     --fog:#9494a9;
   }
+
+  /* --- WhatsApp do consultório (pedido dele em 15/10/2026) --- */
+  .wpp-inline{color:var(--mint);font-weight:600;white-space:nowrap;text-decoration:none;
+    border-bottom:1px solid rgba(0,255,170,.45)}
+  .wpp-inline:hover{border-bottom-color:var(--mint)}
+  .wpp-float{position:fixed;right:20px;bottom:20px;z-index:9999;width:60px;height:60px;
+    border-radius:50%;display:grid;place-items:center;background:#25D366;
+    box-shadow:0 10px 26px rgba(0,0,0,.34),0 2px 6px rgba(0,0,0,.22);
+    transition:transform .18s ease, box-shadow .18s ease}
+  .wpp-float:hover{transform:translateY(-3px) scale(1.04);
+    box-shadow:0 14px 32px rgba(0,0,0,.4),0 3px 8px rgba(0,0,0,.26)}
+  .wpp-float svg{width:34px;height:34px;fill:#fff;display:block}
+  .wpp-float::after{content:"Fale com o consultório";position:absolute;right:72px;
+    white-space:nowrap;background:rgba(10,10,32,.94);color:#fff;font-size:14px;
+    padding:8px 13px;border-radius:9px;opacity:0;pointer-events:none;
+    transition:opacity .18s ease;border:1px solid rgba(255,255,255,.14)}
+  .wpp-float:hover::after{opacity:1}
+  @media (max-width:640px){
+    .wpp-float{width:54px;height:54px;right:14px;bottom:14px}
+    .wpp-float svg{width:30px;height:30px}
+    .wpp-float::after{display:none}
+  }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
   body{
@@ -485,6 +507,19 @@
 
   #particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
   body > *:not(#particles):not(nav){position:relative;z-index:1;}
+
+  /* reforço: o site redefine 'a' depois do bloco acima, então o botão
+     flutuante fixa o posicionamento aqui, por ID (15/10/2026) */
+  body > a#wppFlutuante{position:fixed;right:20px;bottom:20px;z-index:9999;
+    width:60px;height:60px;border-radius:50%;display:grid;place-items:center;
+    background:#25D366;box-shadow:0 10px 26px rgba(0,0,0,.34),0 2px 6px rgba(0,0,0,.22);
+    transform:none}
+  body > a#wppFlutuante:hover{transform:translateY(-3px) scale(1.04)}
+  body > a#wppFlutuante svg{width:34px;height:34px;fill:#fff;display:block}
+  @media (max-width:640px){
+    body > a#wppFlutuante{width:54px;height:54px;right:14px;bottom:14px}
+    body > a#wppFlutuante svg{width:30px;height:30px}
+  }
 </style>
 </head>
 <body>
@@ -949,6 +984,10 @@
         <p>Sim. Durante o acompanhamento, você pode mandar dúvidas pontuais pelo canal de mensagens do consultório. A primeira resposta é enviada por um assistente eletrônico, geralmente em poucos minutos, e as dúvidas clínicas são respondidas pelo Dr. Gabriel em até 48 horas. Em caso de urgência, procure atendimento presencial imediato.</p>
       </details>
       <details class="faq-item">
+        <summary>Ainda tenho uma dúvida. Como falo com o consultório?</summary>
+        <p>É só chamar no WhatsApp do consultório: <a class="wpp-inline" href="https://wa.me/5521976141488" target="_blank" rel="noopener">(21) 97614-1488</a>. A primeira resposta é de um assistente eletrônico, geralmente em poucos minutos, e as dúvidas clínicas são respondidas pelo Dr. Gabriel. Em caso de urgência, procure atendimento presencial imediato.</p>
+      </details>
+      <details class="faq-item">
         <summary>O que acontece se o tratamento precisar ser modificado?</summary>
         <p>A conduta é revisada com você a qualquer momento que for necessário — o plano nunca é fixo.</p>
       </details>
@@ -1193,7 +1232,7 @@
           <p><strong>1. Arrependimento em até 7 dias.</strong> Quem compra um pacote pelo site, WhatsApp ou link de pagamento pode desistir em até 7 dias corridos a partir da data do pagamento, sem precisar explicar o motivo (art. 49 do Código de Defesa do Consumidor), desde que nenhuma consulta do pacote tenha sido realizada. Nesse caso, o valor pago é devolvido integralmente, pelo mesmo meio de pagamento (estorno no cartão ou Pix). A partir da realização da primeira consulta, mesmo dentro desses 7 dias, não há devolução de valores.</p>
           <p><strong>2. Depois de 7 dias.</strong> Não há devolução em dinheiro. As consultas não realizadas continuam valendo como crédito por 6 meses a partir da data do pagamento, para o mesmo tipo de consulta do pacote (médica ou nutricional). O crédito é pessoal e intransferível.</p>
           <p><strong>3. Remarcação e faltas.</strong> A remarcação é gratuita se pedida pelo WhatsApp ou por e-mail com pelo menos 12 horas de antecedência. Falta sem aviso, ou aviso com menos de 12 horas, conta como consulta realizada. Situações excepcionais podem ser avaliadas pelo consultório.</p>
-          <p><strong>4. Como pedir.</strong> Pelo WhatsApp do consultório ou pelo e-mail <a href="mailto:drgabriel-vdb@hotmail.com">drgabriel-vdb@hotmail.com</a>. O recebimento do pedido é confirmado no mesmo dia, e o estorno, quando cabível, é solicitado à operadora do cartão em até 2 dias úteis. O prazo para o valor aparecer na fatura depende do banco emissor do cartão.</p>
+          <p><strong>4. Como pedir.</strong> Pelo WhatsApp do consultório (<a class="wpp-inline" href="https://wa.me/5521976141488" target="_blank" rel="noopener">(21) 97614-1488</a>) ou pelo e-mail <a href="mailto:drgabriel-vdb@hotmail.com">drgabriel-vdb@hotmail.com</a>. O recebimento do pedido é confirmado no mesmo dia, e o estorno, quando cabível, é solicitado à operadora do cartão em até 2 dias úteis. O prazo para o valor aparecer na fatura depende do banco emissor do cartão.</p>
           <p><strong>5. Sem garantia de resultado.</strong> A medicina é uma atividade de meio: o pagamento corresponde às consultas e ao acompanhamento médico, não a um resultado. A resposta ao tratamento varia de pessoa para pessoa, e não há garantia de perda de peso ou de qualquer resultado específico. Não atingir uma meta não dá direito a reembolso.</p>
           <p class="politica-versao">Versão 2 de 11/09/2026.</p>
         </div>
@@ -2226,5 +2265,10 @@
 })();
 </script>
 
+
+<a class="wpp-float" id="wppFlutuante" href="https://wa.me/5521976141488" target="_blank" rel="noopener"
+   aria-label="Falar com o consultório no WhatsApp" title="Fale com o consultório">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.004 3C9.38 3 4 8.38 4 15.004c0 2.117.553 4.187 1.605 6.012L4 29l8.17-1.57a11.94 11.94 0 0 0 3.83.63C22.627 28.06 28 22.68 28 16.056 28 12.84 26.75 9.82 24.48 7.55 22.21 5.28 19.2 3.03 16.004 3zm0 2.2c2.6.02 5.04 1.04 6.88 2.88a9.66 9.66 0 0 1 2.84 6.88c0 5.36-4.36 9.72-9.72 9.72a9.72 9.72 0 0 1-4.94-1.35l-.354-.21-3.73.98.996-3.64-.23-.375a9.66 9.66 0 0 1-1.48-5.16c.002-5.36 4.36-9.72 9.74-9.72z"/><path d="M12.46 9.4c-.22-.5-.45-.51-.66-.52l-.56-.007c-.195 0-.51.073-.78.365-.268.293-1.02 1-1.02 2.44 0 1.44 1.045 2.83 1.19 3.025.146.195 2.03 3.25 5.02 4.42 2.48.98 2.99.785 3.53.735.54-.05 1.74-.71 1.985-1.395.244-.686.244-1.274.17-1.397-.072-.122-.268-.195-.56-.342-.293-.146-1.73-.855-2-.952-.268-.098-.464-.147-.66.146-.195.293-.755.952-.926 1.147-.17.196-.34.22-.634.073-.293-.147-1.237-.456-2.357-1.455-.871-.777-1.46-1.736-1.63-2.03-.17-.292-.018-.45.129-.596.132-.13.293-.342.44-.513.146-.17.195-.293.293-.488.098-.196.05-.367-.025-.513-.073-.147-.645-1.594-.9-2.18z"/></svg>
+</a>
 </body>
 </html>
