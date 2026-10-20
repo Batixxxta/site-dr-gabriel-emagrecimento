@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caneta emagrecedora e músculo: quanto de massa magra se perde | Dr. Gabriel Baptista</title>
+<meta name="description" content="Quando se emagrece com as canetas, parte do peso perdido é massa magra. Quanto se perde, o que os estudos de composição corporal mostram e os três pilares para proteger o músculo — proteína, treino de força e acompanhamento.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --iris:#16165c;
+    --iris-shadow:#232269;
+    --iris-glow:#403cd5;
+    --iris-pulse:#5350cc;
+    --iris-border:#4846c6;
+    --lilac:#b1a6f6;
+    --cyan:#00b1ff;
+    --cyan-soft:#59b4ff;
+    --mint:#00ffaa;
+    --white:#ffffff;
+    --pearl:#f4f4f6;
+    --ash:#d8d8e3;
+    --fog:#9494a9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--iris);
+    color:var(--white);
+    font-family:Manrope,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 1.4rem;}
+  h1,h2,h3{font-weight:700;line-height:1.08;letter-spacing:-0.02em;text-wrap:balance;}
+  .eyebrow{font-weight:700;font-size:0.76rem;letter-spacing:0.08em;color:var(--mint);text-transform:uppercase;display:inline-block;margin-bottom:0.9rem;}
+  .body-copy{font-weight:500;font-size:1.04rem;line-height:1.65;color:var(--ash);max-width:62ch;}
+  .body-copy strong{color:var(--white);}
+  section{padding:4.6rem 0;position:relative;}
+  @media(max-width:760px){section{padding:3rem 0;}}
+
+  /* --- fundo ambiente (glow fixo, bem sutil) --- */
+  .ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+  .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:0.28;will-change:transform;}
+  .blob1{width:520px;height:520px;background:var(--iris-glow);top:-120px;left:-140px;animation:floatA 22s ease-in-out infinite;}
+  .blob2{width:460px;height:460px;background:var(--cyan);top:38vh;right:-160px;animation:floatB 26s ease-in-out infinite;opacity:0.14;}
+  .blob3{width:400px;height:400px;background:var(--mint);bottom:-120px;left:20vw;animation:floatC 24s ease-in-out infinite;opacity:0.1;}
+  @keyframes floatA{0%,100%{transform:translate(0,0)}50%{transform:translate(60px,40px)}}
+  @keyframes floatB{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,60px)}}
+  @keyframes floatC{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-50px)}}
+  main{position:relative;z-index:1;}
+
+  /* --- barra de progresso de leitura --- */
+  #progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--cyan),var(--mint));z-index:100;transition:width 0.1s linear;}
+
+  /* --- nav --- */
+  nav{position:sticky;top:0;z-index:50;background:rgba(22,22,92,0.78);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.06);}
+  nav .wrap{height:64px;display:flex;align-items:center;justify-content:space-between;}
+  nav a.back{font-size:0.86rem;font-weight:600;color:var(--cyan-soft);text-decoration:none;display:flex;align-items:center;gap:0.4rem;}
+  nav .crm{font-size:0.76rem;color:var(--fog);}
+  @media(max-width:600px){nav .crm{display:none;}}
+
+  /* --- hero --- */
+  .hero{padding-top:4.2rem;padding-bottom:1rem;text-align:center;}
+  .hero h1{font-size:clamp(2rem,6vw,3.6rem);margin:0 auto 1.2rem;max-width:18ch;}
+  .hero .body-copy{margin:0 auto 1.8rem;text-align:center;}
+  .hero-frame{position:relative;max-width:460px;margin:2.2rem auto 0;border-radius:28px;overflow:hidden;box-shadow:0 30px 70px rgba(0,0,0,0.5);}
+  .hero-frame img{width:100%;}
+  .hero-frame::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(22,22,92,0.55));}
+
+  /* reveal palavra a palavra */
+  .word-reveal{display:inline-block;overflow:hidden;}
+  .word-reveal .w{display:inline-block;opacity:0;transform:translateY(0.5em);transition:opacity 0.55s cubic-bezier(.2,.8,.2,1), transform 0.55s cubic-bezier(.2,.8,.2,1);}
+  .word-reveal.in .w{opacity:1;transform:translateY(0);}
+
+  /* reveal padrão (fade + sobe) */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity 0.7s ease, transform 0.7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* --- cards --- */
+  .card{background:var(--iris-shadow);border:1px solid var(--iris-border);border-radius:24px;padding:2.1rem;}
+  .section-head{margin-bottom:1.8rem;max-width:58ch;}
+  .section-head h2{font-size:clamp(1.6rem,3.6vw,2.4rem);}
+
+  /* --- bloco imagem+texto alternado, com parallax --- */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:2.6rem;align-items:center;}
+  .split.inv{direction:rtl;}
+  .split.inv > *{direction:ltr;}
+  @media(max-width:820px){.split{grid-template-columns:1fr;}.split.inv{direction:ltr;}}
+  .split-img{border-radius:24px;overflow:hidden;box-shadow:0 24px 54px rgba(0,0,0,0.45);position:relative;}
+  .split-img img{width:100%;display:block;}
+  .parallax{will-change:transform;}
+
+  .stat-mini{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(0,255,170,0.08);border:1px solid rgba(0,255,170,0.3);color:var(--mint);font-size:0.8rem;font-weight:700;border-radius:999px;padding:0.4rem 0.9rem;margin-bottom:1rem;}
+
+  /* --- grid orgao por orgao --- */
+  .organ-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;}
+  @media(max-width:900px){.organ-grid{grid-template-columns:1fr;}}
+  .organ-card{background:var(--iris-shadow);border:1px solid var(--iris-border);border-radius:22px;overflow:hidden;transition:transform 0.3s ease;}
+  .organ-card:hover{transform:translateY(-6px);}
+  .organ-card .organ-img{aspect-ratio:3/4;overflow:hidden;}
+  .organ-card .organ-img img{width:100%;height:100%;object-fit:cover;}
+  .organ-card .organ-body{padding:1.3rem 1.4rem 1.6rem;}
+  .organ-card h3{font-size:1.08rem;margin-bottom:0.5rem;color:var(--cyan-soft);}
+  .organ-card p{font-size:0.9rem;color:var(--ash);line-height:1.58;}
+
+  /* --- nota de escopo --- */
+  .nota-escopo{background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.22);border-radius:18px;padding:1.3rem 1.5rem;font-size:0.9rem;color:var(--ash);}
+  .nota-escopo strong{color:var(--white);}
+
+  /* --- cta --- */
+  .cta-box{background:linear-gradient(135deg,var(--iris-pulse),var(--iris-glow));border-radius:28px;padding:3rem 2rem;text-align:center;}
+  .cta-box h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:0.8rem;}
+  .cta-box p{color:#e3e2fb;margin-bottom:1.5rem;}
+  .pill{display:inline-flex;align-items:center;background:var(--white);color:var(--iris);font-weight:700;font-size:1rem;border-radius:9999px;padding:0.95rem 1.8rem;text-decoration:none;border:none;box-shadow:0 10px 30px rgba(0,0,0,0.3);}
+
+  /* --- referencias --- */
+  .ref{font-size:0.82rem;color:var(--fog);word-break:break-word;line-height:1.7;}
+  .ref a{color:var(--cyan-soft);text-decoration:none;}
+  footer{padding:2rem 0 3rem;text-align:center;color:var(--fog);font-size:0.78rem;}
+
+  @media (prefers-reduced-motion: reduce){
+    .blob{animation:none !important;}
+    .reveal, .word-reveal .w{transition:none !important;opacity:1 !important;transform:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="ambient">
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
+  <div class="blob blob3"></div>
+</div>
+<div id="progress"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; voltar para o site</a>
+    <span class="crm">Dr. Gabriel Baptista · CRM-RJ 52-131692-3</span>
+  </div>
+</nav>
+
+<main>
+
+<section class="hero wrap">
+  <span class="eyebrow">Músculo, explicado</span>
+  <h1><span class="word-reveal" id="heroTitle"></span></h1>
+  <p class="body-copy">A balança desce e parece que só a gordura foi embora — mas não é isso que acontece. Em qualquer emagrecimento, inclusive com as canetas, <strong>parte do peso perdido vem da massa magra</strong>, onde está o seu músculo. Aqui você entende quanto se perde, o que os estudos de composição corporal já mediram e o que de fato protege o músculo durante o tratamento.</p>
+  <div class="hero-frame reveal">
+    <img src="img/musculo/hero-musculo.jpg" alt="Ilustração de uma silhueta humana com a musculatura das pernas e dos braços em destaque, envolvida por um halo de proteção">
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head reveal">
+    <span class="eyebrow">Primeiro, o básico</span>
+    <h2>Massa magra não é estética — é função</h2>
+  </div>
+  <div class="card reveal">
+    <p class="body-copy" style="margin-bottom:1rem;">Massa magra é tudo o que não é gordura: músculo, água corporal, órgãos e osso. A parte que mais interessa aqui é o <strong>músculo esquelético</strong> — e ele não serve só para levantar peso. É nele que a maior parte da glicose do sangue é captada depois de uma refeição, é ele que sustenta o gasto energético de repouso, protege as articulações e o osso, e é ele que define, lá na frente, se a pessoa sobe uma escada sem se apoiar e se levanta do chão sozinha.</p>
+    <p class="body-copy">Por isso perder músculo junto com a gordura não é um detalhe de vaidade: é perder uma parte do seu motor metabólico e da sua autonomia futura. Quando a perda de peso é grande e rápida, essa conta aparece mais.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="split reveal">
+    <div class="split-img">
+      <img class="parallax" data-speed="0.06" src="img/musculo/quanto-se-perde.jpg" alt="Ilustração de uma balança cujo peso perdido se divide em duas partes desiguais: uma grande de gordura e uma menor de massa magra">
+    </div>
+    <div>
+      <span class="stat-mini">Cerca de 25% a 30% do peso perdido</span>
+      <h2 style="margin-bottom:1rem;">Quanto de massa magra vai embora</h2>
+      <p class="body-copy">As revisões dos estudos de composição corporal apontam que, em média, <strong>em torno de um quarto a um terço do peso perdido é massa magra</strong> — uma proporção parecida com a de outros emagrecimentos, por dieta ou cirurgia, e não um defeito exclusivo da caneta [3][4].</p>
+      <p class="body-copy" style="margin-top:0.8rem;">No subestudo de composição corporal do STEP 1, feito com densitometria, a semaglutida reduziu a <strong>massa gorda total em 19,3%</strong> e a <strong>gordura visceral em 27,4%</strong>, e a proporção de massa magra no corpo <strong>aumentou cerca de 3 pontos percentuais</strong> [1]. Ou seja: perdeu-se dos dois, mas proporcionalmente muito mais gordura — o corpo ficou com uma composição melhor do que antes.</p>
+      <p class="body-copy" style="margin-top:0.8rem;">Uma ressalva honesta: a densitometria mede <strong>massa magra</strong>, que não é sinônimo de músculo — parte do que desce é água. E essas análises foram exploratórias, não o objetivo principal dos estudos.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="split inv reveal">
+    <div class="split-img">
+      <img class="parallax" data-speed="0.06" src="img/musculo/forca-preservada.jpg" alt="Ilustração de uma mão apertando um dinamômetro de preensão palmar, com uma curva de força subindo ao lado">
+    </div>
+    <div>
+      <span class="stat-mini">SEMALEAN · 115 pacientes · 12 meses</span>
+      <h2 style="margin-bottom:1rem;">Perder massa magra não significou perder força</h2>
+      <p class="body-copy">Um estudo francês acompanhou <strong>115 pessoas com obesidade</strong> em uso de semaglutida 2,4 mg, com densitometria, medida de força de preensão palmar e gasto energético de repouso aos 7 e aos 12 meses. A massa magra caiu cerca de <strong>3 kg nos primeiros 7 meses e depois se manteve estável</strong>, enquanto a massa gorda continuou caindo [2].</p>
+      <p class="body-copy" style="margin-top:0.8rem;">E a parte mais importante: a <strong>força de preensão palmar aumentou</strong> ao longo dos 12 meses, e a proporção de pessoas com obesidade sarcopênica — pouco músculo com muita gordura — <strong>caiu de 49% para 33%</strong> [2].</p>
+      <p class="body-copy" style="margin-top:0.8rem;">É um estudo observacional, sem grupo de comparação, então não prova causa. Mas mostra algo que a balança sozinha esconde: o que importa não é só quantos quilos de massa magra saíram, e sim <strong>se a função foi preservada</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head reveal">
+    <span class="eyebrow">O que realmente protege</span>
+    <h2>Os três pilares, na prática</h2>
+    <p class="body-copy" style="margin-top:0.8rem;">A perda de músculo não é destino. O que muda o resultado é o que se faz <em>durante</em> o tratamento:</p>
+  </div>
+  <div class="organ-grid">
+    <div class="organ-card reveal">
+      <div class="organ-body">
+        <h3>Proteína suficiente</h3>
+        <p>Com o apetite reduzido, o risco não é comer demais — é comer de menos e mal distribuído. As recomendações para quem está emagrecendo giram em torno de <strong>1,2 a 1,6 g de proteína por quilo de peso por dia</strong>, divididos nas refeições, e boa parte das pessoas em uso de GLP-1 não alcança nem o piso [4]. A quantidade do seu caso quem calcula é o profissional que te acompanha.</p>
+      </div>
+    </div>
+    <div class="organ-card reveal">
+      <div class="organ-body">
+        <h3>Treino de força</h3>
+        <p>Comer proteína sem estímulo não segura músculo: é a contração contra resistência que diz ao corpo para manter o que ele tem. O padrão recomendado é <strong>2 a 3 sessões por semana</strong>, com carga progressiva, começando de onde o seu corpo está hoje [4].</p>
+      </div>
+    </div>
+    <div class="organ-card reveal">
+      <div class="organ-body">
+        <h3>Ritmo e medida</h3>
+        <p>Perda muito rápida cobra mais caro em massa magra. Por isso o ritmo da subida de dose e o acompanhamento importam — e por isso a consulta não olha só o número da balança, mas <strong>composição corporal e força</strong> ao longo do tempo [2][4].</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="section-head reveal">
+    <span class="eyebrow">Atenção redobrada</span>
+    <h2>Para quem esse cuidado pesa mais</h2>
+  </div>
+  <div class="card reveal">
+    <p class="body-copy" style="margin-bottom:1rem;">Algumas situações merecem vigilância maior: <strong>pessoas mais velhas</strong>, que já perdem músculo pela idade; quem já tem <strong>sinais de sarcopenia</strong> ou fraqueza; quem come pouca proteína; e quem está perdendo peso muito rápido. Nesses casos, proteína e treino deixam de ser recomendação genérica e passam a ser parte do tratamento.</p>
+    <p class="body-copy">Nada disso aqui indica, prescreve ou ajusta medicação — e nenhum número deste material deve ser aplicado ao seu caso sem avaliação. A conversa certa é na consulta, com a sua história, seus exames e seus objetivos na mesa.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="nota-escopo reveal">
+    <strong>Esse material explica só a perda de massa magra.</strong> O mecanismo da caneta no corpo, o benefício cardiovascular, o reganho de peso e os efeitos colaterais têm cada um seu próprio material — na consulta a gente junta todas essas peças para o seu caso específico.
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta-box reveal">
+    <h2>Quer proteger o seu músculo enquanto emagrece?</h2>
+    <p>A consulta é online e a avaliação é individual, com investigação e plano feitos para você.</p>
+    <a class="pill" href="index.html">Agendar consulta</a>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2 style="font-size:1.1rem;margin-bottom:0.8rem;" class="reveal">Referências</h2>
+  <ol class="ref reveal">
+    <li>Wilding JPH, et al. Once-Weekly Semaglutide in Adults with Overweight or Obesity (STEP 1). N Engl J Med. 2021;384(11):989-1002 — <a href="https://doi.org/10.1056/NEJMoa2032183">DOI 10.1056/NEJMoa2032183</a>. Dados de composição corporal: análise exploratória por densitometria do STEP 1.</li>
+    <li>Alissou M, et al. Impact of semaglutide on fat mass, lean mass and muscle function in patients with obesity: the SEMALEAN study. Diabetes Obes Metab. 2026;28(1):112-121 — <a href="https://doi.org/10.1111/dom.70141">DOI 10.1111/dom.70141</a></li>
+    <li>How do glucagon-like peptide-1 receptor agonists affect measures of muscle mass in individuals with, and without, type 2 diabetes: a systematic review and meta-analysis — <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12137041/">texto completo (PMC12137041)</a></li>
+    <li>Lean Mass and Musculoskeletal Preservation in GLP-1-Based Obesity Treatment: Nutrition, Exercise, Supplementation, and Monitoring Strategies. Metabolites. 16(6):364 — <a href="https://www.mdpi.com/2218-1989/16/6/364">texto completo</a></li>
+  </ol>
+  <p class="nota" style="font-size:0.78rem;color:var(--fog);margin-top:0.8rem;">Este material é educativo e não substitui a consulta médica. Ele não indica, prescreve nem ajusta medicação, nem promove marca ou produto específico: cada caso precisa de avaliação individual.</p>
+</section>
+
+</main>
+
+<footer>Dr. Gabriel Baptista · CRM-RJ 52-131692-3</footer>
+
+<script>
+  // titulo do hero, palavra por palavra
+  (function(){
+    var titulo = "Emagrecer com a caneta também custa músculo — e dá para proteger o seu";
+    var host = document.getElementById('heroTitle');
+    titulo.split(' ').forEach(function(palavra, i){
+      var span = document.createElement('span');
+      span.className = 'w';
+      span.style.transitionDelay = (i*0.05) + 's';
+      span.textContent = palavra + ' ';
+      host.appendChild(span);
+    });
+  })();
+
+  // reveal ao rolar
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.15});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+    var ioWord = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); ioWord.unobserve(e.target); }
+      });
+    }, {threshold:0.4});
+    document.querySelectorAll('.word-reveal').forEach(function(el){ ioWord.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal, .word-reveal').forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // parallax leve nas imagens dos blocos split
+  (function(){
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var mul = reduced ? 0 : 1;
+    var els = Array.prototype.slice.call(document.querySelectorAll('.parallax'));
+    function update(){
+      for (var i=0;i<els.length;i++){
+        var el = els[i];
+        var speed = parseFloat(el.getAttribute('data-speed')) || 0.05;
+        var rect = el.getBoundingClientRect();
+        var centerOffset = (rect.top + rect.height/2) - window.innerHeight/2;
+        var shift = Math.max(-40, Math.min(40, -centerOffset*speed*mul));
+        el.style.transform = 'translateY(' + shift.toFixed(1) + 'px) scale(1.08)';
+      }
+      requestAnimationFrame(update);
+    }
+    update();
+  })();
+
+  // barra de progresso de leitura
+  (function(){
+    var bar = document.getElementById('progress');
+    function update(){
+      var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      var pct = Math.min(100, (window.scrollY / max) * 100);
+      bar.style.width = pct + '%';
+    }
+    window.addEventListener('scroll', update, {passive:true});
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
+
+</body>
+</html>
